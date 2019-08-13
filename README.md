@@ -14,11 +14,7 @@ This [Laravel Nova](https://nova.laravel.com) package allows you to create custo
 
 ## Screenshots
 
-![Index View](docs/index.png)
-
-![Filter Dropdown](docs/filter.png)
-
-![Page Content Area](docs/content.png)
+![Settings View](docs/index.png)
 
 ## Installation
 
