@@ -72,3 +72,11 @@ If you want the value of the setting to be formatted before it's returned, pass 
 ```
 
 ### Helper functions
+
+#### nova_get_settings()
+
+Call `nova_get_settings()` to get all the settings formated as a regular array.
+
+#### nova_get_setting_value(\$key)
+
+To get a single setting's value, call `nova_get_setting_value('some_setting_key')`. It will return either a value or null if the key is missing.
