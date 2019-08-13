@@ -12,7 +12,10 @@
   "autoload": {
     "psr-4": {
       "OptimistDigital\\NovaSettings\\": "src/"
-    }
+    },
+    "files": [
+      "./src/helpers.php"
+    ]
   },
   "extra": {
     "laravel": {
