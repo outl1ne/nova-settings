@@ -17,7 +17,7 @@ class ToolServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $this->loadViewsFrom(__DIR__.'/../resources/views', 'nova-settings');
+        $this->loadViewsFrom(__DIR__ . '/../resources/views', 'nova-settings');
 
         $this->app->booted(function () {
             $this->routes();
@@ -40,8 +40,8 @@ class ToolServiceProvider extends ServiceProvider
         }
 
         Route::middleware(['nova', Authorize::class])
-                ->prefix('nova-vendor/nova-settings')
-                ->group(__DIR__.'/../routes/api.php');
+            ->prefix('nova-vendor/nova-settings')
+            ->group(__DIR__ . '/../routes/api.php');
     }
 
     /**
