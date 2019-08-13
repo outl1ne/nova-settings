@@ -12,9 +12,7 @@
         </div>
 
         <div class="bg-30 flex items-center px-8 py-4">
-          <a class="btn btn-link dim cursor-pointer text-80 ml-auto mr-6">Cancel</a>
-
-          <button type="button" class="btn btn-default btn-primary inline-flex items-center relative mr-3" @click="updateAndContinueEditing">
+          <button type="button" class="btn btn-default btn-primary inline-flex items-center relative mr-3 ml-auto" @click="updateAndContinueEditing">
             <span>Save settings</span>
           </button>
         </div>
