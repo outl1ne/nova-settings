@@ -30,3 +30,45 @@ Publish the database migration(s) and run migrate:
 php artisan vendor:publish --provider="OptimistDigital\NovaSettings\ToolServiceProvider" --tag="migrations"
 php artisan migrate
 ```
+
+Register the tool with Nova in the `tools()` method of the `NovaServiceProvider`:
+
+```php
+// in app/Providers/NovaServiceProvider.php
+
+public function tools()
+{
+    return [
+        // ...
+        new \OptimistDigital\NovaSettings\NovaSettings
+    ];
+}
+```
+
+## Usage
+
+### Registering fields
+
+Define the fields in your `NovaServiceProvider`'s `boot()` function by calling `NovaSettings::setSettingsFields()`.
+
+```php
+\OptimistDigital\NovaSettings\NovaSettings::setSettingsFields([
+    Text::make('Some setting', 'some_setting'),
+    Number::make('A number', 'a_number').
+]);
+```
+
+### Custom formatting
+
+If you want the value of the setting to be formatted before it's returned, pass a `Closure` as the second parameter to the `setSettingsFields` function. The function receives two arguments: `key` and `value`.
+
+```php
+\OptimistDigital\NovaSettings\NovaSettings::setSettingsFields([
+    // ... fields
+], function ($key, $value) {
+    if ($key === 'some_boolean_value') return boolval($value);
+    return $value;
+});
+```
+
+### Helper functions
