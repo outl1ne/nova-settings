@@ -26,6 +26,13 @@ class ToolServiceProvider extends ServiceProvider
         Nova::serving(function (ServingNova $event) {
             //
         });
+
+        if ($this->app->runningInConsole()) {
+            // Publish migrations
+            $this->publishes([
+                __DIR__ . '/../database/migrations' => database_path('migrations'),
+            ], 'migrations');
+        }
     }
 
     /**
