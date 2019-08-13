@@ -30,6 +30,7 @@ class NovaSettings extends Tool
     public static function setSettingsFields($settingsFields = [], $customFormatter = null)
     {
         self::$settingsFields = $settingsFields;
+        self::$customFormatter = $customFormatter;
     }
 
     public static function getSettingsFields()
