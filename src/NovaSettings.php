@@ -8,6 +8,7 @@ use Laravel\Nova\Tool;
 class NovaSettings extends Tool
 {
     protected static $settingsFields = [];
+    protected static $customFormatter;
 
     public function boot()
     {
@@ -20,7 +21,13 @@ class NovaSettings extends Tool
         return view('nova-settings::navigation');
     }
 
-    public static function setSettingsFields($settingsFields = [])
+    /**
+     * Define settings fields and an optional custom format function.
+     *
+     * @param array $settingsFields Array of Nova fields to be displayed.
+     * @param \Closure $customFormatter A function that takes key and value as arguments, formats and returns the value.
+     **/
+    public static function setSettingsFields($settingsFields = [], $customFormatter = null)
     {
         self::$settingsFields = $settingsFields;
     }
@@ -28,5 +35,10 @@ class NovaSettings extends Tool
     public static function getSettingsFields()
     {
         return self::$settingsFields;
+    }
+
+    public static function getCustomFormatter()
+    {
+        return self::$customFormatter;
     }
 }
