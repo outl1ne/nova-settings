@@ -2,7 +2,7 @@
   <div v-if="!loading">
     <h1 class="mb-3 text-90 font-normal text-2xl">Settings</h1>
     <div class="card overflow-hidden">
-      <form autocomplete="off">
+      <form autocomplete="off" v-if="fields.length">
         <div v-for="field in fields" :key="field.name">
           <component
               :is="'form-' + field.component"
@@ -19,6 +19,17 @@
           </button>
         </div>
       </form>
+
+      <div class="py-3 px-6 border-50" v-else>
+        <div class="flex">
+          <div class="w-1/4 py-4">
+            <h4 class="font-normal text-80">Error</h4>
+          </div>
+          <div class="w-3/4 py-4">
+            <p class="text-90">No settings fields have been defined.</p>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </template>
