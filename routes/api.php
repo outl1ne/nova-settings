@@ -14,5 +14,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/settings', '\OptimistDigital\NovaSettings\Http\Controllers\Settings@get');
-Route::post('/settings', '\OptimistDigital\NovaSettings\Http\Controllers\Settings@save');
+Route::namespace('\OptimistDigital\NovaSettings\Http\Controllers')->group(function () {
+    Route::get('/settings', 'SettingsController@get');
+    Route::post('/settings', 'SettingsController@save');
+});
