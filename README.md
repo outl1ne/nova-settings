@@ -54,7 +54,7 @@ Define the fields in your `NovaServiceProvider`'s `boot()` function by calling `
 ```php
 \OptimistDigital\NovaSettings\NovaSettings::setSettingsFields([
     Text::make('Some setting', 'some_setting'),
-    Number::make('A number', 'a_number').
+    Number::make('A number', 'a_number'),
 ]);
 ```
 
