@@ -76,7 +76,6 @@ export default {
     },
 
     async update() {
-      console.info('update');
       try {
         this.isUpdating = true;
         const response = await this.updateRequest();
