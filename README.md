@@ -4,7 +4,7 @@ This [Laravel Nova](https://nova.laravel.com) package allows you to create custo
 
 ## Requirements
 
-- Laravel Nova >= 2.0
+- Laravel Nova >= **2.0.8**
 
 ## Features
 
