@@ -51,9 +51,7 @@ class SettingsController extends Controller
             $tempResource =  new \stdClass;
             $field->fill($request, $tempResource);
 
-            if(!property_exists($tempResource, $field->attribute)) {
-                return;
-            }
+            if (!property_exists($tempResource, $field->attribute)) return;
 
             if (isset($existingRow)) {
                 $existingRow->update(['value' => $tempResource->{$field->attribute}]);
