@@ -66,6 +66,13 @@ class SettingsController extends Controller
         return response('', 204);
     }
 
+    public function deleteImage(Request $request, $fieldName)
+    {
+        $existingRow = Settings::where('key', $fieldName)->first();
+        if (isset($existingRow)) $existingRow->update(['value' => null]);
+        return response('', 204);
+    }
+
     protected function availableFields()
     {
         return collect($this->filter(NovaSettings::getSettingsFields()));

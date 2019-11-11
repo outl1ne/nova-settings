@@ -1,41 +1,43 @@
 <template>
-    <loading-view :loading="loading">
-        <form v-if="panels" @submit.prevent="update" autocomplete="off">
-            <form-panel
-                v-for="panel in panelsWithFields"
-                :panel="panel"
-                :name="panel.name"
-                :key="panel.name"
-                :fields="panel.fields"
-                mode="form"
-                class="mb-6"
-                :validation-errors="validationErrors"
-            />
+  <loading-view :loading="loading">
+    <form v-if="panels" @submit.prevent="update" autocomplete="off">
+      <form-panel
+        v-for="panel in panelsWithFields"
+        :panel="panel"
+        :name="panel.name"
+        :key="panel.name"
+        :fields="panel.fields"
+        :resource-name="'nova-settings'"
+        :resource-id="'settings'"
+        mode="form"
+        class="mb-6"
+        :validation-errors="validationErrors"
+      />
 
-            <!-- Update Button -->
-            <div class="flex items-center">
-              <progress-button
-                class="ml-auto"
-                @click.native="update"
-                :disabled="isUpdating"
-                :processing="isUpdating"
-              >
-                {{ __('Save settings') }}
-              </progress-button>
-            </div>
-        </form>
+      <!-- Update Button -->
+      <div class="flex items-center">
+        <progress-button
+          class="ml-auto"
+          @click.native="update"
+          :disabled="isUpdating"
+          :processing="isUpdating"
+        >
+          {{ __('Save settings') }}
+        </progress-button>
+      </div>
+    </form>
 
-        <div class="py-3 px-6 border-50" v-else>
-          <div class="flex">
-            <div class="w-1/4 py-4">
-              <h4 class="font-normal text-80">Error</h4>
-            </div>
-            <div class="w-3/4 py-4">
-              <p class="text-90">No settings fields have been defined.</p>
-            </div>
-          </div>
+    <div class="py-3 px-6 border-50" v-else>
+      <div class="flex">
+        <div class="w-1/4 py-4">
+          <h4 class="font-normal text-80">Error</h4>
         </div>
-    </loading-view>
+        <div class="w-3/4 py-4">
+          <p class="text-90">No settings fields have been defined.</p>
+        </div>
+      </div>
+    </div>
+  </loading-view>
 </template>
 
 <script>
