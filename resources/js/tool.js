@@ -3,7 +3,7 @@ Nova.booting((Vue, router, store) => {
     {
       name: 'nova-settings',
       path: '/nova-settings',
-      component: require('./views/Settings'),
+      component: require('./views/Settings').default,
     },
   ]);
 });
