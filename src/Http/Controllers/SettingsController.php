@@ -10,6 +10,7 @@ use Laravel\Nova\Contracts\Resolvable;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\ResolvesFields;
 use Illuminate\Http\Resources\ConditionallyLoadsAttributes;
+use Laravel\Nova\Fields\FieldCollection;
 
 class SettingsController extends Controller
 {
@@ -75,7 +76,7 @@ class SettingsController extends Controller
 
     protected function availableFields()
     {
-        return collect($this->filter(NovaSettings::getSettingsFields()));
+        return new FieldCollection(($this->filter(NovaSettings::getSettingsFields())));
     }
 
     protected function fields(Request $request)
