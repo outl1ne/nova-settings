@@ -12,6 +12,11 @@ class Settings extends Model
     public $incrementing = false;
     public $timestamps = false;
     public $fillable = ['key', 'value'];
+    
+    public function setValueAttribute($value)
+    {
+        $this->attributes['value'] = is_array($value) ? json_encode($value) : $value;
+    }
 
     public function getValueAttribute($value)
     {
