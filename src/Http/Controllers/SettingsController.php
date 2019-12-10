@@ -11,6 +11,7 @@ use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\ResolvesFields;
 use Illuminate\Http\Resources\ConditionallyLoadsAttributes;
 use Laravel\Nova\Fields\FieldCollection;
+use Illuminate\Support\Facades\Validator;
 
 class SettingsController extends Controller
 {
@@ -43,6 +44,13 @@ class SettingsController extends Controller
     public function save(NovaRequest $request)
     {
         $fields = $this->availableFields();
+
+        $rules = [];
+        foreach ($fields as $field) {
+            $rules = array_merge($rules, $field->getUpdateRules($request));
+        }
+
+        Validator::make($request->all(), $rules)->validate();
 
         $fields->whereInstanceOf(Resolvable::class)->each(function ($field) use ($request) {
             if (empty($field->attribute)) return;
