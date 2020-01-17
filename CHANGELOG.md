@@ -5,6 +5,16 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.0.0] - 2020-01-17
+
+### Changed
+
+- Replaced `customFormatter` logic with `casts` that works identical to Laravel model's cast
+- `nova_get_setting_value($key)` is now `nova_get_setting($key)`
+- `nova_get_settings($keys = null)` now accepts an array of keys that define which settings to return
+- `setSettingsFields($fields, $customFormatter)` is now `addSettingsFields($fields, $casts = [])`
+- Added `addCasts($casts = [])`
+
 ## [1.4.0] - 2019-12-10
 
 ### Added

@@ -55,31 +55,33 @@ public function tools()
 Define the fields in your `NovaServiceProvider`'s `boot()` function by calling `NovaSettings::setSettingsFields()`.
 
 ```php
-\OptimistDigital\NovaSettings\NovaSettings::setSettingsFields([
+\OptimistDigital\NovaSettings\NovaSettings::addSettingsFields([
     Text::make('Some setting', 'some_setting'),
     Number::make('A number', 'a_number'),
 ]);
 ```
 
-### Custom formatting
+### Casts
 
-If you want the value of the setting to be formatted before it's returned, pass a `Closure` as the second parameter to the `setSettingsFields` function. The function receives two arguments: `key` and `value`.
+If you want the value of the setting to be formatted before it's returned, pass an array similar to `Eloquent`'s `$casts` property as the second parameter.
 
 ```php
-\OptimistDigital\NovaSettings\NovaSettings::setSettingsFields([
+\OptimistDigital\NovaSettings\NovaSettings::addSettingsFields([
     // ... fields
-], function ($key, $value) {
-    if ($key === 'some_boolean_value') return boolval($value);
-    return $value;
-});
+], [
+  'some_boolean_value' => 'boolean',
+  'some_float' => 'float',
+  'some_collection' => 'collection',
+  // ...
+]);
 ```
 
 ### Helper functions
 
-#### nova_get_settings()
+#### nova_get_settings(\$keys = null)
 
-Call `nova_get_settings()` to get all the settings formated as a regular array.
+Call `nova_get_settings()` to get all the settings formated as a regular array. If you pass in `$keys` as an array, it will return only the keys listed.
 
-#### nova_get_setting_value(\$key)
+#### nova_get_setting(\$key)
 
-To get a single setting's value, call `nova_get_setting_value('some_setting_key')`. It will return either a value or null if the key is missing.
+To get a single setting's value, call `nova_get_setting('some_setting_key')`. It will return either a value or null if there's no setting with such key.
