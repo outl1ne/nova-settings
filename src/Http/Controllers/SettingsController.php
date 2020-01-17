@@ -47,6 +47,9 @@ class SettingsController extends Controller
 
         $rules = [];
         foreach ($fields as $field) {
+            $fakeResource = new \stdClass;
+            $fakeResource->{$field->attribute} = nova_get_setting($field->attribute);
+            $field->resolve($fakeResource, $field->attribute);
             $rules = array_merge($rules, $field->getUpdateRules($request));
         }
 
