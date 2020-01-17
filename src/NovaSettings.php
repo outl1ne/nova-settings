@@ -27,10 +27,10 @@ class NovaSettings extends Tool
      * @param array $fields Array of Nova fields to be displayed.
      * @param array $casts Casts same as Laravel's casts on a model.
      **/
-    public static function addSettingsFields($fields = [], $casts = null)
+    public static function addSettingsFields($fields = [], $casts = [])
     {
-        self::$fields = array_merge(self::$fields, $fields);
-        self::$casts = array_merge(self::$casts, $casts);
+        self::$fields = array_merge(self::$fields, $fields ?? []);
+        self::$casts = array_merge(self::$casts, $casts ?? []);
     }
 
     /**

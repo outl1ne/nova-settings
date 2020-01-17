@@ -55,6 +55,7 @@ Initial release.
 - UI for editing settings
 - Helpers for accessing settings
 
+[2.0.0]: https://github.com/optimistdigital/nova-settings/compare/1.4.0...2.0.0
 [1.4.0]: https://github.com/optimistdigital/nova-settings/compare/1.3.0...1.4.0
 [1.3.0]: https://github.com/optimistdigital/nova-settings/compare/1.2.1...1.3.0
 [1.2.1]: https://github.com/optimistdigital/nova-settings/compare/1.2.0...1.2.1
