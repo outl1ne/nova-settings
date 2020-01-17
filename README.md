@@ -14,6 +14,8 @@ This [Laravel Nova](https://nova.laravel.com) package allows you to create custo
 - Settings fields management in code
 - UI for editing settings
 - Helpers for accessing settings
+- Rule validation support
+- Supports [nova-translatable](https://github.com/optimistdigital/nova-translatable) w/ rule validation
 
 ## Screenshots
 
