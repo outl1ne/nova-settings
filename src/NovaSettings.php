@@ -7,8 +7,8 @@ use Laravel\Nova\Tool;
 
 class NovaSettings extends Tool
 {
-    protected static $settingsFields = [];
-    protected static $customFormatter;
+    protected static $fields = [];
+    protected static $casts = [];
 
     public function boot()
     {
@@ -22,24 +22,34 @@ class NovaSettings extends Tool
     }
 
     /**
-     * Define settings fields and an optional custom format function.
+     * Define settings fields and an optional casts.
      *
-     * @param array $settingsFields Array of Nova fields to be displayed.
-     * @param \Closure $customFormatter A function that takes key and value as arguments, formats and returns the value.
+     * @param array $fields Array of Nova fields to be displayed.
+     * @param array $casts Casts same as Laravel's casts on a model.
      **/
-    public static function setSettingsFields($settingsFields = [], $customFormatter = null)
+    public static function addSettingsFields($fields = [], $casts = null)
     {
-        self::$settingsFields = $settingsFields;
-        self::$customFormatter = $customFormatter;
+        self::$fields = array_merge(self::$fields, $fields);
+        self::$casts = array_merge(self::$casts, $casts);
     }
 
-    public static function getSettingsFields()
+    /**
+     * Define casts.
+     *
+     * @param array $casts Casts same as Laravel's casts on a model.
+     **/
+    public static function addCasts($casts = [])
     {
-        return self::$settingsFields;
+        self::$casts = array_merge(self::$casts, $casts);
     }
 
-    public static function getCustomFormatter()
+    public static function getFields()
     {
-        return self::$customFormatter;
+        return self::$fields;
+    }
+
+    public static function getCasts()
+    {
+        return self::$casts;
     }
 }

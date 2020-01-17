@@ -84,11 +84,11 @@ class SettingsController extends Controller
 
     protected function availableFields()
     {
-        return new FieldCollection(($this->filter(NovaSettings::getSettingsFields())));
+        return new FieldCollection(($this->filter(NovaSettings::getFields())));
     }
 
     protected function fields(Request $request)
     {
-        return NovaSettings::getSettingsFields();
+        return NovaSettings::getFields();
     }
 }

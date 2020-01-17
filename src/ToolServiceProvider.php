@@ -42,9 +42,7 @@ class ToolServiceProvider extends ServiceProvider
      */
     protected function routes()
     {
-        if ($this->app->routesAreCached()) {
-            return;
-        }
+        if ($this->app->routesAreCached()) return;
 
         Route::middleware(['nova', Authorize::class])
             ->group(__DIR__ . '/../routes/api.php');
