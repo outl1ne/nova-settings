@@ -19,13 +19,7 @@ class ToolServiceProvider extends ServiceProvider
     {
         $this->loadViewsFrom(__DIR__ . '/../resources/views', 'nova-settings');
 
-        $this->app->booted(function () {
-            $this->routes();
-        });
-
-        Nova::serving(function (ServingNova $event) {
-            //
-        });
+        $this->registerRoutes();
 
         if ($this->app->runningInConsole()) {
             // Publish migrations
@@ -40,7 +34,7 @@ class ToolServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    protected function routes()
+    protected function registerRoutes()
     {
         if ($this->app->routesAreCached()) return;
 
