@@ -49,7 +49,7 @@ class SettingsController extends Controller
         foreach ($fields as $field) {
             $fakeResource = new \stdClass;
             $fakeResource->{$field->attribute} = nova_get_setting($field->attribute);
-            $field->resolve($fakeResource, $field->attribute);
+            $field->resolve($fakeResource, $field->attribute); // For nova-translatable support
             $rules = array_merge($rules, $field->getUpdateRules($request));
         }
 
@@ -57,6 +57,9 @@ class SettingsController extends Controller
 
         $fields->whereInstanceOf(Resolvable::class)->each(function ($field) use ($request) {
             if (empty($field->attribute)) return;
+
+            // For nova-translatable support
+            if (!empty($field->meta['translatable']['original_attribute'])) $field->attribute = $field->meta['translatable']['original_attribute'];
 
             $existingRow = Settings::where('key', $field->attribute)->first();
 
