@@ -57,10 +57,21 @@ public function tools()
 Define the fields in your `NovaServiceProvider`'s `boot()` function by calling `NovaSettings::setSettingsFields()`.
 
 ```php
+// Using an array
 \OptimistDigital\NovaSettings\NovaSettings::addSettingsFields([
     Text::make('Some setting', 'some_setting'),
     Number::make('A number', 'a_number'),
 ]);
+
+// OR
+
+// Using a callable
+\OptimistDigital\NovaSettings\NovaSettings::addSettingsFields(function() {
+  return [
+    Text::make('Some setting', 'some_setting'),
+    Number::make('A number', 'a_number'),
+  ];
+});
 ```
 
 ### Casts

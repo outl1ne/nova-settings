@@ -24,11 +24,12 @@ class NovaSettings extends Tool
     /**
      * Define settings fields and an optional casts.
      *
-     * @param array $fields Array of Nova fields to be displayed.
-     * @param array $casts Casts same as Laravel's casts on a model.
+     * @param array|callable $fields Array of fields/panels to be displayed or callable that returns an array.
+     * @param array $casts Associative array same as Laravel's $casts on models.
      **/
     public static function addSettingsFields($fields = [], $casts = [])
     {
+        if (is_callable($fields)) $fields = [$fields];
         self::$fields = array_merge(self::$fields, $fields ?? []);
         self::$casts = array_merge(self::$casts, $casts ?? []);
     }
@@ -45,7 +46,17 @@ class NovaSettings extends Tool
 
     public static function getFields()
     {
-        return self::$fields;
+        $rawFields = array_map(function ($fieldItem) {
+            return is_callable($fieldItem) ? call_user_func($fieldItem) : $fieldItem;
+        }, self::$fields);
+
+        $fields = [];
+        foreach ($rawFields as $rawField) {
+            if (is_array($rawField)) $fields = array_merge($fields, $rawField);
+            else $fields[] = $rawField;
+        }
+
+        return $fields;
     }
 
     public static function getCasts()
