@@ -57,6 +57,8 @@ class Settings extends Model
             case 'timestamp':
                 return $this->asTimestamp($value);
         }
+
+        return $value;
     }
 
     public static function getValueForKey($key)
