@@ -1,20 +1,18 @@
 <?php
 
 use OptimistDigital\NovaSettings\Models\Settings;
+use OptimistDigital\NovaSettings\NovaSettings;
 
 if (!function_exists('nova_get_settings')) {
-    function nova_get_settings($keys = null)
+    function nova_get_settings($settingKeys = null)
     {
-        $query = Settings::query();
-        if (isset($keys)) $query->whereIn('key', $keys);
-        return $query->get()->pluck('value', 'key')->toArray();
+        return NovaSettings::getSettings($settingKeys);
     }
 }
 
 if (!function_exists('nova_get_setting')) {
-    function nova_get_setting($key)
+    function nova_get_setting($settingKey)
     {
-        $setting = Settings::find($key);
-        return isset($setting) ? $setting->value : null;
+        return NovaSettings::getSetting($settingKey);
     }
 }

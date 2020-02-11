@@ -4,9 +4,12 @@ namespace OptimistDigital\NovaSettings;
 
 use Laravel\Nova\Nova;
 use Laravel\Nova\Tool;
+use OptimistDigital\NovaSettings\Models\Settings;
 
 class NovaSettings extends Tool
 {
+    protected static $cache = [];
+
     protected static $fields = [];
     protected static $casts = [];
 
@@ -62,5 +65,33 @@ class NovaSettings extends Tool
     public static function getCasts()
     {
         return self::$casts;
+    }
+
+    public static function getSetting($settingKey)
+    {
+        if (isset(static::$cache[$settingKey])) return static::$cache[$settingKey];
+        static::$cache[$settingKey] = Settings::find($settingKey)->value ?? null;
+        return static::$cache[$settingKey];
+    }
+
+    public static function getSettings(array $settingKeys = null)
+    {
+        if (!empty($settings)) {
+            $hasMissingKeys = !empty(array_diff($settingKeys, array_keys(static::$cache)));
+
+            if (!$hasMissingKeys) return array_map(function ($settingKey) {
+                return static::$cache[$settingKey];
+            }, $settingKeys);
+
+            return Settings::find($settingKeys)->map(function ($setting) {
+                static::$cache[$setting->key] = $setting->value;
+                return $setting;
+            })->pluck('value', 'key')->toArray();
+        }
+
+        return Settings::all()->map(function ($setting) {
+            static::$cache[$setting->key] = $setting->value;
+            return $setting;
+        })->pluck('value', 'key')->toArray();
     }
 }
