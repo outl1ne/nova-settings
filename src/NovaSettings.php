@@ -76,12 +76,12 @@ class NovaSettings extends Tool
 
     public static function getSettings(array $settingKeys = null)
     {
-        if (!empty($settings)) {
+        if (!empty($settingKeys)) {
             $hasMissingKeys = !empty(array_diff($settingKeys, array_keys(static::$cache)));
 
-            if (!$hasMissingKeys) return array_map(function ($settingKey) {
-                return static::$cache[$settingKey];
-            }, $settingKeys);
+            if (!$hasMissingKeys) return collect($settingKeys)->mapWithKeys(function ($settingKey) {
+                return [$settingKey => static::$cache[$settingKey]];
+            })->toArray();
 
             return Settings::find($settingKeys)->map(function ($setting) {
                 static::$cache[$setting->key] = $setting->value;
