@@ -29,6 +29,13 @@ class SettingsController extends Controller
                 $setting = Settings::where('key', $field->attribute)->first();
                 $field->resolve([$field->attribute => isset($setting) ? $setting->value : '']);
             }
+
+            if (!empty($field->meta['fields'])) {
+                foreach ($field->meta['fields'] as $_field) {
+                    $setting = Settings::where('key', $_field->attribute)->first();
+                    $_field->resolve([$_field->attribute => isset($setting) ? $setting->value : '']);
+                }
+            }
         };
 
         $fields->each(function (&$field) use ($addResolveCallback) {
@@ -44,6 +51,13 @@ class SettingsController extends Controller
     public function save(NovaRequest $request)
     {
         $fields = $this->availableFields();
+
+        // NovaDependencyContainer support
+        $fields = $fields->map(function ($field) {
+            if (!empty($field->attribute)) return $field;
+            if (!empty($field->meta['fields'])) return $field->meta['fields'];
+            return null;
+        })->filter()->flatten();
 
         $rules = [];
         foreach ($fields as $field) {
