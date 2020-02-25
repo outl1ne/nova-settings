@@ -15,9 +15,7 @@ use Illuminate\Support\Facades\Validator;
 
 class SettingsController extends Controller
 {
-    use ResolvesFields,
-        ConditionallyLoadsAttributes;
-
+    use ResolvesFields, ConditionallyLoadsAttributes;
 
     public function get(Request $request)
     {
