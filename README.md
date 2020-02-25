@@ -97,4 +97,14 @@ Call `nova_get_settings()` to get all the settings formated as a regular array. 
 
 #### nova_get_setting(\$key)
 
+## Localization
+
+The translation file(s) can be published by using the following publish command:
+
+```bash
+php artisan vendor:publish --provider="OptimistDigital\NovaSettings\ToolServiceProvider" --tag="translations"
+```
+
+You can add your translations to `resources/lang/vendor/nova-settings/` by creating a new translations file with the locale name (ie `et.json`) and copying the JSON from the existing `en.json`.
+
 To get a single setting's value, call `nova_get_setting('some_setting_key')`. It will return either a value or null if there's no setting with such key.
