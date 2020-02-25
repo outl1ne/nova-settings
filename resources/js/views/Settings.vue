@@ -77,7 +77,7 @@ export default {
         this.isUpdating = true;
         const response = await this.updateRequest();
 
-        this.$toasted.show(__('novaSettings.settingsSuccessToast'), {
+        this.$toasted.show(this.__('novaSettings.settingsSuccessToast'), {
           type: 'success',
         });
 
