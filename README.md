@@ -108,3 +108,11 @@ php artisan vendor:publish --provider="OptimistDigital\NovaSettings\ToolServiceP
 You can add your translations to `resources/lang/vendor/nova-settings/` by creating a new translations file with the locale name (ie `et.json`) and copying the JSON from the existing `en.json`.
 
 To get a single setting's value, call `nova_get_setting('some_setting_key')`. It will return either a value or null if there's no setting with such key.
+
+## Credits
+
+- [Tarvo Reinpalu](https://github.com/Tarpsvo)
+
+## License
+
+Nova Settings is open-sourced software licensed under the [MIT license](LICENSE.md).
