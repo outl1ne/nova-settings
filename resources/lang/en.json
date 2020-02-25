@@ -1,0 +1,6 @@
+{
+  "novaSettings.navigationItemTitle": "Settings",
+  "novaSettings.saveButtonText": "Save settings",
+  "novaSettings.noSettingsFieldsText": "No settings fields have been defined.",
+  "novaSettings.settingsSuccessToast": "Settings successfully updated"
+}

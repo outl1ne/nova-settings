@@ -16,13 +16,8 @@
 
       <!-- Update Button -->
       <div class="flex items-center">
-        <progress-button
-          class="ml-auto"
-          @click.native="update"
-          :disabled="isUpdating"
-          :processing="isUpdating"
-        >
-          {{ __('Save settings') }}
+        <progress-button class="ml-auto" @click.native="update" :disabled="isUpdating" :processing="isUpdating">
+          {{ __('novaSettings.saveButtonText') }}
         </progress-button>
       </div>
     </form>
@@ -33,7 +28,7 @@
           <h4 class="font-normal text-80">Error</h4>
         </div>
         <div class="w-3/4 py-4">
-          <p class="text-90">No settings fields have been defined.</p>
+          <p class="text-90">{{ __('novaSettings.noSettingsFieldsText') }}</p>
         </div>
       </div>
     </div>
@@ -82,7 +77,7 @@ export default {
         this.isUpdating = true;
         const response = await this.updateRequest();
 
-        this.$toasted.show('Settings successfully updated', {
+        this.$toasted.show(__('novaSettings.settingsSuccessToast'), {
           type: 'success',
         });
 
@@ -126,5 +121,4 @@ export default {
 };
 </script>
 
-<style>
-</style>
+<style></style>
