@@ -69,6 +69,7 @@ class SettingsController extends Controller
 
         $fields->whereInstanceOf(Resolvable::class)->each(function ($field) use ($request) {
             if (empty($field->attribute)) return;
+            if ($field->isReadonly(app(NovaRequest::class))) return;
 
             // For nova-translatable support
             if (!empty($field->meta['translatable']['original_attribute'])) $field->attribute = $field->meta['translatable']['original_attribute'];
