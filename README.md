@@ -99,9 +99,22 @@ Call `nova_get_settings()` to get all the settings formated as a regular array. 
 
 To get a single setting's value, call `nova_get_setting('some_setting_key')`. It will return either a value or null if there's no setting with such key.
 
+## Configuration
+
+The config file can be published using the following command:
+
+```bash
+php artisan vendor:publish --provider="OptimistDigital\NovaSettings\ToolServiceProvider" --tag="config"
+```
+
+Config options:
+| Name | Type | Default | Description |
+| - | - | - | - |
+| `reload_page_on_save` | Boolean | false | Reload the entire page on save. Useful when updating any Nova UI related settings. |
+
 ## Localization
 
-The translation file(s) can be published by using the following publish command:
+The translation file(s) can be published by using the following command:
 
 ```bash
 php artisan vendor:publish --provider="OptimistDigital\NovaSettings\ToolServiceProvider" --tag="translations"
