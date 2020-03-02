@@ -17,9 +17,9 @@ class ToolServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $this->translations();
-
+        $this->loadTranslations();
         $this->loadViewsFrom(__DIR__ . '/../resources/views', 'nova-settings');
+        $this->loadMigrationsFrom(__DIR__ '/../database/migrations');
 
         $this->registerRoutes();
 
@@ -44,7 +44,7 @@ class ToolServiceProvider extends ServiceProvider
             ->group(__DIR__ . '/../routes/api.php');
     }
 
-    protected function translations()
+    protected function loadTranslations()
     {
         if ($this->app->runningInConsole()) {
             $this->publishes([__DIR__ . '/../resources/lang' => resource_path('lang/vendor/nova-settings')], 'translations');
