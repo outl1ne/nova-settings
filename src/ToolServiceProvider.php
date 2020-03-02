@@ -19,7 +19,7 @@ class ToolServiceProvider extends ServiceProvider
     {
         $this->loadTranslations();
         $this->loadViewsFrom(__DIR__ . '/../resources/views', 'nova-settings');
-        $this->loadMigrationsFrom(__DIR__ '/../database/migrations');
+        $this->loadMigrationsFrom(__DIR__ . '/../database/migrations');
 
         $this->registerRoutes();
 
