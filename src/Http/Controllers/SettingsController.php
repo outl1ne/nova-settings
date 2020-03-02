@@ -91,6 +91,10 @@ class SettingsController extends Controller
             }
         });
 
+        if (config('nova-settings.reload_page_on_save', false) === true) {
+            return response()->json(['reload' => true]);
+        }
+
         return response('', 204);
     }
 
