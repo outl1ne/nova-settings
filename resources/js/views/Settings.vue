@@ -59,7 +59,7 @@ export default {
       const {
         data: { fields, panels },
       } = await Nova.request()
-        .get('/nova-vendor/nova-settings/settings')
+        .get('/nova-vendor/nova-settings/settings?editing=true&editMode=update')
         .catch(error => {
           if (error.response.status == 404) {
             this.$router.push({ name: '404' });

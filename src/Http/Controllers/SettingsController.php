@@ -20,7 +20,7 @@ class SettingsController extends Controller
     public function get(Request $request)
     {
         $fields = $this->assignToPanels(__('Settings'), $this->availableFields());
-        $panels = $this->panelsWithDefaultLabel(__('Settings'), new NovaRequest);
+        $panels = $this->panelsWithDefaultLabel(__('Settings'), app(NovaRequest::class));
 
         $addResolveCallback = function (&$field) {
             if (!empty($field->attribute)) {
@@ -42,7 +42,7 @@ class SettingsController extends Controller
 
         return response()->json([
             'panels' => $panels,
-            'fields' => $fields,
+            'fields' => $fields->map->jsonSerialize(),
         ], 200);
     }
 
