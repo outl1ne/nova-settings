@@ -95,9 +95,11 @@ If you want the value of the setting to be formatted before it's returned, pass 
 
 Call `nova_get_settings()` to get all the settings formated as a regular array. If you pass in `$keys` as an array, it will return only the keys listed.
 
-#### nova_get_setting(\$key)
+#### nova_get_setting(\$key, \$default = null)
 
-To get a single setting's value, call `nova_get_setting('some_setting_key')`. It will return either a value or null if there's no setting with such key.
+To get a single setting's value, call `nova_get_setting('some_setting_key')`. It will return either a value or null if there's no setting with such key. 
+
+You can also pass default value as a second argument `nova_get_setting('some_setting_key', 'default_value')`, which will be returned, if no setting was found with given key.
 
 ## Configuration
 
