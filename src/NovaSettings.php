@@ -16,7 +16,6 @@ class NovaSettings extends Tool
     public function boot()
     {
         Nova::script('nova-settings', __DIR__ . '/../dist/js/tool.js');
-        Nova::style('nova-settings', __DIR__ . '/../dist/css/tool.css');
     }
 
     public function renderNavigation()
