@@ -24,7 +24,7 @@ class SettingsController extends Controller
 
         $addResolveCallback = function (&$field) {
             if (!empty($field->attribute)) {
-                $setting = Settings::where('key', $field->attribute)->first();
+                $setting = Settings::findOrNew($field->attribute);
                 $field->resolve([$field->attribute => isset($setting) ? $setting->value : '']);
             }
 

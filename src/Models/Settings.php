@@ -21,7 +21,7 @@ class Settings extends Model
 
     public function getValueAttribute()
     {
-        $value = $this->attributes['value'];
+        $value = $this->attributes['value'] ?? null;
         $casts = NovaSettings::getCasts();
         $castType = $casts[$this->key] ?? null;
 
