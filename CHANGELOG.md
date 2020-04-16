@@ -15,6 +15,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 - Fixed `Date` and `DateTime` fields
+- Updated packages
 
 ## [2.4.3] - 2020-03-19
 
