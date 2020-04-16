@@ -11,8 +11,8 @@ if (!function_exists('nova_get_settings')) {
 }
 
 if (!function_exists('nova_get_setting')) {
-    function nova_get_setting($settingKey)
+    function nova_get_setting($settingKey, $default = null)
     {
-        return NovaSettings::getSetting($settingKey);
+        return NovaSettings::getSetting($settingKey, $default);
     }
 }
