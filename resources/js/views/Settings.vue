@@ -16,7 +16,13 @@
 
       <!-- Update Button -->
       <div class="flex items-center">
-        <progress-button type="submit" class="ml-auto" @click.native="update" :disabled="isUpdating" :processing="isUpdating">
+        <progress-button
+          type="submit"
+          class="ml-auto"
+          @click.native="update"
+          :disabled="isUpdating"
+          :processing="isUpdating"
+        >
           {{ __('novaSettings.saveButtonText') }}
         </progress-button>
       </div>

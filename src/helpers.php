@@ -1,6 +1,5 @@
 <?php
 
-use OptimistDigital\NovaSettings\Models\Settings;
 use OptimistDigital\NovaSettings\NovaSettings;
 
 if (!function_exists('nova_get_settings')) {
