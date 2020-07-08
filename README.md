@@ -29,10 +29,10 @@ Install the package in a Laravel Nova project via Composer:
 composer require optimistdigital/nova-settings
 ```
 
-Publish the database migration(s) and run migrate:
+Publish the configuration and database migration(s). Then run migrate:
 
 ```bash
-php artisan vendor:publish --provider="OptimistDigital\NovaSettings\ToolServiceProvider" --tag="migrations"
+php artisan vendor:publish --provider="OptimistDigital\NovaSettings\ToolServiceProvider" --tag="migrations" --tag="config"
 php artisan migrate
 ```
 
@@ -97,7 +97,7 @@ Call `nova_get_settings()` to get all the settings formated as a regular array. 
 
 #### nova_get_setting(\$key, \$default = null)
 
-To get a single setting's value, call `nova_get_setting('some_setting_key')`. It will return either a value or null if there's no setting with such key. 
+To get a single setting's value, call `nova_get_setting('some_setting_key')`. It will return either a value or null if there's no setting with such key.
 
 You can also pass default value as a second argument `nova_get_setting('some_setting_key', 'default_value')`, which will be returned, if no setting was found with given key.
 

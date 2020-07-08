@@ -69,7 +69,7 @@ class NovaSettings extends Tool
     public static function getSetting($settingKey, $default = null)
     {
         if (isset(static::$cache[$settingKey])) return static::$cache[$settingKey];
-        static::$cache[$settingKey] = Settings::find($settingKey)->value ?? $default;
+        static::$cache[$settingKey] = config('nova-settings.models.settings')::find($settingKey)->value ?? $default;
         return static::$cache[$settingKey];
     }
 
@@ -82,13 +82,13 @@ class NovaSettings extends Tool
                 return [$settingKey => static::$cache[$settingKey]];
             })->toArray();
 
-            return Settings::find($settingKeys)->map(function ($setting) {
+            return config('nova-settings.models.settings')::find($settingKeys)->map(function ($setting) {
                 static::$cache[$setting->key] = $setting->value;
                 return $setting;
             })->pluck('value', 'key')->toArray();
         }
 
-        return Settings::all()->map(function ($setting) {
+        return config('nova-settings.models.settings')::all()->map(function ($setting) {
             static::$cache[$setting->key] = $setting->value;
             return $setting;
         })->pluck('value', 'key')->toArray();
