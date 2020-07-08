@@ -36,6 +36,14 @@ class ToolServiceProvider extends ServiceProvider
         }
     }
 
+    public function register()
+    {
+        $this->mergeConfigFrom(
+            __DIR__.'/../config/nova-settings.php',
+            'nova-settings'
+        );
+    }
+
     protected function registerRoutes()
     {
         if ($this->app->routesAreCached()) return;
