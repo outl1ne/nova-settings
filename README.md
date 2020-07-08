@@ -29,10 +29,10 @@ Install the package in a Laravel Nova project via Composer:
 composer require optimistdigital/nova-settings
 ```
 
-Publish the configuration and database migration(s). Then run migrate:
+Publish the database migration(s) and run migrate:
 
 ```bash
-php artisan vendor:publish --provider="OptimistDigital\NovaSettings\ToolServiceProvider" --tag="migrations" --tag="config"
+php artisan vendor:publish --provider="OptimistDigital\NovaSettings\ToolServiceProvider" --tag="migrations"
 php artisan migrate
 ```
 
@@ -109,10 +109,10 @@ The config file can be published using the following command:
 php artisan vendor:publish --provider="OptimistDigital\NovaSettings\ToolServiceProvider" --tag="config"
 ```
 
-Config options:
-| Name | Type | Default | Description |
-| - | - | - | - |
-| `reload_page_on_save` | Boolean | false | Reload the entire page on save. Useful when updating any Nova UI related settings. |
+| Name                  | Type    | Default           | Description                                                                        |
+| --------------------- | ------- | ----------------- | ---------------------------------------------------------------------------------- |
+| `reload_page_on_save` | Boolean | false             | Reload the entire page on save. Useful when updating any Nova UI related settings. |
+| `models.settings`     | Model   | `Settings::class` | Optionally override the Settings model.                                            |
 
 ## Localization
 
