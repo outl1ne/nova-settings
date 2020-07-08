@@ -4,6 +4,7 @@ namespace OptimistDigital\NovaSettings;
 
 use Laravel\Nova\Nova;
 use Laravel\Nova\Tool;
+use Illuminate\Database\Eloquent\Model;
 use OptimistDigital\NovaSettings\Models\Settings;
 
 class NovaSettings extends Tool
@@ -69,7 +70,7 @@ class NovaSettings extends Tool
     public static function getSetting($settingKey, $default = null)
     {
         if (isset(static::$cache[$settingKey])) return static::$cache[$settingKey];
-        static::$cache[$settingKey] = config('nova-settings.models.settings')::find($settingKey)->value ?? $default;
+        static::$cache[$settingKey] = static::getSettingsModel()::find($settingKey)->value ?? $default;
         return static::$cache[$settingKey];
     }
 
@@ -82,15 +83,20 @@ class NovaSettings extends Tool
                 return [$settingKey => static::$cache[$settingKey]];
             })->toArray();
 
-            return config('nova-settings.models.settings')::find($settingKeys)->map(function ($setting) {
+            return static::getSettingsModel()::find($settingKeys)->map(function ($setting) {
                 static::$cache[$setting->key] = $setting->value;
                 return $setting;
             })->pluck('value', 'key')->toArray();
         }
 
-        return config('nova-settings.models.settings')::all()->map(function ($setting) {
+        return static::getSettingsModel()::all()->map(function ($setting) {
             static::$cache[$setting->key] = $setting->value;
             return $setting;
         })->pluck('value', 'key')->toArray();
+    }
+
+    public static function getSettingsModel(): Model
+    {
+        return config('nova-settings.models.settings', Settings::class);
     }
 }

@@ -2,16 +2,15 @@
 
 namespace OptimistDigital\NovaSettings\Http\Controllers;
 
-use Illuminate\Routing\Controller;
 use Illuminate\Http\Request;
-use OptimistDigital\NovaSettings\Models\Settings;
-use OptimistDigital\NovaSettings\NovaSettings;
-use Laravel\Nova\Contracts\Resolvable;
-use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\ResolvesFields;
-use Illuminate\Http\Resources\ConditionallyLoadsAttributes;
+use Illuminate\Routing\Controller;
+use Laravel\Nova\Contracts\Resolvable;
 use Laravel\Nova\Fields\FieldCollection;
 use Illuminate\Support\Facades\Validator;
+use Laravel\Nova\Http\Requests\NovaRequest;
+use OptimistDigital\NovaSettings\NovaSettings;
+use Illuminate\Http\Resources\ConditionallyLoadsAttributes;
 
 class SettingsController extends Controller
 {
@@ -24,13 +23,13 @@ class SettingsController extends Controller
 
         $addResolveCallback = function (&$field) {
             if (!empty($field->attribute)) {
-                $setting = config('nova-settings.models.settings')::findOrNew($field->attribute);
+                $setting = NovaSettings::getSettingsModel()::findOrNew($field->attribute);
                 $field->resolve([$field->attribute => isset($setting) ? $setting->value : '']);
             }
 
             if (!empty($field->meta['fields'])) {
                 foreach ($field->meta['fields'] as $_field) {
-                    $setting = config('nova-settings.models.settings')::where('key', $_field->attribute)->first();
+                    $setting = NovaSettings::getSettingsModel()::where('key', $_field->attribute)->first();
                     $_field->resolve([$_field->attribute => isset($setting) ? $setting->value : '']);
                 }
             }
@@ -74,7 +73,7 @@ class SettingsController extends Controller
             // For nova-translatable support
             if (!empty($field->meta['translatable']['original_attribute'])) $field->attribute = $field->meta['translatable']['original_attribute'];
 
-            $existingRow = config('nova-settings.models.settings')::where('key', $field->attribute)->first();
+            $existingRow = NovaSettings::getSettingsModel()::where('key', $field->attribute)->first();
 
             $tempResource =  new \stdClass;
             $field->fill($request, $tempResource);
@@ -84,7 +83,7 @@ class SettingsController extends Controller
             if (isset($existingRow)) {
                 $existingRow->update(['value' => $tempResource->{$field->attribute}]);
             } else {
-                config('nova-settings.models.settings')::create([
+                NovaSettings::getSettingsModel()::create([
                     'key' => $field->attribute,
                     'value' => $tempResource->{$field->attribute},
                 ]);
@@ -100,7 +99,7 @@ class SettingsController extends Controller
 
     public function deleteImage(Request $request, $fieldName)
     {
-        $existingRow = config('nova-settings.models.settings')::where('key', $fieldName)->first();
+        $existingRow = NovaSettings::getSettingsModel()::where('key', $fieldName)->first();
         if (isset($existingRow)) $existingRow->update(['value' => null]);
         return response('', 204);
     }
