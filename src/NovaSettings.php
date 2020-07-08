@@ -95,7 +95,7 @@ class NovaSettings extends Tool
         })->pluck('value', 'key')->toArray();
     }
 
-    public static function getSettingsModel(): Model
+    public static function getSettingsModel(): string
     {
         return config('nova-settings.models.settings', Settings::class);
     }
