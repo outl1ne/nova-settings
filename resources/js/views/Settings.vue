@@ -19,7 +19,6 @@
         <progress-button
           type="submit"
           class="ml-auto"
-          @click.native="update"
           :disabled="isUpdating"
           :processing="isUpdating"
         >
