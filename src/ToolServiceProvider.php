@@ -2,10 +2,11 @@
 
 namespace OptimistDigital\NovaSettings;
 
-use Laravel\Nova\Nova;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
+use Laravel\Nova\Events\ServingNova;
+use Laravel\Nova\Nova;
 use OptimistDigital\NovaSettings\Http\Middleware\Authorize;
 
 class ToolServiceProvider extends ServiceProvider
@@ -57,14 +58,17 @@ class ToolServiceProvider extends ServiceProvider
         if ($this->app->runningInConsole()) {
             $this->publishes([__DIR__ . '/../resources/lang' => resource_path('lang/vendor/nova-settings')], 'translations');
         } else if (method_exists('Nova', 'translations')) {
-            $locale = app()->getLocale();
-            $fallbackLocale = config('app.fallback_locale');
+            Nova::serving(function (ServingNova $event) {
+                $locale = app()->getLocale();
+                $fallbackLocale = config('app.fallback_locale');
 
-            if ($this->attemptToLoadTranslations($locale, 'project')) return;
-            if ($this->attemptToLoadTranslations($locale, 'local')) return;
-            if ($this->attemptToLoadTranslations($fallbackLocale, 'project')) return;
-            if ($this->attemptToLoadTranslations($fallbackLocale, 'local')) return;
-            $this->attemptToLoadTranslations('en', 'local');
+                if ($this->attemptToLoadTranslations($locale, 'project')) return;
+                if ($this->attemptToLoadTranslations($locale, 'local')) return;
+
+                if ($this->attemptToLoadTranslations($fallbackLocale, 'project')) return;
+                if ($this->attemptToLoadTranslations($fallbackLocale, 'local')) return;
+                $this->attemptToLoadTranslations('en', 'local');
+            });
         }
     }
 
