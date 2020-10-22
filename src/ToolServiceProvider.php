@@ -2,11 +2,10 @@
 
 namespace OptimistDigital\NovaSettings;
 
-use Laravel\Nova\Nova;
-use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 use OptimistDigital\NovaSettings\Http\Middleware\Authorize;
+use OptimistDigital\NovaTranslationsLoader\NovaTranslationsLoader;
 
 class ToolServiceProvider extends ServiceProvider
 {
@@ -17,11 +16,10 @@ class ToolServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $this->loadTranslations();
         $this->loadViewsFrom(__DIR__ . '/../resources/views', 'nova-settings');
         $this->loadMigrationsFrom(__DIR__ . '/../database/migrations');
 
-        $this->registerRoutes();
+        NovaTranslationsLoader::loadTranslations(__DIR__ . '/../resources/lang', 'nova-settings', true);
 
         if ($this->app->runningInConsole()) {
             // Publish migrations
@@ -38,8 +36,10 @@ class ToolServiceProvider extends ServiceProvider
 
     public function register()
     {
+        $this->registerRoutes();
+
         $this->mergeConfigFrom(
-            __DIR__.'/../config/nova-settings.php',
+            __DIR__ . '/../config/nova-settings.php',
             'nova-settings'
         );
     }
@@ -50,35 +50,5 @@ class ToolServiceProvider extends ServiceProvider
 
         Route::middleware(['nova', Authorize::class])
             ->group(__DIR__ . '/../routes/api.php');
-    }
-
-    protected function loadTranslations()
-    {
-        if ($this->app->runningInConsole()) {
-            $this->publishes([__DIR__ . '/../resources/lang' => resource_path('lang/vendor/nova-settings')], 'translations');
-        } else if (method_exists('Nova', 'translations')) {
-            $locale = app()->getLocale();
-            $fallbackLocale = config('app.fallback_locale');
-
-            if ($this->attemptToLoadTranslations($locale, 'project')) return;
-            if ($this->attemptToLoadTranslations($locale, 'local')) return;
-            if ($this->attemptToLoadTranslations($fallbackLocale, 'project')) return;
-            if ($this->attemptToLoadTranslations($fallbackLocale, 'local')) return;
-            $this->attemptToLoadTranslations('en', 'local');
-        }
-    }
-
-    protected function attemptToLoadTranslations($locale, $from)
-    {
-        $filePath = $from === 'local'
-            ? __DIR__ . '/../resources/lang/' . $locale . '.json'
-            : resource_path('lang/vendor/nova-settings') . '/' . $locale . '.json';
-
-        $localeFileExists = File::exists($filePath);
-        if ($localeFileExists) {
-            Nova::translations($filePath);
-            return true;
-        }
-        return false;
     }
 }
