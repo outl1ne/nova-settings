@@ -5,10 +5,12 @@ namespace OptimistDigital\NovaSettings;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 use OptimistDigital\NovaSettings\Http\Middleware\Authorize;
-use OptimistDigital\NovaTranslationsLoader\NovaTranslationsLoader;
+use OptimistDigital\NovaTranslationsLoader\LoadsNovaTranslations;
 
 class ToolServiceProvider extends ServiceProvider
 {
+    use LoadsNovaTranslations;
+
     /**
      * Bootstrap any application services.
      *
@@ -19,7 +21,7 @@ class ToolServiceProvider extends ServiceProvider
         $this->loadViewsFrom(__DIR__ . '/../resources/views', 'nova-settings');
         $this->loadMigrationsFrom(__DIR__ . '/../database/migrations');
 
-        NovaTranslationsLoader::loadTranslations(__DIR__ . '/../resources/lang', 'nova-settings', true);
+        $this->loadTranslations(__DIR__ . '/../resources/lang', 'nova-settings', true);
 
         if ($this->app->runningInConsole()) {
             // Publish migrations
