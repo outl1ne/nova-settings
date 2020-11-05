@@ -1,19 +1,31 @@
 <template>
-  <loading-view :loading="loading">
+  <loading-view :loading="loading" :key="$route.params.id">
     <form v-if="panels" @submit.prevent="update" autocomplete="off">
-      <form-panel
-        v-for="panel in panelsWithFields"
-        :panel="panel"
-        :name="panel.name"
-        :key="panel.name"
-        :fields="panel.fields"
-        :resource-name="'nova-settings'"
-        :resource-id="'settings'"
-        mode="form"
-        class="mb-6"
-        :validation-errors="validationErrors"
-      />
-
+      <template v-for="panel in panelsWithFields">
+        <template v-if="panel.component === 'detail-tabs' || panel.component === 'form-tabs'">
+          <h1 class="text-90 font-normal text-2xl mb-3 nova-heading">{{ panel.name }}</h1>
+          <form-tabs
+            :resource-name="'nova-settings'"
+            :resource-id="'settings'"
+            :errors="validationErrors"
+            :field="{ component: 'tabs', fields: panel.fields }"
+            :name="panel.name"
+            class="mb-3"
+          />
+        </template>
+        <form-panel
+          v-else
+          :panel="panel"
+          :name="panel.name"
+          :key="panel.name"
+          :fields="panel.fields"
+          :resource-name="'nova-settings'"
+          :resource-id="'settings'"
+          mode="form"
+          class="mb-6"
+          :validation-errors="validationErrors"
+        />
+      </template>
       <!-- Update Button -->
       <div class="flex items-center">
         <progress-button type="submit" class="ml-auto" :disabled="isUpdating" :processing="isUpdating">
@@ -37,7 +49,6 @@
 
 <script>
 import { Errors } from 'laravel-nova';
-
 export default {
   data() {
     return {
@@ -51,57 +62,58 @@ export default {
   async created() {
     this.getFields();
   },
+  watch: {
+    $route(to, from) {
+      if (to.params.id !== from.params.id) {
+        this.getFields();
+      }
+    },
+  },
   methods: {
     async getFields() {
       this.loading = true;
       this.fields = [];
-
+      let query = '/nova-vendor/nova-settings/settings?editing=true&editMode=update';
+      if (this.$route.params.id) {
+        query += `&path=${this.$route.params.id}`;
+      }
       const {
         data: { fields, panels },
       } = await Nova.request()
-        .get('/nova-vendor/nova-settings/settings?editing=true&editMode=update')
+        .get(query)
         .catch(error => {
           if (error.response.status == 404) {
             this.$router.push({ name: '404' });
             return;
           }
         });
-
       this.fields = fields;
       this.panels = panels;
       this.loading = false;
     },
-
     async update() {
       try {
         this.isUpdating = true;
         const response = await this.updateRequest();
-
         if (response && response.data && response.data.reload === true) {
           location.reload();
           return;
         }
-
         this.$toasted.show(this.__('novaSettings.settingsSuccessToast'), {
           type: 'success',
         });
-
         // Reset the form by refetching the fields
         await this.getFields();
-
         this.isUpdating = false;
         this.validationErrors = new Errors();
       } catch (error) {
         console.error(error);
-
         this.isUpdating = false;
-
         if (error && error.response && error.response.status == 422) {
           this.validationErrors = new Errors(error.response.data.errors);
         }
       }
     },
-
     updateRequest() {
       return Nova.request().post('/nova-vendor/nova-settings/settings', this.formData);
     },
@@ -111,13 +123,14 @@ export default {
       return _.tap(new FormData(), formData => {
         _(this.fields).each(field => field.fill(formData));
         formData.append('_method', 'POST');
+        formData.append('path', this.$route.params.id);
       });
     },
-
     panelsWithFields() {
       return _.map(this.panels, panel => {
         return {
           name: panel.name,
+          component: panel.component,
           fields: _.filter(this.fields, field => field.panel == panel.name),
         };
       });
@@ -126,4 +139,8 @@ export default {
 };
 </script>
 
-<style></style>
+<style>
+.relationship-tabs-panel {
+  flex-direction: column;
+}
+</style>

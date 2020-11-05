@@ -89,6 +89,19 @@ If you want the value of the setting to be formatted before it's returned, pass 
 ]);
 ```
 
+### Subpages
+
+Add a settings page name as a third argument to list those settings in a custom subpage.
+
+```php
+\OptimistDigital\NovaSettings\NovaSettings::addSettingsFields([
+    Text::make('Some setting', 'some_setting'),
+    Number::make('A number', 'a_number'),
+], [], 'Subpage name');
+```
+
+If custom name has not been added to all fields, those without it will be listed under `General` settings.
+
 ### Helper functions
 
 #### nova_get_settings(\$keys = null)

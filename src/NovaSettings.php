@@ -6,6 +6,9 @@ use Laravel\Nova\Nova;
 use Laravel\Nova\Tool;
 use Illuminate\Database\Eloquent\Model;
 use OptimistDigital\NovaSettings\Models\Settings;
+use Illuminate\Support\Str;
+use Laravel\Nova\Http\Requests\NovaRequest;
+
 
 class NovaSettings extends Tool
 {
@@ -21,7 +24,9 @@ class NovaSettings extends Tool
 
     public function renderNavigation()
     {
-        return view('nova-settings::navigation');
+        if (count(self::$fields) === 1) {
+            return view('nova-settings::navigation');
+        } else return view('nova-settings::navigation_multiple_path', ['fields' => self::$fields]);
     }
 
     /**
@@ -30,10 +35,12 @@ class NovaSettings extends Tool
      * @param array|callable $fields Array of fields/panels to be displayed or callable that returns an array.
      * @param array $casts Associative array same as Laravel's $casts on models.
      **/
-    public static function addSettingsFields($fields = [], $casts = [])
+    public static function addSettingsFields($fields = [], $casts = [], $path = 'general')
     {
+        self::$fields[$path] = self::$fields[$path] ?? [];
+
         if (is_callable($fields)) $fields = [$fields];
-        self::$fields = array_merge(self::$fields, $fields ?? []);
+        self::$fields[$path] = array_merge(self::$fields[$path], $fields ?? []);
         self::$casts = array_merge(self::$casts, $casts ?? []);
     }
 
@@ -47,11 +54,11 @@ class NovaSettings extends Tool
         self::$casts = array_merge(self::$casts, $casts);
     }
 
-    public static function getFields()
+    public static function getFields($path = 'general')
     {
         $rawFields = array_map(function ($fieldItem) {
             return is_callable($fieldItem) ? call_user_func($fieldItem) : $fieldItem;
-        }, self::$fields);
+        }, self::$fields[$path] ?? self::$fields);
 
         $fields = [];
         foreach ($rawFields as $rawField) {
@@ -98,5 +105,10 @@ class NovaSettings extends Tool
     public static function getSettingsModel(): string
     {
         return config('nova-settings.models.settings', Settings::class);
+    }
+
+    public static function doesPathExist($path)
+    {
+        return array_key_exists($path, self::$fields);
     }
 }
