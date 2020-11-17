@@ -18,8 +18,8 @@ class SettingsController extends Controller
 
     public function get(Request $request)
     {
-        $fields = $this->assignToPanels(__('novaSettings.navigationItemTitle'), $this->availableFields());
-        $panels = $this->panelsWithDefaultLabel(__('novaSettings.navigationItemTitle'), app(NovaRequest::class));
+        $fields = $this->assignToPanels(__nova('novaSettings.navigationItemTitle'), $this->availableFields());
+        $panels = $this->panelsWithDefaultLabel(__nova('novaSettings.navigationItemTitle'), app(NovaRequest::class));
 
         $addResolveCallback = function (&$field) {
             if (!empty($field->attribute)) {
