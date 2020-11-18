@@ -5,6 +5,17 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.6.0] - 2020-11-18
+
+### Added
+
+- Added multiple paths/domains support to split fields between multiple pages (thanks to [@MarikaMustV](https://github.com/MarikaMustV) and [@lstoyanoff](https://github.com/lstoyanoff))
+- Added [eminiarts/nova-tabs](https://github.com/eminiarts/nova-tabs) support (thanks to [@MarikaMustV](https://github.com/MarikaMustV))
+
+### Changed
+
+- Updated packages
+
 ## [2.5.8] - 2020-11-18
 
 ### Changed
