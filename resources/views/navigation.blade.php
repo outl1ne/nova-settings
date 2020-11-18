@@ -8,6 +8,6 @@
     </svg>
 
     <span class="sidebar-label">
-        {{ __nova('novaSettings.navigationItemTitle') }}
+        {{ __('novaSettings.navigationItemTitle') }}
     </span>
 </router-link>
