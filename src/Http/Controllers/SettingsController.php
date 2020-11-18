@@ -70,11 +70,12 @@ class SettingsController extends Controller
         $fields->whereInstanceOf(Resolvable::class)->each(function ($field) use ($request) {
             if (empty($field->attribute)) return;
             if ($field->isReadonly(app(NovaRequest::class))) return;
+            $settingsClass = NovaSettings::getSettingsModel();
 
             // For nova-translatable support
             if (!empty($field->meta['translatable']['original_attribute'])) $field->attribute = $field->meta['translatable']['original_attribute'];
 
-            $existingRow = NovaSettings::getSettingsModel()::where('key', $field->attribute)->first();
+            $existingRow = $settingsClass::where('key', $field->attribute)->first();
 
             $tempResource =  new \stdClass;
             $field->fill($request, $tempResource);
@@ -82,12 +83,13 @@ class SettingsController extends Controller
             if (!property_exists($tempResource, $field->attribute)) return;
 
             if (isset($existingRow)) {
-                $existingRow->update(['value' => $tempResource->{$field->attribute}]);
+                $existingRow->value = $tempResource->{$field->attribute};
+                $existingRow->save();
             } else {
-                NovaSettings::getSettingsModel()::create([
-                    'key' => $field->attribute,
-                    'value' => $tempResource->{$field->attribute},
-                ]);
+                $newRow = new $settingsClass;
+                $newRow->key = $field->attribute;
+                $newRow->value = $tempResource->{$field->attribute};
+                $newRow->save();
             }
         });
 
@@ -101,7 +103,10 @@ class SettingsController extends Controller
     public function deleteImage(Request $request, $fieldName)
     {
         $existingRow = NovaSettings::getSettingsModel()::where('key', $fieldName)->first();
-        if (isset($existingRow)) $existingRow->update(['value' => null]);
+        if (isset($existingRow)) {
+            $existingRow->value = null;
+            $existingRow->save();
+        }
         return response('', 204);
     }
 
