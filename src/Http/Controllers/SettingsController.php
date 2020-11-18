@@ -101,7 +101,7 @@ class SettingsController extends Controller
     public function deleteImage(Request $request, $fieldName)
     {
         $existingRow = NovaSettings::getSettingsModel()::where('key', $fieldName)->first();
-        if (isset($existingRow)) $existingRow->update(['value'  => null]);
+        if (isset($existingRow)) $existingRow->update(['value' => null]);
         return response('', 204);
     }
 

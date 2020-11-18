@@ -49,6 +49,7 @@
 
 <script>
 import { Errors } from 'laravel-nova';
+
 export default {
   data() {
     return {
@@ -64,23 +65,19 @@ export default {
   },
   watch: {
     $route(to, from) {
-      if (to.params.id !== from.params.id) {
-        this.getFields();
-      }
+      if (to.params.id !== from.params.id) this.getFields();
     },
   },
   methods: {
     async getFields() {
       this.loading = true;
       this.fields = [];
-      let query = '/nova-vendor/nova-settings/settings?editing=true&editMode=update';
-      if (this.$route.params.id) {
-        query += `&path=${this.$route.params.id}`;
-      }
       const {
         data: { fields, panels },
       } = await Nova.request()
-        .get(query)
+        .get('/nova-vendor/nova-settings/settings', {
+          params: { editing: true, editMode: 'update', path: this.$route.params.id || '' },
+        })
         .catch(error => {
           if (error.response.status == 404) {
             this.$router.push({ name: '404' });
@@ -123,7 +120,7 @@ export default {
       return _.tap(new FormData(), formData => {
         _(this.fields).each(field => field.fill(formData));
         formData.append('_method', 'POST');
-        formData.append('path', this.$route.params.id);
+        formData.append('path', this.$route.params.id || '');
       });
     },
     panelsWithFields() {
