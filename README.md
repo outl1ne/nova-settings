@@ -97,10 +97,12 @@ Add a settings page name as a third argument to list those settings in a custom 
 \OptimistDigital\NovaSettings\NovaSettings::addSettingsFields([
     Text::make('Some setting', 'some_setting'),
     Number::make('A number', 'a_number'),
-], [], 'Subpage name');
+], [], 'Subpage');
 ```
 
-If custom name has not been added to all fields, those without it will be listed under `General` settings.
+If you leave the custom name empty, the field(s) will be listed under "General".
+
+To translate the page name, publish the translations and add a new key `novaSettings.$subpage` to the respective translations file, where `$subpage` is the name of the page (full lowercase, slugified).
 
 ### Helper functions
 
