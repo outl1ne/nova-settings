@@ -15,6 +15,7 @@ This [Laravel Nova](https://nova.laravel.com) package allows you to create custo
 - UI for editing settings
 - Helpers for accessing settings
 - Rule validation support
+- Supports [eminiarts/nova-tabs](https://github.com/eminiarts/nova-tabs)
 - Supports [nova-translatable](https://github.com/optimistdigital/nova-translatable) w/ rule validation
 
 ## Screenshots
