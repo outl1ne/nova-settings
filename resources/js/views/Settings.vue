@@ -72,12 +72,14 @@ export default {
     async getFields() {
       this.loading = true;
       this.fields = [];
+
+      const params = { editing: true, editMode: 'update' };
+      if (this.$route.params.id) params.path = this.$route.params.id;
+
       const {
         data: { fields, panels },
       } = await Nova.request()
-        .get('/nova-vendor/nova-settings/settings', {
-          params: { editing: true, editMode: 'update', path: this.$route.params.id || '' },
-        })
+        .get('/nova-vendor/nova-settings/settings', { params })
         .catch(error => {
           if (error.response.status == 404) {
             this.$router.push({ name: '404' });
