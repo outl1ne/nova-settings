@@ -24,16 +24,13 @@ This [Laravel Nova](https://nova.laravel.com) package allows you to create custo
 
 ## Installation
 
-Install the package in a Laravel Nova project via Composer:
+Install the package in a Laravel Nova project via Composer and run migrations:
 
 ```bash
+# Install nova-settings
 composer require optimistdigital/nova-settings
-```
 
-Publish the database migration(s) and run migrate:
-
-```bash
-php artisan vendor:publish --provider="OptimistDigital\NovaSettings\ToolServiceProvider" --tag="migrations"
+# Run migrations
 php artisan migrate
 ```
 
@@ -129,6 +126,12 @@ php artisan vendor:publish --provider="OptimistDigital\NovaSettings\ToolServiceP
 | --------------------- | ------- | ----------------- | ---------------------------------------------------------------------------------- |
 | `reload_page_on_save` | Boolean | false             | Reload the entire page on save. Useful when updating any Nova UI related settings. |
 | `models.settings`     | Model   | `Settings::class` | Optionally override the Settings model.                                            |
+
+The migration can also be published and overwritten using:
+
+```bash
+php artisan vendor:publish --provider="OptimistDigital\NovaSettings\ToolServiceProvider" --tag="migrations"
+```
 
 ## Localization
 

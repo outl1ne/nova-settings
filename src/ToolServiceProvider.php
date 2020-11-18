@@ -21,7 +21,6 @@ class ToolServiceProvider extends ServiceProvider
     {
         $this->loadViewsFrom(__DIR__ . '/../resources/views', 'nova-settings');
         $this->loadMigrationsFrom(__DIR__ . '/../database/migrations');
-
         $this->loadTranslations(__DIR__ . '/../resources/lang', 'nova-settings', true);
 
         if ($this->app->runningInConsole()) {
