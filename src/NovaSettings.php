@@ -4,16 +4,12 @@ namespace OptimistDigital\NovaSettings;
 
 use Laravel\Nova\Nova;
 use Laravel\Nova\Tool;
-use Illuminate\Database\Eloquent\Model;
-use OptimistDigital\NovaSettings\Models\Settings;
 use Illuminate\Support\Str;
-use Laravel\Nova\Http\Requests\NovaRequest;
-
+use OptimistDigital\NovaSettings\Models\Settings;
 
 class NovaSettings extends Tool
 {
     protected static $cache = [];
-
     protected static $fields = [];
     protected static $casts = [];
 
@@ -35,10 +31,12 @@ class NovaSettings extends Tool
      **/
     public static function addSettingsFields($fields = [], $casts = [], $path = 'general')
     {
-        self::$fields[$path] = self::$fields[$path] ?? [];
+        $path = Str::lower(Str::slug($path));
 
+        self::$fields[$path] = self::$fields[$path] ?? [];
         if (is_callable($fields)) $fields = [$fields];
         self::$fields[$path] = array_merge(self::$fields[$path], $fields ?? []);
+
         self::$casts = array_merge(self::$casts, $casts ?? []);
     }
 

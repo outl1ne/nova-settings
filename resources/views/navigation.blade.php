@@ -19,7 +19,6 @@
     </h3>
 
     <ul class="list-reset mb-8">
-
         @foreach ($fields as $key => $value)
             @if ($key === 'general')
                 <li class="leading-wide mb-4 text-sm">
@@ -30,7 +29,7 @@
             @else
                 <li class="leading-wide mb-4 text-sm">
                     <router-link :to="{ path: '/nova-settings/{{$key}}' }" class="text-white ml-8 no-underline dim">
-                        {{ __($key) }}
+                        {{ __("novaSettings.$key") === "novaSettings.$key" ? ucfirst($key) : __("novaSettings.$key") }}
                     </router-link>
                 </li>
             @endif
