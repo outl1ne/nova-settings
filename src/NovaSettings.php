@@ -24,9 +24,7 @@ class NovaSettings extends Tool
 
     public function renderNavigation()
     {
-        if (count(self::$fields) === 1) {
-            return view('nova-settings::navigation');
-        } else return view('nova-settings::navigation_multiple_path', ['fields' => self::$fields]);
+        return view('nova-settings::navigation', ['fields' => self::$fields]);
     }
 
     /**
