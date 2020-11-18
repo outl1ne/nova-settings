@@ -122,7 +122,7 @@ export default {
       return _.tap(new FormData(), formData => {
         _(this.fields).each(field => field.fill(formData));
         formData.append('_method', 'POST');
-        formData.append('path', this.$route.params.id || '');
+        if (this.$route.params.id) formData.append('path', this.$route.params.id);
       });
     },
     panelsWithFields() {
