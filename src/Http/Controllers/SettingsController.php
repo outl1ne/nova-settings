@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Validator;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use OptimistDigital\NovaSettings\NovaSettings;
 use Illuminate\Http\Resources\ConditionallyLoadsAttributes;
+use Laravel\Nova\Panel;
 
 class SettingsController extends Controller
 {
@@ -18,8 +19,8 @@ class SettingsController extends Controller
 
     public function get(Request $request)
     {
-        $fields = $this->assignToPanels(__('novaSettings.navigationItemTitle'), $this->availableFields());
-        $panels = $this->panelsWithDefaultLabel(__('novaSettings.navigationItemTitle'), app(NovaRequest::class));
+        $fields = $this->assignToPanels(__('Settings'), $this->availableFields($request->get('path', 'general')));
+        $panels = $this->panelsWithDefaultLabel(__('Settings'), app(NovaRequest::class));
 
         $addResolveCallback = function (&$field) {
             if (!empty($field->attribute)) {
@@ -41,13 +42,13 @@ class SettingsController extends Controller
 
         return response()->json([
             'panels' => $panels,
-            'fields' => $fields->map->jsonSerialize(),
+            'fields' => $fields,
         ], 200);
     }
 
     public function save(NovaRequest $request)
     {
-        $fields = $this->availableFields();
+        $fields = $this->availableFields($request->get('path', 'general'));
 
         // NovaDependencyContainer support
         $fields = $fields->map(function ($field) {
@@ -100,17 +101,38 @@ class SettingsController extends Controller
     public function deleteImage(Request $request, $fieldName)
     {
         $existingRow = NovaSettings::getSettingsModel()::where('key', $fieldName)->first();
-        if (isset($existingRow)) $existingRow->update(['value' => null]);
+        if (isset($existingRow)) $existingRow->update(['value'  => null]);
         return response('', 204);
     }
 
-    protected function availableFields()
+    protected function availableFields($path = 'general')
     {
-        return new FieldCollection(($this->filter(NovaSettings::getFields())));
+        return new FieldCollection(($this->filter(NovaSettings::getFields($path))));
     }
 
-    protected function fields(Request $request)
+    protected function fields(Request $request, $path = 'general')
     {
-        return NovaSettings::getFields();
+        return NovaSettings::getFields($path);
+    }
+
+    /**
+     * Return the panels for this request with the default label.
+     *
+     * @param  string  $label
+     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
+     * @return array
+     */
+    protected function panelsWithDefaultLabel($label, NovaRequest $request)
+    {
+        $method = $this->fieldsMethod($request);
+
+        return with(
+            collect(array_values($this->{$method}($request, $request->get('path', 'general'))))->whereInstanceOf(Panel::class)->values(),
+            function ($panels) use ($label) {
+                return $panels->when($panels->where('name', $label)->isEmpty(), function ($panels) use ($label) {
+                    return $panels->prepend((new Panel($label))->withToolbar());
+                })->all();
+            }
+        );
     }
 }
