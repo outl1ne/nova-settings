@@ -20,7 +20,7 @@ class NovaSettings extends Tool
 
     public function renderNavigation()
     {
-        return view('nova-settings::navigation', ['fields' => self::$fields]);
+        return view('nova-settings::navigation', ['fields' => static::$fields]);
     }
 
     /**
@@ -33,11 +33,11 @@ class NovaSettings extends Tool
     {
         $path = Str::lower(Str::slug($path));
 
-        self::$fields[$path] = self::$fields[$path] ?? [];
+        static::$fields[$path] = static::$fields[$path] ?? [];
         if (is_callable($fields)) $fields = [$fields];
-        self::$fields[$path] = array_merge(self::$fields[$path], $fields ?? []);
+        static::$fields[$path] = array_merge(static::$fields[$path], $fields ?? []);
 
-        self::$casts = array_merge(self::$casts, $casts ?? []);
+        static::$casts = array_merge(static::$casts, $casts ?? []);
     }
 
     /**
@@ -47,14 +47,14 @@ class NovaSettings extends Tool
      **/
     public static function addCasts($casts = [])
     {
-        self::$casts = array_merge(self::$casts, $casts);
+        static::$casts = array_merge(static::$casts, $casts);
     }
 
     public static function getFields($path = 'general')
     {
         $rawFields = array_map(function ($fieldItem) {
             return is_callable($fieldItem) ? call_user_func($fieldItem) : $fieldItem;
-        }, self::$fields[$path] ?? self::$fields);
+        }, static::$fields[$path] ?? static::$fields);
 
         $fields = [];
         foreach ($rawFields as $rawField) {
@@ -65,9 +65,16 @@ class NovaSettings extends Tool
         return $fields;
     }
 
+    public static function clearFields()
+    {
+        static::$fields = [];
+        static::$casts = [];
+        static::$cache = [];
+    }
+
     public static function getCasts()
     {
-        return self::$casts;
+        return static::$casts;
     }
 
     public static function getSetting($settingKey, $default = null)
@@ -105,6 +112,6 @@ class NovaSettings extends Tool
 
     public static function doesPathExist($path)
     {
-        return array_key_exists($path, self::$fields);
+        return array_key_exists($path, static::$fields);
     }
 }
