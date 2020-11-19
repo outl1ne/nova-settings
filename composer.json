@@ -22,7 +22,7 @@
   "extra": {
     "laravel": {
       "providers": [
-        "OptimistDigital\\NovaSettings\\ToolServiceProvider"
+        "OptimistDigital\\NovaSettings\\NovaSettingsServiceProvider"
       ]
     }
   },

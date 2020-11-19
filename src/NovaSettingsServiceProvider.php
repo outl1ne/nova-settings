@@ -8,7 +8,7 @@ use OptimistDigital\NovaSettings\Http\Middleware\Authorize;
 use OptimistDigital\NovaSettings\Http\Middleware\SettingsPathExists;
 use OptimistDigital\NovaTranslationsLoader\LoadsNovaTranslations;
 
-class ToolServiceProvider extends ServiceProvider
+class NovaSettingsServiceProvider extends ServiceProvider
 {
     use LoadsNovaTranslations;
 

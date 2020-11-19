@@ -119,7 +119,7 @@ You can also pass default value as a second argument `nova_get_setting('some_set
 The config file can be published using the following command:
 
 ```bash
-php artisan vendor:publish --provider="OptimistDigital\NovaSettings\ToolServiceProvider" --tag="config"
+php artisan vendor:publish --provider="OptimistDigital\NovaSettings\NovaSettingsServiceProvider" --tag="config"
 ```
 
 | Name                  | Type    | Default           | Description                                                                        |
@@ -130,7 +130,7 @@ php artisan vendor:publish --provider="OptimistDigital\NovaSettings\ToolServiceP
 The migration can also be published and overwritten using:
 
 ```bash
-php artisan vendor:publish --provider="OptimistDigital\NovaSettings\ToolServiceProvider" --tag="migrations"
+php artisan vendor:publish --provider="OptimistDigital\NovaSettings\NovaSettingsServiceProvider" --tag="migrations"
 ```
 
 ## Localization
@@ -138,7 +138,7 @@ php artisan vendor:publish --provider="OptimistDigital\NovaSettings\ToolServiceP
 The translation file(s) can be published by using the following command:
 
 ```bash
-php artisan vendor:publish --provider="OptimistDigital\NovaSettings\ToolServiceProvider" --tag="translations"
+php artisan vendor:publish --provider="OptimistDigital\NovaSettings\NovaSettingsServiceProvider" --tag="translations"
 ```
 
 You can add your translations to `resources/lang/vendor/nova-settings/` by creating a new translations file with the locale name (ie `et.json`) and copying the JSON from the existing `en.json`.
