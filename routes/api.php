@@ -15,8 +15,8 @@ use Illuminate\Support\Facades\Route;
 
 Route::namespace('\OptimistDigital\NovaSettings\Http\Controllers')->group(function () {
     Route::prefix('nova-vendor/nova-settings')->group(function () {
-        Route::get('/settings', 'SettingsController@get');
-        Route::post('/settings', 'SettingsController@save');
+        Route::get('/settings', 'SettingsController@get')->name('nova-settings.get');
+        Route::post('/settings', 'SettingsController@save')->name('nova-settings.save');
     });
 
     Route::delete('/nova-api/nova-settings/settings/field/{fieldName}', 'SettingsController@deleteImage');
