@@ -17,8 +17,7 @@ class DetailTest extends DuskTestCase
 
         $this->browse(function (Browser $browser) {
             $browser->loginAs(User::find(1))
-                ->visit('/')
-            //     ->pause(5000)
+                ->visit('nova')
                 ->assertSee('Dashboard');
 
             $browser->blank();

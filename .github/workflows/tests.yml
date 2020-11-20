@@ -58,12 +58,20 @@ jobs:
 
       - name: Install dependencies
         run: |
-          composer require "laravel/framework:${{ matrix.laravel }}" "laravel/nova:${{ matrix.nova }}" "orchestra/testbench:${{ matrix.testbench }}" --no-interaction --no-update
+          composer require "laravel/framework:${{ matrix.laravel }}" "laravel/nova:${{ matrix.nova }}" "orchestra/testbench:${{ matrix.testbench }}" "orchestra/testbench-dusk:${{ matrix.testbench }}" --no-interaction --no-update
           composer update --${{ matrix.stability }} --prefer-dist --no-interaction
         env:
           COMPOSER_AUTH: ${{ secrets.COMPOSER_AUTH }}
 
       - name: Execute tests
         run: vendor/bin/phpunit --verbose
+        env:
+          DB_PORT: ${{ job.services.mysql.ports[3306] }}
+
+      - name: Execute Dusk tests
+        run: |
+          composer run-scrip dusk:prepare
+          composer run-scrip dusk:assets
+          composer run-scrip dusk:test
         env:
           DB_PORT: ${{ job.services.mysql.ports[3306] }}
