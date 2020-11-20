@@ -69,6 +69,7 @@ jobs:
           DB_PORT: ${{ job.services.mysql.ports[3306] }}
 
       - name: Execute Dusk tests
+        if: matrix.laravel == '8.*'
         run: |
           composer run-scrip dusk:prepare
           composer run-scrip dusk:assets
