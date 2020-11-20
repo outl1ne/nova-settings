@@ -14,7 +14,7 @@ jobs:
       matrix:
         php: [7.4, 7.3]
         laravel: [8.*, 7.*]
-        nova: [3.*]
+        nova: [3.*, 3.0.*]
         stability: [prefer-stable]
         include:
           - laravel: 8.*
