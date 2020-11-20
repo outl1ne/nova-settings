@@ -22,9 +22,9 @@ jobs:
           - laravel: 8.*
             testbench: 6.*
             nova-dusk-suite: dev-master
-          - laravel: 7.*
-            testbench: 5.*
-            nova-dusk-suite: 7.x-dev
+          # - laravel: 7.*
+          #   testbench: 5.*
+          #   nova-dusk-suite: 7.x-dev
         exclude:
           - laravel: 8.*
             nova: 3.0.*
