@@ -19,8 +19,10 @@ jobs:
         include:
           - laravel: 8.*
             testbench: 6.*
+            nova-dusk-suite: dev-master
           - laravel: 7.*
             testbench: 5.*
+            nova-dusk-suite: dev-7.x
         exclude:
           - laravel: 8.*
             nova: 3.0.*
@@ -58,7 +60,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          composer require "laravel/framework:${{ matrix.laravel }}" "laravel/nova:${{ matrix.nova }}" "orchestra/testbench:${{ matrix.testbench }}" "orchestra/testbench-dusk:${{ matrix.testbench }}" --no-interaction --no-update
+          composer require "laravel/framework:${{ matrix.laravel }}" "laravel/nova:${{ matrix.nova }}" "orchestra/testbench:${{ matrix.testbench }}" "orchestra/testbench-dusk:${{ matrix.testbench }}" "laravel/nova-dusk-suite:${{ matrix.nova-dusk-suite }}" --no-interaction --no-update
           composer update --${{ matrix.stability }} --prefer-dist --no-interaction
         env:
           COMPOSER_AUTH: ${{ secrets.COMPOSER_AUTH }}
