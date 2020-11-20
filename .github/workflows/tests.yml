@@ -70,7 +70,6 @@ jobs:
 
       - name: Execute Dusk tests
         run: |
-          composer require
           composer run-script dusk:prepare
           composer run-script dusk:assets
           composer run-script dusk:test
