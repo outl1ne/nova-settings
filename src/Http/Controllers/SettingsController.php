@@ -132,7 +132,7 @@ class SettingsController extends Controller
         $method = $this->fieldsMethod($request);
 
         return with(
-            collect(array_values($this->{$method}($request, $request->get('path', 'general'))))->whereInstanceOf(Panel::class)->values(),
+            collect(array_values($this->{$method}($request, $request->get('path', 'general'))))->whereInstanceOf(Panel::class)->unique('name')->values(),
             function ($panels) use ($label) {
                 return $panels->when($panels->where('name', $label)->isEmpty(), function ($panels) use ($label) {
                     return $panels->prepend((new Panel($label))->withToolbar());
