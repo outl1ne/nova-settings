@@ -7,6 +7,7 @@ This [Laravel Nova](https://nova.laravel.com) package allows you to create custo
 
 ## Requirements
 
+- `php: >=7.2`
 - `laravel/nova: ^3.0`
 
 ## Features
