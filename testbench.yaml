@@ -1,0 +1,4 @@
+laravel: ./vendor/laravel/nova-dusk-suite
+
+providers:
+  - Laravel\Nova\NovaServiceProvider

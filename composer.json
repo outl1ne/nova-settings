@@ -13,6 +13,8 @@
   },
   "require-dev": {
     "orchestra/testbench": "^5.0|^6.0",
+    "orchestra/testbench-dusk": "^5.0|^6.0",
+    "laravel/nova-dusk-suite": "7.x-dev|dev-master",
     "phpunit/phpunit": "^8.0|^9.0"
   },
   "autoload": {
@@ -44,6 +46,24 @@
     {
       "type": "composer",
       "url": "https://nova.laravel.com"
+    },
+    {
+      "type": "vcs",
+      "url": "https://github.com/laravel/nova-dusk-suite"
     }
-  ]
+  ],
+  "scripts": {
+    "dusk:prepare": [
+      "./vendor/bin/dusk-updater detect --auto-update",
+      "@php -r \"if (file_exists('.env.dusk')) { copy('.env.dusk', 'vendor/laravel/nova-dusk-suite/.env'); } else { copy('.env.dusk.example', 'vendor/laravel/nova-dusk-suite/.env'); }\""
+    ],
+    "dusk:assets": [
+      "npm ci",
+      "npm run prod",
+      "./vendor/bin/testbench-dusk nova:publish"
+    ],
+    "dusk:test": [
+      "./vendor/bin/phpunit -c phpunit.dusk.xml.dist"
+    ]
+  }
 }
