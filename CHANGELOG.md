@@ -9,7 +9,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- Fixed duplicate panels (thanks to [@mxm1070](https://github.com/mxm1070))
 - Dropped PHP 7.1, Laravel 6 and Nova 2 support
+- Updated packages
 
 ## [2.6.2] - 2020-11-18
 
