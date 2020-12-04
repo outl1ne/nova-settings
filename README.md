@@ -113,7 +113,7 @@ If you want to hide the whole `Settings` area from the sidebar, you can authoriz
 public function tools(): array
 {
     return [
-        NovaSettings::make()->canSee( fn() => is_user_can_settings() ),
+        NovaSettings::make()->canSee(fn () => user()->isAdmin()),
     ];
 }
 ```
