@@ -51,6 +51,11 @@
 import { Errors } from 'laravel-nova';
 
 export default {
+  metaInfo() {
+    return {
+      title: this.__('novaSettings.navigationItemTitle'),
+    }
+  },
   data() {
     return {
       loading: false,
