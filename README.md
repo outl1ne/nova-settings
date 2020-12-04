@@ -103,6 +103,30 @@ If you leave the custom name empty, the field(s) will be listed under "General".
 
 To translate the page name, publish the translations and add a new key `novaSettings.$subpage` to the respective translations file, where `$subpage` is the name of the page (full lowercase, slugified).
 
+### Authorization
+
+#### Show/hide all settings
+
+If you want to hide the whole `Settings` area from the sidebar, you can authorize the `NovaSettings` tool like so:
+
+```php
+public function tools(): array
+{
+    return [
+        NovaSettings::make()->canSee( fn() => is_user_can_settings() ),
+    ];
+}
+```
+
+#### Show/hide specific setting fields
+
+If you want to hide only some settings, you can use `->canSee(fn () => ...)` per field. Like so:
+
+```php
+Text::make('A text field')
+  ->canSee(fn () => user()->isAdmin()),
+```
+
 ### Helper functions
 
 #### nova_get_settings(\$keys = null)
