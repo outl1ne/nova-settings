@@ -15,3 +15,10 @@ if (!function_exists('nova_get_setting')) {
         return NovaSettings::getSetting($settingKey, $default);
     }
 }
+
+if (!function_exists('nova_set_setting_value')) {
+    function nova_set_setting_value($settingKey, $value = null)
+    {
+        return NovaSettings::setSettingValue($settingKey, $value);
+    }
+}

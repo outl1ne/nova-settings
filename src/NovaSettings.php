@@ -105,6 +105,14 @@ class NovaSettings extends Tool
         })->pluck('value', 'key')->toArray();
     }
 
+    public static function setSettingValue($settingKey, $value = null)
+    {
+        $setting = static::getSettingsModel()::firstOrCreate(['key' => $settingKey]);
+        $setting->value = $value;
+        $setting->save();
+        return $setting;
+    }
+
     public static function getSettingsModel(): string
     {
         return config('nova-settings.models.settings', Settings::class);
