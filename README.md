@@ -139,6 +139,10 @@ To get a single setting's value, call `nova_get_setting('some_setting_key')`. It
 
 You can also pass default value as a second argument `nova_get_setting('some_setting_key', 'default_value')`, which will be returned, if no setting was found with given key.
 
+#### nova_set_setting_value(\$key, \$value = null)
+
+Sets a setting value for the given key.
+
 ## Configuration
 
 The config file can be published using the following command:
