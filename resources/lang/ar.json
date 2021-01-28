@@ -1,0 +1,7 @@
+{
+  "settings.navigationItemTitle": "الإعدادات",
+  "settings.saveButtonText": "حفظ الإعدادات",
+  "settings.noSettingsFieldsText": "لم يتم اضافة حقول للإعدادات.",
+  "settings.settingsSuccessToast": "تم حفظ الإعدادات",
+  "settings.general": "الإعدادات العامة"
+}
