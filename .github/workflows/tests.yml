@@ -74,6 +74,11 @@ jobs:
 
       - name: Execute Dusk tests
         run: |
+          pwd
+          ls -al
+          ls -al vendor
+          ls -al vendor/laravel
+          ls -al vendor/laravel/nova-dusk-suite
           ls -al vendor/laravel/nova-dusk-suite/.env
           composer run-script dusk:prepare
           ls -al vendor/laravel/nova-dusk-suite/.env
