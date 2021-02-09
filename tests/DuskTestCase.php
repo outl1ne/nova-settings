@@ -4,7 +4,6 @@ namespace OptimistDigital\NovaSettings\Tests;
 
 use Illuminate\Foundation\Application;
 use Laravel\Dusk\Browser;
-use Orchestra\Testbench\Dusk\Foundation\PackageManifest;
 
 abstract class DuskTestCase extends \Orchestra\Testbench\Dusk\TestCase
 {
@@ -31,7 +30,7 @@ abstract class DuskTestCase extends \Orchestra\Testbench\Dusk\TestCase
      */
     protected function setUpDuskServer(): void
     {
-        parent::setUpDuskServer();
+        parent::setUp();
 
         tap($this->app->make('config'), function ($config) {
             $config->set('app.url', static::baseServeUrl());
@@ -100,23 +99,7 @@ abstract class DuskTestCase extends \Orchestra\Testbench\Dusk\TestCase
             $app->detectEnvironment(function () {
                 return 'testing';
             });
-
-            PackageManifest::swap($app, $this);
         });
-    }
-
-    /**
-     * Resolve application core configuration implementation.
-     *
-     * @param  \Illuminate\Foundation\Application  $app
-     *
-     * @return void
-     */
-    protected function resolveApplicationConfiguration($app)
-    {
-        $app->make('Illuminate\Foundation\Bootstrap\LoadEnvironmentVariables')->bootstrap($app);
-
-        parent::resolveApplicationConfiguration($app);
     }
 
     /**
@@ -156,15 +139,19 @@ abstract class DuskTestCase extends \Orchestra\Testbench\Dusk\TestCase
     }
 
     /**
-     * Define database migrations.
+     * Setup Laravel for the test.
      *
+     * @param  callable|null  $callback
      * @return void
      */
-    protected function defineDatabaseMigrations()
+    protected function setupLaravel(callable $callback = null)
     {
-        $this->artisan('migrate:fresh', [
-            '--seed' => true,
-        ])->run();
+        $this->artisan('migrate:fresh')->run();
+        $this->artisan('db:seed', ['--class' => \Database\Seeders\DatabaseSeeder::class])->run();
+
+        if (is_callable($callback)) {
+            $callback($this->app);
+        }
     }
 
     /**
@@ -198,21 +185,6 @@ abstract class DuskTestCase extends \Orchestra\Testbench\Dusk\TestCase
             $callback();
         } finally {
             @unlink(base_path('.inline-create'));
-        }
-    }
-
-    /**
-     * @param  callable  $callback
-     * @return void
-     */
-    protected function whileIndexQueryAscOrder(callable $callback)
-    {
-        touch(base_path('.index-query-asc-order'));
-
-        try {
-            $callback();
-        } finally {
-            @unlink(base_path('.index-query-asc-order'));
         }
     }
 
