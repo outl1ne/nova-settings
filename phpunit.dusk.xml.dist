@@ -1,22 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:noNamespaceSchemaLocation="./vendor/phpunit/phpunit/phpunit.xsd"
-         bootstrap="tests/bootstrap.php"
-         colors="true"
->
-    <testsuites>
-        <testsuite name="Browser Test Suite">
-            <directory suffix="Test.php">./tests/Browser</directory>
-        </testsuite>
-    </testsuites>
-    <filter>
-        <whitelist processUncoveredFilesFromWhitelist="true">
-            <directory suffix=".php">./src</directory>
-        </whitelist>
-    </filter>
-    <php>
-        <server name="APP_URL" value="http://127.0.0.1:8085"/>
-        <env name="APP_KEY" value="base64:+Yk3U4u5A5sSnN6kUr5b38I2LE/SgNxwov5XX5FvSW0="/>
-        <server name="APP_ENV" value="testing"/>
-    </php>
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.3/phpunit.xsd" bootstrap="tests/bootstrap.php" colors="true">
+  <coverage processUncoveredFiles="true">
+    <include>
+      <directory suffix=".php">./src</directory>
+    </include>
+  </coverage>
+  <testsuites>
+    <testsuite name="Browser Test Suite">
+      <directory suffix="Test.php">./tests/Browser</directory>
+    </testsuite>
+  </testsuites>
+  <php>
+    <server name="APP_URL" value="http://127.0.0.1:8085"/>
+    <env name="APP_KEY" value="base64:+Yk3U4u5A5sSnN6kUr5b38I2LE/SgNxwov5XX5FvSW0="/>
+    <server name="APP_ENV" value="testing"/>
+  </php>
 </phpunit>
