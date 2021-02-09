@@ -81,7 +81,6 @@ jobs:
           ls -al vendor/laravel/nova-dusk-suite
           composer run-script dusk:prepare
           ls -al vendor/laravel/nova-dusk-suite
-          cat vendor/laravel/nova-dusk-suite/.env
           composer run-script dusk:assets
           ls -al vendor/laravel/nova-dusk-suite
           composer run-script dusk:test
