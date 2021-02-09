@@ -74,8 +74,13 @@ jobs:
 
       - name: Execute Dusk tests
         run: |
+          ls -al vendor/laravel/nova-dusk-suite/.env
           composer run-script dusk:prepare
+          ls -al vendor/laravel/nova-dusk-suite/.env
+          cat vendor/laravel/nova-dusk-suite/.env
           composer run-script dusk:assets
+          ls -al vendor/laravel/nova-dusk-suite/.env
           composer run-script dusk:test
+          ls -al vendor/laravel/nova-dusk-suite/.env
         env:
           DB_PORT: ${{ job.services.mysql.ports[3306] }}
