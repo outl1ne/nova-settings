@@ -55,7 +55,7 @@
   "scripts": {
     "dusk:prepare": [
       "./vendor/bin/dusk-updater detect --auto-update",
-      "@php -r \"if (file_exists('.env.dusk')) { copy('.env.dusk', 'vendor/laravel/nova-dusk-suite/.env'); } else { copy('.env.dusk.example', 'vendor/laravel/nova-dusk-suite/.env'); }\""
+      "@php -r \"if (file_exists('.env.dusk')) { copy('.env.dusk', '.env'); } else { copy('.env.dusk.example', '.env'); }\""
     ],
     "dusk:assets": [
       "npm ci",
