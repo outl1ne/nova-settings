@@ -39,6 +39,10 @@ abstract class DuskTestCase extends \Orchestra\Testbench\Dusk\TestCase
             new NovaSettings(),
         ]);
 
+        NovaSettings::addSettingsFields([
+            Text::make('Hello Field', 'hello_field'),
+        ]);
+
         tap($this->app->make('config'), function ($config) {
             $config->set('app.url', static::baseServeUrl());
             $config->set('filesystems.disks.public.url', static::baseServeUrl() . '/storage');
