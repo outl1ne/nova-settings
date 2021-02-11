@@ -54,8 +54,7 @@
   ],
   "scripts": {
     "dusk:prepare": [
-      "./vendor/bin/dusk-updater detect --auto-update",
-      "@php -r \"if (!file_exists('.env.dusk')) { copy('.env.dusk.example', '.env.dusk'); }\""
+      "./vendor/bin/dusk-updater detect --auto-update"
     ],
     "dusk:assets": [
       "npm ci",
