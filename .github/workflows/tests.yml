@@ -57,7 +57,7 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php }}
-          extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, gd
+          extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, mysql, gd
           coverage: none
 
       - name: Install dependencies
@@ -75,15 +75,8 @@ jobs:
       - name: Execute Dusk tests
         run: |
           pwd
-          ls -al
-          ls -al vendor
-          ls -al vendor/laravel
-          ls -al vendor/laravel/nova-dusk-suite
           composer run-script dusk:prepare
-          ls -al vendor/laravel/nova-dusk-suite
           composer run-script dusk:assets
-          ls -al vendor/laravel/nova-dusk-suite
           composer run-script dusk:test
-          ls -al vendor/laravel/nova-dusk-suite
         env:
           DB_PORT: ${{ job.services.mysql.ports[3306] }}
