@@ -2,8 +2,11 @@
 
 namespace OptimistDigital\NovaSettings\Tests;
 
-use Illuminate\Foundation\Application;
+use Laravel\Nova\Nova;
 use Laravel\Dusk\Browser;
+use Illuminate\Foundation\Application;
+use Laravel\Nova\Fields\Text;
+use OptimistDigital\NovaSettings\NovaSettings;
 
 abstract class DuskTestCase extends \Orchestra\Testbench\Dusk\TestCase
 {
@@ -32,9 +35,13 @@ abstract class DuskTestCase extends \Orchestra\Testbench\Dusk\TestCase
     {
         parent::setUp();
 
+        Nova::tools([
+            new NovaSettings(),
+        ]);
+
         tap($this->app->make('config'), function ($config) {
             $config->set('app.url', static::baseServeUrl());
-            $config->set('filesystems.disks.public.url', static::baseServeUrl().'/storage');
+            $config->set('filesystems.disks.public.url', static::baseServeUrl() . '/storage');
         });
     }
 
@@ -45,7 +52,7 @@ abstract class DuskTestCase extends \Orchestra\Testbench\Dusk\TestCase
      */
     protected function getBasePath()
     {
-        return realpath(__DIR__.'/../vendor/laravel/nova-dusk-suite');
+        return realpath(__DIR__ . '/../vendor/laravel/nova-dusk-suite');
     }
 
     /**
@@ -61,6 +68,7 @@ abstract class DuskTestCase extends \Orchestra\Testbench\Dusk\TestCase
             'Fideloper\Proxy\TrustedProxyServiceProvider',
             'Laravel\Nova\NovaCoreServiceProvider',
             'Carbon\Laravel\ServiceProvider',
+            'OptimistDigital\NovaSettings\NovaSettingsServiceProvider',
         ];
     }
 
@@ -198,6 +206,19 @@ abstract class DuskTestCase extends \Orchestra\Testbench\Dusk\TestCase
     {
         return tap(new Browser($driver), function ($browser) {
             $browser->resize(env('DUSK_WIDTH'), env('DUSK_HEIGHT'));
+        });
+    }
+
+    protected function captureFailuresFor($browsers)
+    {
+        $browsers->each(function (Browser $browser, $key) {
+            // $body = $browser->driver->findElement(WebDriverBy::tagName('body'));
+            // if (!empty($body)) {
+            //     $currentSize = $body->getSize();
+            //     $size = new WebDriverDimension($currentSize->getWidth(), $currentSize->getHeight());
+            //     $browser->driver->manage()->window()->setSize($size);
+            // }
+            $browser->screenshot('failure-' . $this->getName() . '-' . $key);
         });
     }
 }

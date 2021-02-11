@@ -1,6 +1,6 @@
 <template>
   <loading-view :loading="loading" :key="$route.params.id">
-    <form v-if="panels" @submit.prevent="update" autocomplete="off">
+    <form v-if="panels" @submit.prevent="update" autocomplete="off" dusk="nova-settings-form">
       <template v-for="panel in panelsWithFields">
         <template v-if="panel.component === 'detail-tabs' || panel.component === 'form-tabs'">
           <h1 class="text-90 font-normal text-2xl mb-3 nova-heading">{{ panel.name }}</h1>
@@ -54,7 +54,7 @@ export default {
   metaInfo() {
     return {
       title: this.__('novaSettings.navigationItemTitle'),
-    }
+    };
   },
   data() {
     return {
