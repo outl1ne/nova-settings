@@ -80,6 +80,7 @@ jobs:
       - name: Execute Dusk tests
         run: |
           pwd
+          printenv | grep DB_
           composer run-script dusk:prepare
           composer run-script dusk:assets
           composer run-script dusk:test
