@@ -14,6 +14,7 @@
     <env name="APP_URL" value="http://127.0.0.1:8085"/>
     <env name="APP_ENV" value="testing"/>
     <env name="APP_KEY" value="base64:+Yk3U4u5A5sSnN6kUr5b38I2LE/SgNxwov5XX5FvSW0="/>
+    <env name="APP_DEBUG" value="true"/>
     <env name="DUSK_TIMEZONE" value="Europe/Tallinn"/>
     <env name="DUSK_WIDTH" value="1920"/>
     <env name="DUSK_HEIGHT" value="1080"/>
