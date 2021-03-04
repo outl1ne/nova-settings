@@ -14,10 +14,14 @@ class DetailTest extends DuskTestCase
 
         $this->browse(function (Browser $browser) {
             $browser->loginAs(User::find(1))
-                ->visit('nova')
-                ->assertSee('Settings');
+                ->visit('nova');
 
             dump($browser->element('#nova')->getAttribute('innerHTML'));
+
+            $browser
+                ->assertSee('Settings');
+
+
 
             $browser->blank();
         });
