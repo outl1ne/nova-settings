@@ -216,14 +216,7 @@ abstract class DuskTestCase extends \Orchestra\Testbench\Dusk\TestCase
     protected function captureFailuresFor($browsers)
     {
         $browsers->each(function (Browser $browser, $key) {
-            $body = $browser->driver->findElement(WebDriverBy::tagName('body'));
-            if (!empty($body)) {
-                $currentSize = $body->getSize();
-                $size = new WebDriverDimension($currentSize->getWidth(), $currentSize->getHeight());
-                $browser->driver->manage()->window()->setSize($size);
-            }
             $name = str_replace('\\', '_', get_class($this)).'_'.$this->getName(false);
-            
             $browser->screenshot('failure-' . $this->getName() . '-' . $key);
         });
     }
