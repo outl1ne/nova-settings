@@ -17,6 +17,8 @@ class DetailTest extends DuskTestCase
                 ->visit('nova')
                 ->assertSee('Settings');
 
+            dump($browser->element('#nova')->getAttribute('innerHTML'));
+
             $browser->blank();
         });
     }
