@@ -13,6 +13,9 @@ class DetailTest extends DuskTestCase
         $this->setupLaravel();
 
         $this->browse(function (Browser $browser) {
+            dump('Do we have user?');
+            dump(User::find(1));
+
             $browser->loginAs(User::find(1))
                 ->visit('nova');
 
