@@ -66,6 +66,7 @@ jobs:
 
       - name: Install dependencies
         run: |
+          composer config http-basic.nova.laravel.com ${{ secrets.NOVA_USERNAME }} ${{ secrets.NOVA_PASSWORD }}
           composer require "laravel/framework:${{ matrix.laravel }}" "laravel/nova:${{ matrix.nova }}" "orchestra/testbench:${{ matrix.testbench }}" "orchestra/testbench-dusk:${{ matrix.testbench }}" "laravel/nova-dusk-suite:${{ matrix.nova-dusk-suite }}" --no-interaction --no-update
           composer update --${{ matrix.stability }} --prefer-dist --no-interaction
         env:
