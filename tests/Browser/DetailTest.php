@@ -16,7 +16,7 @@ class DetailTest extends DuskTestCase
             $browser->loginAs(User::find(1))
                 ->visit('nova');
 
-            dump($browser->element('*')->getAttribute('innerHTML'));
+            dump($browser->element('html')->getAttribute('innerHTML'));
 
             $browser
                 ->assertSee('Settings');
