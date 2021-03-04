@@ -16,7 +16,6 @@ class CreateNovaSettingsTable extends Migration
         // Settings table
         Schema::create('nova_settings', function (Blueprint $table) {
             $table->string('key')->unique()->primary();
-            // $table->string('value', 8192)->nullable(); // unsupported type on SQL server
             $table->text('value')->nullable();
         });
     }

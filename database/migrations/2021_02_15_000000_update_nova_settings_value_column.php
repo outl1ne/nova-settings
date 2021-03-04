@@ -13,7 +13,8 @@ class UpdateNovaSettingsValueColumn extends Migration
      */
     public function up()
     {
-        // Convert value column to text if needed
+        // Legacy support
+        // Convert value column to text if needed as  the 'value' column was previously a varchar
         Schema::table('nova_settings', function (Blueprint $table) {
             $table->text('value')->nullable()->change();
         });
@@ -26,6 +27,6 @@ class UpdateNovaSettingsValueColumn extends Migration
      */
     public function down()
     {
-         // No down because previous migration was also modified
+        // No down because previous migration was also modified
     }
 }
