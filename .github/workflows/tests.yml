@@ -86,3 +86,8 @@ jobs:
           composer run-script dusk:test
         env:
           DB_PORT: ${{ job.services.mysql.ports[3306] }}
+
+      - uses: actions/upload-artifact@v2
+        with:
+          path: tests/Browser/screenshots
+          name: Dusk-screenshots
