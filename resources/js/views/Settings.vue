@@ -1,10 +1,11 @@
 <template>
   <loading-view :loading="loading" :key="$route.params.id">
     <form v-if="panels" @submit.prevent="update" autocomplete="off" dusk="nova-settings-form">
-      <template v-for="panel in panelsWithFields">
+      <template v-for="(panel, i) in panelsWithFields">
         <template v-if="panel.component === 'detail-tabs' || panel.component === 'form-tabs'">
-          <h1 class="text-90 font-normal text-2xl mb-3 nova-heading">{{ panel.name }}</h1>
+          <h1 class="text-90 font-normal text-2xl mb-3 nova-heading" :key="i">{{ panel.name }}</h1>
           <form-tabs
+            :key="i"
             :resource-name="'nova-settings'"
             :resource-id="'settings'"
             :errors="validationErrors"
@@ -13,6 +14,7 @@
             class="mb-3"
           />
         </template>
+
         <form-panel
           v-else
           :panel="panel"
@@ -20,7 +22,7 @@
           :key="panel.name"
           :fields="panel.fields"
           :resource-name="'nova-settings'"
-          :resource-id="'settings'"
+          :resource-id="$route.params.id || 'general'"
           mode="form"
           class="mb-6"
           :validation-errors="validationErrors"

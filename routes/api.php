@@ -19,5 +19,5 @@ Route::namespace('\OptimistDigital\NovaSettings\Http\Controllers')->group(functi
         Route::post('/settings', 'SettingsController@save')->name('nova-settings.save');
     });
 
-    Route::delete('/nova-api/nova-settings/settings/field/{fieldName}', 'SettingsController@deleteImage');
+    Route::delete('/nova-api/nova-settings/{path}/field/{fieldName}', 'SettingsController@deleteImage');
 });

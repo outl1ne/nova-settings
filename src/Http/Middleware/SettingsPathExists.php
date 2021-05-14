@@ -16,7 +16,7 @@ class SettingsPathExists
      */
     public function handle($request, $next)
     {
-        $path = $request->get('path');
+        $path = $request->get('path') ?: $request->route('path');
         $path = !empty($path) ? trim($path) : 'general';
         return NovaSettings::doesPathExist($path) ? $next($request) : abort(404);
     }
