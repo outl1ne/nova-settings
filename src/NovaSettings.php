@@ -16,11 +16,20 @@ class NovaSettings extends Tool
     public function boot()
     {
         Nova::script('nova-settings', __DIR__ . '/../dist/js/tool.js');
+
+        Nova::provideToScript([
+            'novaSettings' => [
+                'basePath' => config('nova-settings.base_path', 'nova-settings'),
+            ],
+        ]);
     }
 
     public function renderNavigation()
     {
-        return view('nova-settings::navigation', ['fields' => static::$fields]);
+        return view('nova-settings::navigation', [
+            'fields' => static::$fields,
+            'basePath' => config('nova-settings.base_path', 'nova-settings'),
+        ]);
     }
 
     /**

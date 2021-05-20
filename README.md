@@ -153,6 +153,7 @@ php artisan vendor:publish --provider="OptimistDigital\NovaSettings\NovaSettings
 
 | Name                  | Type    | Default           | Description                                                                        |
 | --------------------- | ------- | ----------------- | ---------------------------------------------------------------------------------- |
+| `base_path`           | String  | `nova-settings`   | URL path of settings page.                                                         |
 | `reload_page_on_save` | Boolean | false             | Reload the entire page on save. Useful when updating any Nova UI related settings. |
 | `models.settings`     | Model   | `Settings::class` | Optionally override the Settings model.                                            |
 
