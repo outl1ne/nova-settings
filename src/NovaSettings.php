@@ -110,6 +110,7 @@ class NovaSettings extends Tool
         $setting = static::getSettingsModel()::firstOrCreate(['key' => $settingKey]);
         $setting->value = $value;
         $setting->save();
+        unset(static::$cache[$settingKey]);
         return $setting;
     }
 
