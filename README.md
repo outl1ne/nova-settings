@@ -73,6 +73,19 @@ Define the fields in your `NovaServiceProvider`'s `boot()` function by calling `
 });
 ```
 
+#### Registering field panels
+
+```php
+// Using an array
+\OptimistDigital\NovaSettings\NovaSettings::addSettingsFields([
+    Panel::make('Panel Title', [
+      Text::make('Some setting', 'some_setting'),
+      Number::make('A number', 'a_number'),
+    ]),
+]);
+```
+
+
 ### Casts
 
 If you want the value of the setting to be formatted before it's returned, pass an array similar to `Eloquent`'s `$casts` property as the second parameter.
