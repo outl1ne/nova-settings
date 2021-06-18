@@ -138,6 +138,7 @@ export default {
         return {
           name: panel.name,
           component: panel.component,
+          helpText: panel.helpText,
           fields: _.filter(this.fields, field => field.panel == panel.name),
         };
       });
