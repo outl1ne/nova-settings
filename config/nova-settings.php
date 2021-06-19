@@ -23,7 +23,7 @@ return array(
      *
      * The model you want to use as a model needs to extend the original model.
      */
-    'models' => array(
+    'models' => [
         'settings' => \OptimistDigital\NovaSettings\Models\Settings::class,
-    ),
+    ],
 );
