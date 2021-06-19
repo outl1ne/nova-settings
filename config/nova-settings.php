@@ -1,6 +1,6 @@
 <?php
 
-return array(
+return [
 
     /*
      * Set a custom table for Nova Settings to store its data
@@ -26,4 +26,4 @@ return array(
     'models' => [
         'settings' => \OptimistDigital\NovaSettings\Models\Settings::class,
     ],
-);
+];
