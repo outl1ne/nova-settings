@@ -32,6 +32,11 @@ class NovaSettings extends Tool
         ]);
     }
 
+    public static function getSettingsTableName(): string
+    {
+        return config('nova-settings.table', 'nova_settings');
+    }
+
     /**
      * Define settings fields and an optional casts.
      *

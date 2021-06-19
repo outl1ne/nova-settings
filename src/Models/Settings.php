@@ -9,10 +9,16 @@ use Illuminate\Support\Collection as BaseCollection;
 class Settings extends Model
 {
     protected $primaryKey = 'key';
-    protected $table = 'nova_settings';
     public $incrementing = false;
     public $timestamps = false;
     public $fillable = ['key', 'value'];
+
+
+    public function __construct(array $attributes = [])
+    {
+        parent::__construct($attributes);
+        $this->setTable(NovaSettings::getSettingsTableName());
+    }
 
     public function setValueAttribute($value)
     {
