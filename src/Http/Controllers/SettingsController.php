@@ -13,7 +13,6 @@ use Laravel\Nova\Http\Requests\NovaRequest;
 use OptimistDigital\NovaSettings\NovaSettings;
 use Illuminate\Http\Resources\ConditionallyLoadsAttributes;
 use Laravel\Nova\Panel;
-use Illuminate\Support\Str;
 
 class SettingsController extends Controller
 {
@@ -22,9 +21,7 @@ class SettingsController extends Controller
     public function get(Request $request)
     {
         $path = $request->get('path', 'general');
-        $label = ($path === 'general') ?
-            __('novaSettings.navigationItemTitle') :
-            Str::title(str_replace('-', ' ', $path));
+        $label = __('novaSettings.navigationItemTitle')." - ".NovaSettings::getPageName($path);
         $fields = $this->assignToPanels($label, $this->availableFields($path));
         $panels = $this->panelsWithDefaultLabel($label , app(NovaRequest::class));
 
