@@ -29,7 +29,7 @@
             @else
                 <li dusk="nova-settings-{{ $key }}" class="leading-wide mb-4 text-sm">
                     <router-link :to="{ path: '/{{ $basePath }}/{{$key}}' }" class="text-white ml-8 no-underline dim">
-                        {{ __("novaSettings.$key") === "novaSettings.$key" ? ucfirst($key) : __("novaSettings.$key") }}
+                        {{ \OptimistDigital\NovaSettings\NovaSettings::getPageName($key) }}
                     </router-link>
                 </li>
             @endif

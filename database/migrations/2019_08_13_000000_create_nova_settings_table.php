@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use OptimistDigital\NovaSettings\NovaSettings;
 
 class CreateNovaSettingsTable extends Migration
 {
@@ -14,7 +15,7 @@ class CreateNovaSettingsTable extends Migration
     public function up()
     {
         // Settings table
-        Schema::create('nova_settings', function (Blueprint $table) {
+        Schema::create(NovaSettings::getSettingsTableName(), function (Blueprint $table) {
             $table->string('key')->unique()->primary();
             $table->text('value')->nullable();
         });
@@ -27,6 +28,6 @@ class CreateNovaSettingsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('nova_settings');
+        Schema::dropIfExists(NovaSettings::getSettingsTableName());
     }
 }

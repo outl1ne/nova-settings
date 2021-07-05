@@ -3,6 +3,7 @@
 namespace OptimistDigital\NovaSettings\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
 use Laravel\Nova\ResolvesFields;
 use Illuminate\Routing\Controller;
 use Laravel\Nova\Contracts\Resolvable;
@@ -19,8 +20,10 @@ class SettingsController extends Controller
 
     public function get(Request $request)
     {
-        $fields = $this->assignToPanels(__('novaSettings.navigationItemTitle'), $this->availableFields($request->get('path', 'general')));
-        $panels = $this->panelsWithDefaultLabel(__('novaSettings.navigationItemTitle'), app(NovaRequest::class));
+        $path = $request->get('path', 'general');
+        $label = __('novaSettings.navigationItemTitle')." - ".NovaSettings::getPageName($path);
+        $fields = $this->assignToPanels($label, $this->availableFields($path));
+        $panels = $this->panelsWithDefaultLabel($label , app(NovaRequest::class));
 
         $addResolveCallback = function (&$field) {
             if (!empty($field->attribute)) {
@@ -41,9 +44,9 @@ class SettingsController extends Controller
         });
 
         return response()->json([
-            'panels' => $panels,
-            'fields' => $fields,
-        ], 200);
+                                    'panels' => $panels,
+                                    'fields' => $fields,
+                                ], 200);
     }
 
     public function save(NovaRequest $request)

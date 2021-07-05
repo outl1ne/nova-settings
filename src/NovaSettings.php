@@ -32,6 +32,20 @@ class NovaSettings extends Tool
         ]);
     }
 
+    public static function getSettingsTableName(): string
+    {
+        return config('nova-settings.table', 'nova_settings');
+    }
+
+    public static function getPageName($key): string
+    {
+        if(__("novaSettings.$key") === "novaSettings.$key"){
+            return Str::title(str_replace('-', ' ', $key));
+        }else{
+            return __("novaSettings.$key");
+        }
+    }
+
     /**
      * Define settings fields and an optional casts.
      *
