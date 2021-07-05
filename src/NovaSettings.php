@@ -39,9 +39,9 @@ class NovaSettings extends Tool
 
     public static function getPageName($key): string
     {
-        if(__("novaSettings.$key") === "novaSettings.$key"){
+        if (__("novaSettings.$key") === "novaSettings.$key") {
             return Str::title(str_replace('-', ' ', $key));
-        }else{
+        } else {
             return __("novaSettings.$key");
         }
     }
