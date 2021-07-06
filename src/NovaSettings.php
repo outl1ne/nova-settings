@@ -103,7 +103,7 @@ class NovaSettings extends Tool
     public static function getSetting($settingKey, $default = null)
     {
         if (isset(static::$cache[$settingKey])) return static::$cache[$settingKey];
-        static::$cache[$settingKey] = static::getSettingsModel()::find($settingKey)->value ?? $default;
+        static::$cache[$settingKey] = static::getSettingsModel()::getValueForKey($settingKey) ?? $default;
         return static::$cache[$settingKey];
     }
 
