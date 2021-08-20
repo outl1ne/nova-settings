@@ -7,7 +7,7 @@
           <form-tabs
             :key="i"
             :resource-name="'nova-settings'"
-            :resource-id="'settings'"
+            :resource-id="$route.params.id || 'general'"
             :errors="validationErrors"
             :field="{ component: 'tabs', fields: panel.fields }"
             :name="panel.name"
