@@ -9,13 +9,13 @@
   },
   "devDependencies": {
     "cross-env": "^7.0.3",
-    "laravel-mix": "^6.0.27",
+    "laravel-mix": "^6.0.29",
     "postcss": "^8.3.6",
     "prettier": "^2.3.2",
     "resolve-url-loader": "^4.0.0",
-    "sass": "^1.37.5",
+    "sass": "^1.39.0",
     "sass-loader": "^12.1.0",
-    "terser-webpack-plugin": "^5.1.4",
+    "terser-webpack-plugin": "^5.2.1",
     "vue-loader": "^15.9.8",
     "vue-template-compiler": "^2.6.14"
   },
