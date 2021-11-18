@@ -25,44 +25,16 @@ class Settings extends Model
         $this->attributes['value'] = is_array($value) ? json_encode($value) : $value;
     }
 
-    public function getValueAttribute()
+    public function getValueAttribute($value)
     {
-        $value = $this->attributes['value'] ?? null;
-        $casts = NovaSettings::getCasts();
-        $castType = $casts[$this->key] ?? null;
+        $originalCasts = $this->casts;
+        $this->casts =  NovaSettings::getCasts();
 
-        if (!$castType) return $value;
-
-        switch ($castType) {
-            case 'int':
-            case 'integer':
-                return (int) $value;
-            case 'real':
-            case 'float':
-            case 'double':
-                return $this->fromFloat($value);
-            case 'decimal':
-                return $this->asDecimal($value, explode(':', $casts[$this->key], 2)[1]);
-            case 'string':
-                return (string) $value;
-            case 'bool':
-            case 'boolean':
-                return (bool) $value;
-            case 'object':
-                return $this->fromJson($value, true);
-            case 'array':
-            case 'json':
-                return $this->fromJson($value);
-            case 'collection':
-                return new BaseCollection($this->fromJson($value));
-            case 'date':
-                return $this->asDate($value);
-            case 'datetime':
-            case 'custom_datetime':
-                return $this->asDateTime($value);
-            case 'timestamp':
-                return $this->asTimestamp($value);
+        if ($this->hasCast($this->key)) {
+            $value = $this->castAttribute($this->key, $value);
         }
+
+        $this->casts = $originalCasts;
 
         return $value;
     }
