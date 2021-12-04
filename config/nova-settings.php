@@ -26,4 +26,9 @@ return [
     'models' => [
         'settings' => \OptimistDigital\NovaSettings\Models\Settings::class,
     ],
+
+    /**
+     * Hide the sidebar menu
+     */
+    'sidebar_menu' => true
 ];

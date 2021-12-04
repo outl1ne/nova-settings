@@ -26,10 +26,12 @@ class NovaSettings extends Tool
 
     public function renderNavigation()
     {
-        return view('nova-settings::navigation', [
-            'fields' => static::$fields,
-            'basePath' => config('nova-settings.base_path', 'nova-settings'),
-        ]);
+        if (config('nova-settings.sidebar_menu')) {
+            return view('nova-settings::navigation', [
+                'fields' => static::$fields,
+                'basePath' => config('nova-settings.base_path', 'nova-settings'),
+            ]);
+        }
     }
 
     public static function getSettingsTableName(): string
