@@ -28,7 +28,7 @@ return [
     ],
 
     /**
-     * Hide the sidebar menu
+     * Show the sidebar menu
      */
     'sidebar_menu' => true
 ];
