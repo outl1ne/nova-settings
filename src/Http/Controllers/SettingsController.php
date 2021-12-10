@@ -33,7 +33,7 @@ class SettingsController extends Controller
             if (!empty($field->meta['fields'])) {
                 foreach ($field->meta['fields'] as $_field) {
                     $setting = NovaSettings::getSettingsModel()::where('key', $_field->attribute)->first();
-                    $_field->resolve([$_field->attribute => isset($setting) ? $setting->value : '']);
+                    $_field->resolve([$_field->attribute => isset($setting) ? $setting->value : null]);
                 }
             }
         };
