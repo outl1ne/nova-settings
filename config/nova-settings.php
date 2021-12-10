@@ -26,4 +26,9 @@ return [
     'models' => [
         'settings' => \OptimistDigital\NovaSettings\Models\Settings::class,
     ],
+
+    /**
+     * Show the sidebar menu
+     */
+    'sidebar_menu' => true
 ];
