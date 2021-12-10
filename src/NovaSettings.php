@@ -26,7 +26,7 @@ class NovaSettings extends Tool
 
     public function renderNavigation()
     {
-        if (config('nova-settings.sidebar_menu')) {
+        if (config('nova-settings.show_in_sidebar', true)) {
             return view('nova-settings::navigation', [
                 'fields' => static::$fields,
                 'basePath' => config('nova-settings.base_path', 'nova-settings'),

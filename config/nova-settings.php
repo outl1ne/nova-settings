@@ -30,5 +30,5 @@ return [
     /**
      * Show the sidebar menu
      */
-    'sidebar_menu' => true
+    'show_in_sidebar' => true
 ];
