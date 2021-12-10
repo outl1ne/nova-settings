@@ -1,7 +1,7 @@
 {
-  "settings.navigationItemTitle": "الإعدادات",
-  "settings.saveButtonText": "حفظ الإعدادات",
-  "settings.noSettingsFieldsText": "لم يتم اضافة حقول للإعدادات.",
-  "settings.settingsSuccessToast": "تم حفظ الإعدادات",
-  "settings.general": "الإعدادات العامة"
+  "novaSettings.navigationItemTitle": "الإعدادات",
+  "novaSettings.saveButtonText": "حفظ الإعدادات",
+  "novaSettings.noSettingsFieldsText": "لم يتم اضافة حقول للإعدادات.",
+  "novaSettings.settingsSuccessToast": "تم حفظ الإعدادات",
+  "novaSettings.general": "الإعدادات العامة"
 }
