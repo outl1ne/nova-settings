@@ -53,7 +53,7 @@ public function tools()
 
 ### Registering fields
 
-Define the fields in your `NovaServiceProvider`'s `boot()` function by calling `NovaSettings::setSettingsFields()`.
+Define the fields in your `NovaServiceProvider`'s `boot()` function by calling `NovaSettings::addSettingsFields()`.
 
 ```php
 // Using an array
