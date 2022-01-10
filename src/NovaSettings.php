@@ -9,10 +9,6 @@ use OptimistDigital\NovaSettings\Models\Settings;
 
 class NovaSettings extends Tool
 {
-    protected static $cache = [];
-    protected static $fields = [];
-    protected static $casts = [];
-
     public function boot()
     {
         Nova::script('nova-settings', __DIR__ . '/../dist/js/tool.js');
@@ -28,7 +24,7 @@ class NovaSettings extends Tool
     {
         if (config('nova-settings.show_in_sidebar', true)) {
             return view('nova-settings::navigation', [
-                'fields' => static::$fields,
+                'fields' => static::getFields(),
                 'basePath' => config('nova-settings.base_path', 'nova-settings'),
             ]);
         }
@@ -56,13 +52,7 @@ class NovaSettings extends Tool
      **/
     public static function addSettingsFields($fields = [], $casts = [], $path = 'general')
     {
-        $path = Str::lower(Str::slug($path));
-
-        static::$fields[$path] = static::$fields[$path] ?? [];
-        if (is_callable($fields)) $fields = [$fields];
-        static::$fields[$path] = array_merge(static::$fields[$path], $fields ?? []);
-
-        static::$casts = array_merge(static::$casts, $casts ?? []);
+        return static::getStore()->addSettingsFields($fields, $casts, $path);
     }
 
     /**
@@ -72,71 +62,38 @@ class NovaSettings extends Tool
      **/
     public static function addCasts($casts = [])
     {
-        static::$casts = array_merge(static::$casts, $casts);
+        return static::getStore()->addCasts($casts);
     }
 
-    public static function getFields($path = 'general')
+    public static function getFields($path = null)
     {
-        $rawFields = array_map(function ($fieldItem) {
-            return is_callable($fieldItem) ? call_user_func($fieldItem) : $fieldItem;
-        }, static::$fields[$path] ?? static::$fields);
-
-        $fields = [];
-        foreach ($rawFields as $rawField) {
-            if (is_array($rawField)) $fields = array_merge($fields, $rawField);
-            else $fields[] = $rawField;
-        }
-
-        return $fields;
+        if (!$path) return static::getStore()->getRawFields();
+        return static::getStore()->getFields($path);
     }
 
     public static function clearFields()
     {
-        static::$fields = [];
-        static::$casts = [];
-        static::$cache = [];
+        return static::getStore()->clearFields();
     }
 
     public static function getCasts()
     {
-        return static::$casts;
+        return static::getStore()->getCasts();
     }
 
     public static function getSetting($settingKey, $default = null)
     {
-        if (isset(static::$cache[$settingKey])) return static::$cache[$settingKey];
-        static::$cache[$settingKey] = static::getSettingsModel()::getValueForKey($settingKey) ?? $default;
-        return static::$cache[$settingKey];
+        return static::getStore()->getSetting($settingKey, $default);
     }
 
     public static function getSettings(array $settingKeys = null)
     {
-        if (!empty($settingKeys)) {
-            $hasMissingKeys = !empty(array_diff($settingKeys, array_keys(static::$cache)));
-
-            if (!$hasMissingKeys) return collect($settingKeys)->mapWithKeys(function ($settingKey) {
-                return [$settingKey => static::$cache[$settingKey]];
-            })->toArray();
-
-            return static::getSettingsModel()::find($settingKeys)->map(function ($setting) {
-                static::$cache[$setting->key] = $setting->value;
-                return $setting;
-            })->pluck('value', 'key')->toArray();
-        }
-
-        return static::getSettingsModel()::all()->map(function ($setting) {
-            static::$cache[$setting->key] = $setting->value;
-            return $setting;
-        })->pluck('value', 'key')->toArray();
+        return static::getStore()->getSettings($settingKeys);
     }
 
     public static function setSettingValue($settingKey, $value = null)
     {
-        $setting = static::getSettingsModel()::firstOrCreate(['key' => $settingKey]);
-        $setting->value = $value;
-        $setting->save();
-        unset(static::$cache[$settingKey]);
-        return $setting;
+        return static::getStore()->setSettingValue($settingKey, $value);
     }
 
     public static function getSettingsModel(): string
@@ -146,6 +103,11 @@ class NovaSettings extends Tool
 
     public static function doesPathExist($path)
     {
-        return array_key_exists($path, static::$fields);
+        return array_key_exists($path, static::getFields());
+    }
+
+    protected static function getStore(): NovaSettingsStore
+    {
+        return app()->make(NovaSettingsStore::class);
     }
 }

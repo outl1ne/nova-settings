@@ -44,6 +44,10 @@ class NovaSettingsServiceProvider extends ServiceProvider
             __DIR__ . '/../config/nova-settings.php',
             'nova-settings'
         );
+
+        $this->app->singleton(NovaSettingsStore::class, function () {
+            return new NovaSettingsStore();
+        });
     }
 
     protected function registerRoutes()
