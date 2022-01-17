@@ -5,6 +5,18 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.5.0] - 2021-01-10
+
+### Changed
+
+- `nova_get_settings` returns keys that are not defined [#96](https://github.com/optimistdigital/nova-settings/pull/96)
+  - Previously keys, that were not defined, were not returned.
+  - Key value will be `null` unless a default value is provided.
+
+### Added
+
+- `nova_get_settings` now accepts `[key => value]` array of defaults. [#96](https://github.com/optimistdigital/nova-settings/pull/96)
+
 ## [3.4.0] - 2021-01-10
 
 ### Changed

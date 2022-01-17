@@ -142,9 +142,9 @@ Text::make('A text field')
 
 ### Helper functions
 
-#### nova_get_settings(\$keys = null)
+#### nova_get_settings(\$keys = null, \$defaults = [])
 
-Call `nova_get_settings()` to get all the settings formated as a regular array. If you pass in `$keys` as an array, it will return only the keys listed.
+Call `nova_get_settings()` to get all the settings formated as a regular array. Additionally, you can pass a `key => value` array as a second argument: `nova_get_settings(['some_key], ['some_key' => 'default_value'])`.
 
 #### nova_get_setting(\$key, \$default = null)
 
