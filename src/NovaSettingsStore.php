@@ -60,7 +60,7 @@ class NovaSettingsStore
         return $this->cache[$settingKey];
     }
 
-    public function getSettings(array $settingKeys = null)
+    public function getSettings(array $settingKeys = null, array $defaults = [])
     {
         $settingsModel = NovaSettings::getSettingsModel();
 
@@ -71,10 +71,19 @@ class NovaSettingsStore
                 return [$settingKey => $this->cache[$settingKey]];
             })->toArray();
 
-            return $settingsModel::find($settingKeys)->map(function ($setting) {
-                $this->cache[$setting->key] = $setting->value;
-                return $setting;
-            })->pluck('value', 'key')->toArray();
+            $settings = $settingsModel::find($settingKeys)->pluck('value', 'key');
+
+            return collect($settingKeys)->flatMap(function ($settingKey) use ($settings, $defaults) {
+                $settingValue = $settings[$settingKey] ?? null;
+
+                if (!empty($settingValue)) {
+                    $this->cache[$settingKey] = $settingValue;
+                    return [$settingKey => $settingValue];
+                } else {
+                    $defaultValue = $defaults[$settingKey] ?? null;
+                    return [$settingKey => $defaultValue];
+                }
+            })->toArray();
         }
 
         return $settingsModel::all()->map(function ($setting) {
