@@ -3,9 +3,9 @@
 use OptimistDigital\NovaSettings\NovaSettings;
 
 if (!function_exists('nova_get_settings')) {
-    function nova_get_settings($settingKeys = null)
+    function nova_get_settings($settingKeys = null, $defaults = [])
     {
-        return NovaSettings::getSettings($settingKeys);
+        return NovaSettings::getSettings($settingKeys, $defaults);
     }
 }
 
