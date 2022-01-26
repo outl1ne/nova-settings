@@ -26,7 +26,7 @@ class SettingsController extends Controller
 
         $addResolveCallback = function (&$field) {
             if (!empty($field->attribute)) {
-                $setting = NovaSettings::getSettingsModel()::findOrNew($field->attribute);
+                $setting = NovaSettings::getSettingsModel()::firstOrNew(['key' => $field->attribute]);
                 $field->resolve([$field->attribute => isset($setting) ? $setting->value : '']);
             }
 
