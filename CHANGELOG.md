@@ -17,6 +17,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - `nova_get_settings` now accepts `[key => value]` array of defaults. [#96](https://github.com/optimistdigital/nova-settings/pull/96)
 
+## [3.4.1] - 07-02-2022
+
+### Changed
+
+- Improved fetching of settings to improve extendability (thanks to [@dimitri-koenig](https://github.com/dimitri-koenig))
+- Updated packages
+  > > > > > > > Update CHANGELOG.md
+
 ## [3.4.0] - 2021-01-10
 
 ### Changed
