@@ -29,7 +29,7 @@
         />
       </template>
       <!-- Update Button -->
-      <div class="flex items-center">
+      <div class="flex items-center" v-if="authorizations.authorizedToUpdate">
         <progress-button type="submit" class="ml-auto" :disabled="isUpdating" :processing="isUpdating">
           {{ __('novaSettings.saveButtonText') }}
         </progress-button>
@@ -64,6 +64,7 @@ export default {
       isUpdating: false,
       fields: [],
       panels: [],
+      authorizations: [],
       validationErrors: new Errors(),
     };
   },
@@ -84,7 +85,7 @@ export default {
       if (this.$route.params.id) params.path = this.$route.params.id;
 
       const {
-        data: { fields, panels },
+        data: { fields, panels, authorizations },
       } = await Nova.request()
         .get('/nova-vendor/nova-settings/settings', { params })
         .catch(error => {
@@ -95,6 +96,7 @@ export default {
         });
       this.fields = fields;
       this.panels = panels;
+      this.authorizations = authorizations;
       this.loading = false;
     },
     async update() {
