@@ -27,13 +27,15 @@ class SettingsController extends Controller
         $addResolveCallback = function (&$field) {
             if (!empty($field->attribute)) {
                 $setting = NovaSettings::getSettingsModel()::firstOrNew(['key' => $field->attribute]);
-                $field->resolve([$field->attribute => isset($setting) ? $setting->value : '']);
+                $fakeResource = $this->makeFakeResource($field->attribute, isset($setting) ? $setting->value : '');
+                $field->resolve($fakeResource);
             }
 
             if (!empty($field->meta['fields'])) {
                 foreach ($field->meta['fields'] as $_field) {
                     $setting = NovaSettings::getSettingsModel()::where('key', $_field->attribute)->first();
-                    $_field->resolve([$_field->attribute => isset($setting) ? $setting->value : null]);
+                    $fakeResource = $this->makeFakeResource($_field->attribute, isset($setting) ? $setting->value : null);
+                    $_field->resolve($fakeResource);
                 }
             }
         };
@@ -61,8 +63,7 @@ class SettingsController extends Controller
 
         $rules = [];
         foreach ($fields as $field) {
-            $fakeResource = new \stdClass;
-            $fakeResource->{$field->attribute} = nova_get_setting($field->attribute);
+            $fakeResource = $this->makeFakeResource($field->attribute, nova_get_setting($field->attribute));
             $field->resolve($fakeResource, $field->attribute); // For nova-translatable support
             $rules = array_merge($rules, $field->getUpdateRules($request));
         }
@@ -120,6 +121,13 @@ class SettingsController extends Controller
     protected function fields(Request $request, $path = 'general')
     {
         return NovaSettings::getFields($path);
+    }
+    
+    protected function makeFakeResource(string $fieldName, $fieldValue)
+    {
+        $fakeResource = new \stdClass;
+        $fakeResource->{$fieldName} = $fieldValue;
+        return $fakeResource;
     }
 
     /**
