@@ -19,6 +19,8 @@ class SettingsController extends Controller
 
     public function get(Request $request)
     {
+        if (!NovaSettings::canSeeSettings()) return $this->unauthorized();
+
         $path = $request->get('path', 'general');
         $label = NovaSettings::getPageName($path);
         $fields = $this->assignToPanels($label, $this->availableFields($path));
@@ -47,11 +49,14 @@ class SettingsController extends Controller
         return response()->json([
             'panels' => $panels,
             'fields' => $fields,
+            'authorizations' => NovaSettings::getAuthorizations(),
         ], 200);
     }
 
     public function save(NovaRequest $request)
     {
+        if (!NovaSettings::getAuthorizations('authorizedToUpdate')) return $this->unauthorized();
+
         $fields = $this->availableFields($request->get('path', 'general'));
 
         // NovaDependencyContainer support
@@ -105,6 +110,8 @@ class SettingsController extends Controller
 
     public function deleteImage(Request $request, $pathName, $fieldName)
     {
+        if (!NovaSettings::getAuthorizations('authorizedToUpdate')) return $this->unauthorized();
+
         $existingRow = NovaSettings::getSettingsModel()::where('key', $fieldName)->first();
         if (isset($existingRow)) {
             $existingRow->value = null;
@@ -149,5 +156,10 @@ class SettingsController extends Controller
                 })->all();
             }
         );
+    }
+
+    protected function unauthorized()
+    {
+        return response()->json(['error' => 'Unauthorized'], 403);
     }
 }

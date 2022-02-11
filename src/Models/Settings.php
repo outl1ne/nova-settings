@@ -4,7 +4,6 @@ namespace OptimistDigital\NovaSettings\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use OptimistDigital\NovaSettings\NovaSettings;
-use Illuminate\Support\Collection as BaseCollection;
 
 class Settings extends Model
 {
@@ -12,7 +11,6 @@ class Settings extends Model
     public $incrementing = false;
     public $timestamps = false;
     public $fillable = ['key', 'value'];
-
 
     public function __construct(array $attributes = [])
     {

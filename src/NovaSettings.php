@@ -22,7 +22,10 @@ class NovaSettings extends Tool
 
     public function renderNavigation()
     {
-        if (config('nova-settings.show_in_sidebar', true)) {
+        $isAuthorized = static::canSeeSettings();
+        $showInSidebar = config('nova-settings.show_in_sidebar', true);
+
+        if ($isAuthorized && $showInSidebar) {
             return view('nova-settings::navigation', [
                 'fields' => static::getFields(),
                 'basePath' => config('nova-settings.base_path', 'nova-settings'),
@@ -42,6 +45,27 @@ class NovaSettings extends Tool
         } else {
             return __("novaSettings.$key");
         }
+    }
+
+    public static function getAuthorizations($key = null)
+    {
+        $request = request();
+        $fakeResource = new \OptimistDigital\NovaSettings\Nova\Resources\Settings(new Settings());
+
+        $authorizations = [
+            'authorizedToView' => $fakeResource->authorizedToView($request),
+            'authorizedToCreate' => $fakeResource->authorizedToCreate($request),
+            'authorizedToUpdate' => $fakeResource->authorizedToUpdate($request),
+            'authorizedToDelete' => $fakeResource->authorizedToDelete($request),
+        ];
+
+        return $key ? $authorizations[$key] : $authorizations;
+    }
+
+    public static function canSeeSettings()
+    {
+        $auths = static::getAuthorizations();
+        return $auths['authorizedToView'] || $auths['authorizedToUpdate'];
     }
 
     /**
