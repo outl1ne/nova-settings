@@ -50,7 +50,7 @@ class NovaSettings extends Tool
     public static function getAuthorizations($key = null)
     {
         $request = request();
-        $fakeResource = new \OptimistDigital\NovaSettings\Nova\Resources\Settings(new Settings());
+        $fakeResource = new \OptimistDigital\NovaSettings\Nova\Resources\Settings(NovaSettings::getSettingsModel()::make());
 
         $authorizations = [
             'authorizedToView' => $fakeResource->authorizedToView($request),
