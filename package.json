@@ -10,10 +10,10 @@
   "devDependencies": {
     "cross-env": "^7.0.3",
     "laravel-mix": "^6.0.43",
-    "postcss": "^8.4.8",
-    "prettier": "^2.5.1",
+    "postcss": "^8.4.12",
+    "prettier": "^2.6.2",
     "resolve-url-loader": "^4.0.0",
-    "sass": "^1.49.9",
+    "sass": "^1.50.0",
     "sass-loader": "^12.6.0",
     "terser-webpack-plugin": "^5.3.1",
     "vue-loader": "^15.9.8",
