@@ -56,7 +56,7 @@ class NovaSettingsServiceProvider extends ServiceProvider
         // Register nova routes
         Nova::router()->group(function ($router) {
             $path = config('nova-settings.base_path', 'nova-settings');
-            $router->get("{$path}/{pageId?}", fn () => inertia('NovaSettings', ['basePath' => $path]));
+            $router->get("{$path}/{pageId?}", fn ($pageId = 'general') => inertia('NovaSettings', ['basePath' => $path, 'pageId' => $pageId]));
         });
 
         if ($this->app->routesAreCached()) return;
