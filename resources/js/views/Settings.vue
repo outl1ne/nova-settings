@@ -30,9 +30,9 @@
       </template>
       <!-- Update Button -->
       <div class="flex items-center" v-if="authorizations.authorizedToUpdate">
-        <progress-button type="submit" class="ml-auto" :disabled="isUpdating" :processing="isUpdating">
+        <LoadingButton type="submit" class="ml-auto" :disabled="isUpdating" :processing="isUpdating">
           {{ __('novaSettings.saveButtonText') }}
-        </progress-button>
+        </LoadingButton>
       </div>
     </form>
 
@@ -112,9 +112,8 @@ export default {
           location.reload();
           return;
         }
-        this.$toasted.show(this.__('novaSettings.settingsSuccessToast'), {
-          type: 'success',
-        });
+        Nova.success(this.__('novaSettings.settingsSuccessToast'));
+
         // Reset the form by refetching the fields
         await this.getFields();
         this.isUpdating = false;
@@ -134,14 +133,13 @@ export default {
   },
   computed: {
     formData() {
-      // return _.tap(new FormData(), formData => {
-      //   _(this.fields).each(field => field.fill(formData));
-      //   formData.append('_method', 'POST');
-      //   if (this.pageId) formData.append('path', this.pageId);
-      // });
+      const formData = new FormData();
+      this.fields.forEach(field => field.fill(formData));
+      formData.append('_method', 'POST');
+      if (this.pageId) formData.append('path', this.pageId);
+      return formData;
     },
     panelsWithFields() {
-      console.info(this.fields, this.panels);
       return this.panels.map(panel => {
         return {
           name: panel.name,
