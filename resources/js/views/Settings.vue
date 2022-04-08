@@ -1,5 +1,7 @@
 <template>
   <LoadingView :loading="loading" :key="pageId">
+    <Head :title="__('novaSettings.navigationItemTitle') + (pageId !== 'general' ? ` (${pageId})` : '')" />
+
     <form v-if="fields && fields.length" @submit.prevent="update" autocomplete="off" dusk="nova-settings-form">
       <template v-for="panel in panelsWithFields" :key="panel.name">
         <!-- <template v-if="panel.component === 'detail-tabs' || panel.component === 'form-tabs'">
@@ -48,12 +50,6 @@
 import { Errors } from 'laravel-nova';
 
 export default {
-  props: ['pageId'],
-  metaInfo() {
-    return {
-      title: this.__('novaSettings.navigationItemTitle'),
-    };
-  },
   data() {
     return {
       pageId: false,
