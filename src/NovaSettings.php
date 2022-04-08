@@ -29,7 +29,12 @@ class NovaSettings extends Tool
         $menuItems = [];
         if (count($fields) === 1 && array_keys($fields)[0] === 'general') {
             $menuItems[] = MenuItem::link(__('novaSettings.general'), $basePath);
+        } else {
+            foreach ($fields as $key => $fields) {
+                $menuItems[] = MenuItem::link(__("novaSettings.{$key}"), "{$basePath}/{$key}");
+            }
         }
+
 
         return MenuSection::make(__('novaSettings.navigationItemTitle'), $menuItems)
             ->icon('adjustments')

@@ -1,6 +1,6 @@
 <template>
   <LoadingView :loading="loading" :key="pageId">
-    <form v-if="panels" @submit.prevent="update" autocomplete="off" dusk="nova-settings-form">
+    <form v-if="fields && fields.length" @submit.prevent="update" autocomplete="off" dusk="nova-settings-form">
       <template v-for="(panel, i) in panelsWithFields">
         <template v-if="panel.component === 'detail-tabs' || panel.component === 'form-tabs'">
           <h1 class="text-90 font-normal text-2xl mb-3 nova-heading" :key="i">{{ panel.name }}</h1>
@@ -36,12 +36,9 @@
       </div>
     </form>
 
-    <div class="py-3 px-6 border-50" v-else>
-      <div class="flex">
-        <div class="w-1/4 py-4">
-          <h4 class="font-normal text-80">Error</h4>
-        </div>
-        <div class="w-3/4 py-4">
+    <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-3" v-else>
+      <div class="flex flex-col justify-center align-center">
+        <div class="w-3/4 py-4 text-center">
           <p class="text-90">{{ __('novaSettings.noSettingsFieldsText') }}</p>
         </div>
       </div>
@@ -75,11 +72,6 @@ export default {
     this.pageId = match[1] || 'general';
 
     this.getFields();
-  },
-  watch: {
-    // $route(to, from) {
-    //   if (to.params.id !== from.params.id) this.getFields();
-    // },
   },
   methods: {
     async getFields() {
