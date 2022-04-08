@@ -1,5 +1,5 @@
 <template>
-  <loading-view :loading="loading" :key="$route.params.id">
+  <LoadingView :loading="loading" :key="pageId">
     <form v-if="panels" @submit.prevent="update" autocomplete="off" dusk="nova-settings-form">
       <template v-for="(panel, i) in panelsWithFields">
         <template v-if="panel.component === 'detail-tabs' || panel.component === 'form-tabs'">
@@ -7,7 +7,7 @@
           <form-tabs
             :key="i"
             :resource-name="'nova-settings'"
-            :resource-id="$route.params.id || 'general'"
+            :resource-id="pageId"
             :errors="validationErrors"
             :field="{ component: 'tabs', fields: panel.fields }"
             :name="panel.name"
@@ -22,7 +22,7 @@
           :key="panel.name"
           :fields="panel.fields"
           :resource-name="'nova-settings'"
-          :resource-id="$route.params.id || 'general'"
+          :resource-id="pageId"
           mode="form"
           class="mb-6"
           :validation-errors="validationErrors"
@@ -46,13 +46,14 @@
         </div>
       </div>
     </div>
-  </loading-view>
+  </LoadingView>
 </template>
 
 <script>
 import { Errors } from 'laravel-nova';
 
 export default {
+  props: ['pageId'],
   metaInfo() {
     return {
       title: this.__('novaSettings.navigationItemTitle'),
@@ -60,6 +61,7 @@ export default {
   },
   data() {
     return {
+      pageId: false,
       loading: false,
       isUpdating: false,
       fields: [],
@@ -69,12 +71,15 @@ export default {
     };
   },
   async created() {
+    const match = location.pathname.match(/\/(?:nova-settings)\/?(.+)?/);
+    this.pageId = match[1] || 'general';
+
     this.getFields();
   },
   watch: {
-    $route(to, from) {
-      if (to.params.id !== from.params.id) this.getFields();
-    },
+    // $route(to, from) {
+    //   if (to.params.id !== from.params.id) this.getFields();
+    // },
   },
   methods: {
     async getFields() {
@@ -82,7 +87,7 @@ export default {
       this.fields = [];
 
       const params = { editing: true, editMode: 'update' };
-      if (this.$route.params.id) params.path = this.$route.params.id;
+      if (this.pageId) params.path = this.pageId;
 
       const {
         data: { fields, panels, authorizations },
@@ -90,7 +95,7 @@ export default {
         .get('/nova-vendor/nova-settings/settings', { params })
         .catch(error => {
           if (error.response.status == 404) {
-            this.$router.push({ name: '404' });
+            // this.$router.push({ name: '404' });
             return;
           }
         });
@@ -129,19 +134,20 @@ export default {
   },
   computed: {
     formData() {
-      return _.tap(new FormData(), formData => {
-        _(this.fields).each(field => field.fill(formData));
-        formData.append('_method', 'POST');
-        if (this.$route.params.id) formData.append('path', this.$route.params.id);
-      });
+      // return _.tap(new FormData(), formData => {
+      //   _(this.fields).each(field => field.fill(formData));
+      //   formData.append('_method', 'POST');
+      //   if (this.pageId) formData.append('path', this.pageId);
+      // });
     },
     panelsWithFields() {
-      return _.map(this.panels, panel => {
+      console.info(this.fields, this.panels);
+      return this.panels.map(panel => {
         return {
           name: panel.name,
           component: panel.component,
           helpText: panel.helpText,
-          fields: _.filter(this.fields, field => field.panel == panel.name),
+          fields: this.fields.filter(field => field.panel == panel.name),
         };
       });
     },

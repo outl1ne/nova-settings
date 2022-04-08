@@ -129,7 +129,7 @@ class SettingsController extends Controller
     {
         return NovaSettings::getFields($path);
     }
-    
+
     protected function makeFakeResource(string $fieldName, $fieldValue)
     {
         $fakeResource = new \stdClass;
@@ -161,5 +161,13 @@ class SettingsController extends Controller
     protected function unauthorized()
     {
         return response()->json(['error' => 'Unauthorized'], 403);
+    }
+
+    protected function assignToPanels($label, FieldCollection $fields)
+    {
+        return $fields->map(function ($field) use ($label) {
+            if (!$field->panel) $field->panel = $label;
+            return $field;
+        });
     }
 }

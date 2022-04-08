@@ -2,11 +2,12 @@
 
 namespace OptimistDigital\NovaSettings;
 
+use Laravel\Nova\Nova;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 use OptimistDigital\NovaSettings\Http\Middleware\Authorize;
-use OptimistDigital\NovaSettings\Http\Middleware\SettingsPathExists;
 use OptimistDigital\NovaTranslationsLoader\LoadsNovaTranslations;
+use OptimistDigital\NovaSettings\Http\Middleware\SettingsPathExists;
 
 class NovaSettingsServiceProvider extends ServiceProvider
 {
@@ -52,6 +53,12 @@ class NovaSettingsServiceProvider extends ServiceProvider
 
     protected function registerRoutes()
     {
+        // Register nova routes
+        Nova::router()->group(function ($router) {
+            $path = config('nova-settings.base_path', 'nova-settings');
+            $router->get("{$path}/{pageId?}", fn () => inertia('NovaSettings', ['basePath' => $path]));
+        });
+
         if ($this->app->routesAreCached()) return;
 
         Route::middleware(['nova', Authorize::class, SettingsPathExists::class])
