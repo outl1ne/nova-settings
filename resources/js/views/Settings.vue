@@ -66,6 +66,7 @@ export default {
     };
   },
   async created() {
+    // TODO Figure out how to access InertiaJS route params
     const match = location.pathname.match(/\/(?:nova-settings)\/?(.+)?/);
     this.pageId = match[1] || 'general';
 
