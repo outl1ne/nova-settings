@@ -22,7 +22,7 @@ class NovaSettingsServiceProvider extends ServiceProvider
     {
         $this->loadViewsFrom(__DIR__ . '/../resources/views', 'nova-settings');
         $this->loadMigrationsFrom(__DIR__ . '/../database/migrations');
-        $this->loadTranslations(__DIR__ . '/../resources/lang', 'nova-settings', true);
+        $this->loadTranslations(__DIR__ . '/../lang', 'nova-settings', true);
 
         if ($this->app->runningInConsole()) {
             // Publish migrations

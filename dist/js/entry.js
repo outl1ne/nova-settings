@@ -4635,10 +4635,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 return _context3.abrupt("return");
 
               case 8:
-                _this3.$toasted.show(_this3.__('novaSettings.settingsSuccessToast'), {
-                  type: 'success'
-                }); // Reset the form by refetching the fields
-
+                Nova.success(_this3.__('novaSettings.settingsSuccessToast')); // Reset the form by refetching the fields
 
                 _context3.next = 11;
                 return _this3.getFields();
@@ -4673,16 +4670,18 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     }
   },
   computed: {
-    formData: function formData() {// return _.tap(new FormData(), formData => {
-      //   _(this.fields).each(field => field.fill(formData));
-      //   formData.append('_method', 'POST');
-      //   if (this.pageId) formData.append('path', this.pageId);
-      // });
+    formData: function formData() {
+      var formData = new FormData();
+      this.fields.forEach(function (field) {
+        return field.fill(formData);
+      });
+      formData.append('_method', 'POST');
+      if (this.pageId) formData.append('path', this.pageId);
+      return formData;
     },
     panelsWithFields: function panelsWithFields() {
       var _this4 = this;
 
-      console.info(this.fields, this.panels);
       return this.panels.map(function (panel) {
         return {
           name: panel.name,
@@ -4751,7 +4750,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 
   var _component_form_panel = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("form-panel");
 
-  var _component_progress_button = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("progress-button");
+  var _component_LoadingButton = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("LoadingButton");
 
   var _component_LoadingView = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("LoadingView");
 
@@ -4807,7 +4806,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         );
       }), 256
       /* UNKEYED_FRAGMENT */
-      )), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Update Button "), $data.authorizations.authorizedToUpdate ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_progress_button, {
+      )), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Update Button "), $data.authorizations.authorizedToUpdate ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_LoadingButton, {
         type: "submit",
         "class": "ml-auto",
         disabled: $data.isUpdating,
