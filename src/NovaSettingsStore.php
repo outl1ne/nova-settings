@@ -76,7 +76,7 @@ class NovaSettingsStore
             return collect($settingKeys)->flatMap(function ($settingKey) use ($settings, $defaults) {
                 $settingValue = $settings[$settingKey] ?? null;
 
-                if (!empty($settingValue)) {
+                if (isset($settingValue)) {
                     $this->cache[$settingKey] = $settingValue;
                     return [$settingKey => $settingValue];
                 } else {
