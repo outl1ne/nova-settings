@@ -20,7 +20,6 @@ class NovaSettingsServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $this->loadViewsFrom(__DIR__ . '/../resources/views', 'nova-settings');
         $this->loadMigrationsFrom(__DIR__ . '/../database/migrations');
         $this->loadTranslations(__DIR__ . '/../lang', 'nova-settings', true);
 
