@@ -101,6 +101,21 @@ class NovaSettingsStore
         return $setting;
     }
 
+    public function clearCache($keyNames = null)
+    {
+        // Clear whole cache
+        if (empty($keyNames)) {
+            $this->cache = [];
+            return;
+        }
+
+        // Clear specific keys
+        if (is_string($keyNames)) $keyNames = [$keyNames];
+        foreach ($keyNames as $key) {
+            unset($this->cache[$key]);
+        }
+    }
+
     public function clearFields()
     {
         $this->fields = [];

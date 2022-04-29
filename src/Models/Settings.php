@@ -18,6 +18,13 @@ class Settings extends Model
         $this->setTable(NovaSettings::getSettingsTableName());
     }
 
+    protected static function booted()
+    {
+        static::updated(function ($setting) {
+            NovaSettings::getStore()->clearCache($setting->key);
+        });
+    }
+
     public function setValueAttribute($value)
     {
         $this->attributes['value'] = is_array($value) ? json_encode($value) : $value;

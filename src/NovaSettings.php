@@ -134,7 +134,7 @@ class NovaSettings extends Tool
         return array_key_exists($path, static::getFields());
     }
 
-    protected static function getStore(): NovaSettingsStore
+    public static function getStore(): NovaSettingsStore
     {
         return app()->make(NovaSettingsStore::class);
     }
