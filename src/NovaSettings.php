@@ -28,7 +28,7 @@ class NovaSettings extends Tool
 
         $menuItems = [];
         foreach ($fields as $key => $fields) {
-            $menuItems[] = MenuItem::link(__("novaSettings.{$key}"), "{$basePath}/{$key}");
+            $menuItems[] = MenuItem::link(self::getPageName($key), "{$basePath}/{$key}");
         }
 
 
