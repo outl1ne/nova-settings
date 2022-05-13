@@ -1,10 +1,10 @@
 <?php
 
-namespace OptimistDigital\NovaSettings\Tests\Feature;
+namespace Outl1ne\NovaSettings\Tests\Feature;
 
 use Laravel\Nova\Fields\Text;
-use OptimistDigital\NovaSettings\NovaSettings;
-use OptimistDigital\NovaSettings\Tests\IntegrationTestCase;
+use Outl1ne\NovaSettings\NovaSettings;
+use Outl1ne\NovaSettings\Tests\IntegrationTestCase;
 
 class SettingsRetrieveTest extends IntegrationTestCase
 {

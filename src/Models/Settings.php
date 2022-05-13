@@ -1,9 +1,9 @@
 <?php
 
-namespace OptimistDigital\NovaSettings\Models;
+namespace Outl1ne\NovaSettings\Models;
 
+use Outl1ne\NovaSettings\NovaSettings;
 use Illuminate\Database\Eloquent\Model;
-use OptimistDigital\NovaSettings\NovaSettings;
 
 class Settings extends Model
 {

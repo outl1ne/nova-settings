@@ -1,16 +1,16 @@
 <?php
 
-namespace OptimistDigital\NovaSettings\Http\Controllers;
+namespace Outl1ne\NovaSettings\Http\Controllers;
 
 use Laravel\Nova\Panel;
 use Illuminate\Http\Request;
 use Laravel\Nova\ResolvesFields;
 use Illuminate\Routing\Controller;
 use Laravel\Nova\Contracts\Resolvable;
+use Outl1ne\NovaSettings\NovaSettings;
 use Laravel\Nova\Fields\FieldCollection;
 use Illuminate\Support\Facades\Validator;
 use Laravel\Nova\Http\Requests\NovaRequest;
-use OptimistDigital\NovaSettings\NovaSettings;
 use Illuminate\Http\Resources\ConditionallyLoadsAttributes;
 
 class SettingsController extends Controller

@@ -1,10 +1,10 @@
 <?php
 
-namespace OptimistDigital\NovaSettings\Tests\Browser;
+namespace Outl1ne\NovaSettings\Tests\Browser;
 
 use App\Models\User;
 use Laravel\Dusk\Browser;
-use OptimistDigital\NovaSettings\Tests\DuskTestCase;
+use Outl1ne\NovaSettings\Tests\DuskTestCase;
 
 class DetailTest extends DuskTestCase
 {

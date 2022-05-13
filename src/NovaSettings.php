@@ -1,6 +1,6 @@
 <?php
 
-namespace OptimistDigital\NovaSettings;
+namespace Outl1ne\NovaSettings;
 
 use Laravel\Nova\Nova;
 use Laravel\Nova\Tool;
@@ -8,7 +8,7 @@ use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Laravel\Nova\Menu\MenuItem;
 use Laravel\Nova\Menu\MenuSection;
-use OptimistDigital\NovaSettings\Models\Settings;
+use Outl1ne\NovaSettings\Models\Settings;
 
 class NovaSettings extends Tool
 {
@@ -54,7 +54,7 @@ class NovaSettings extends Tool
     public static function getAuthorizations($key = null)
     {
         $request = request();
-        $fakeResource = new \OptimistDigital\NovaSettings\Nova\Resources\Settings(NovaSettings::getSettingsModel()::make());
+        $fakeResource = new \Outl1ne\NovaSettings\Nova\Resources\Settings(NovaSettings::getSettingsModel()::make());
 
         $authorizations = [
             'authorizedToView' => $fakeResource->authorizedToView($request),

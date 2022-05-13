@@ -1,12 +1,12 @@
 <?php
 
-namespace OptimistDigital\NovaSettings\Tests;
+namespace Outl1ne\NovaSettings\Tests;
 
 use Laravel\Nova\Nova;
 use Laravel\Dusk\Browser;
-use Illuminate\Foundation\Application;
 use Laravel\Nova\Fields\Text;
-use OptimistDigital\NovaSettings\NovaSettings;
+use Outl1ne\NovaSettings\NovaSettings;
+use Illuminate\Foundation\Application;
 
 abstract class DuskTestCase extends \Orchestra\Testbench\Dusk\TestCase
 {
@@ -72,7 +72,7 @@ abstract class DuskTestCase extends \Orchestra\Testbench\Dusk\TestCase
             'Fideloper\Proxy\TrustedProxyServiceProvider',
             'Laravel\Nova\NovaCoreServiceProvider',
             'Carbon\Laravel\ServiceProvider',
-            'OptimistDigital\NovaSettings\NovaSettingsServiceProvider',
+            'Outl1ne\NovaSettings\NovaSettingsServiceProvider',
         ];
     }
 
@@ -216,7 +216,7 @@ abstract class DuskTestCase extends \Orchestra\Testbench\Dusk\TestCase
     protected function captureFailuresFor($browsers)
     {
         $browsers->each(function (Browser $browser, $key) {
-            $name = str_replace('\\', '_', get_class($this)).'_'.$this->getName(false);
+            $name = str_replace('\\', '_', get_class($this)) . '_' . $this->getName(false);
             $browser->screenshot('failure-' . $this->getName() . '-' . $key);
         });
     }

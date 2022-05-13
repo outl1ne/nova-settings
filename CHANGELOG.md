@@ -5,6 +5,15 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [5.0.0] - 13-05-2022
+
+### Changed
+
+- NB! Changed namespace from OptimistDigital to Outl1ne
+- Allow redirections as a result of settings updates (thanks to [@ianrobertsFF](https://github.com/ianrobertsFF))
+- Fixed sidebar subpages titles (thanks to [@faab007nl](https://github.com/faab007nl))
+- Updated packages
+
 ## [4.0.4] - 29-04-2022
 
 ### Changed

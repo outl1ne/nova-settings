@@ -1,5 +1,5 @@
 {
-  "name": "optimistdigital/nova-settings",
+  "name": "outl1ne/nova-settings",
   "description": "A Laravel Nova tool for editing custom settings using native Nova fields.",
   "keywords": [
     "laravel",
@@ -8,8 +8,9 @@
   "license": "MIT",
   "require": {
     "php": ">=8.0",
+    "eminiarts/nova-tabs": "^2.0",
     "laravel/nova": "^4.0",
-    "optimistdigital/nova-translations-loader": "^4.0"
+    "outl1ne/nova-translations-loader": "^5.0"
   },
   "require-dev": {
     "orchestra/testbench": "^7.0",
@@ -19,7 +20,7 @@
   },
   "autoload": {
     "psr-4": {
-      "OptimistDigital\\NovaSettings\\": "src/"
+      "Outl1ne\\NovaSettings\\": "src/"
     },
     "files": [
       "./src/helpers.php"
@@ -27,13 +28,13 @@
   },
   "autoload-dev": {
     "psr-4": {
-      "OptimistDigital\\NovaSettings\\Tests\\": "tests"
+      "Outl1ne\\NovaSettings\\Tests\\": "tests"
     }
   },
   "extra": {
     "laravel": {
       "providers": [
-        "OptimistDigital\\NovaSettings\\NovaSettingsServiceProvider"
+        "Outl1ne\\NovaSettings\\NovaSettingsServiceProvider"
       ]
     }
   },

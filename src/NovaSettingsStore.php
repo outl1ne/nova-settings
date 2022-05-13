@@ -1,6 +1,6 @@
 <?php
 
-namespace OptimistDigital\NovaSettings;
+namespace Outl1ne\NovaSettings;
 
 use Illuminate\Support\Str;
 

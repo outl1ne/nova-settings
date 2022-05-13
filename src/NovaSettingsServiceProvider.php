@@ -1,13 +1,13 @@
 <?php
 
-namespace OptimistDigital\NovaSettings;
+namespace Outl1ne\NovaSettings;
 
 use Laravel\Nova\Nova;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
-use OptimistDigital\NovaSettings\Http\Middleware\Authorize;
-use OptimistDigital\NovaTranslationsLoader\LoadsNovaTranslations;
-use OptimistDigital\NovaSettings\Http\Middleware\SettingsPathExists;
+use Outl1ne\NovaSettings\Http\Middleware\Authorize;
+use Outl1ne\NovaTranslationsLoader\LoadsNovaTranslations;
+use Outl1ne\NovaSettings\Http\Middleware\SettingsPathExists;
 
 class NovaSettingsServiceProvider extends ServiceProvider
 {

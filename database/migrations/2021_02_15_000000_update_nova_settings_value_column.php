@@ -3,9 +3,9 @@
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
-use OptimistDigital\NovaSettings\NovaSettings;
+use Outl1ne\NovaSettings\NovaSettings;
 
-class UpdateNovaSettingsValueColumn extends Migration
+return new class extends Migration
 {
     /**
      * Run the migrations.

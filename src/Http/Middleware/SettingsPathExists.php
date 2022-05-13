@@ -1,9 +1,9 @@
 <?php
 
-namespace OptimistDigital\NovaSettings\Http\Middleware;
+namespace Outl1ne\NovaSettings\Http\Middleware;
 
 
-use OptimistDigital\NovaSettings\NovaSettings;
+use Outl1ne\NovaSettings\NovaSettings;
 
 class SettingsPathExists
 {

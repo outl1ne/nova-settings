@@ -1,6 +1,6 @@
 <?php
 
-use OptimistDigital\NovaSettings\NovaSettings;
+use Outl1ne\NovaSettings\NovaSettings;
 
 if (!function_exists('nova_get_settings')) {
     function nova_get_settings($settingKeys = null, $defaults = [])

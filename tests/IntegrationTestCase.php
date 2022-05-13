@@ -1,13 +1,13 @@
 <?php
 
-namespace OptimistDigital\NovaSettings\Tests;
+namespace Outl1ne\NovaSettings\Tests;
 
 use Laravel\Nova\Nova;
-use Illuminate\Support\Facades\Route;
 use Laravel\Nova\NovaServiceProvider;
-use OptimistDigital\NovaSettings\NovaSettings;
+use Illuminate\Support\Facades\Route;
+use Outl1ne\NovaSettings\NovaSettings;
 use Orchestra\Testbench\TestCase as Orchestra;
-use OptimistDigital\NovaSettings\NovaSettingsServiceProvider;
+use Outl1ne\NovaSettings\NovaSettingsServiceProvider;
 
 abstract class IntegrationTestCase extends Orchestra
 {

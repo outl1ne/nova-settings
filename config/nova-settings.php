@@ -24,7 +24,7 @@ return [
      * The model you want to use as a model needs to extend the original model.
      */
     'models' => [
-        'settings' => \OptimistDigital\NovaSettings\Models\Settings::class,
+        'settings' => \Outl1ne\NovaSettings\Models\Settings::class,
     ],
 
     /**
