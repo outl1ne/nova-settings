@@ -4,19 +4,6 @@
 
     <form v-if="fields && fields.length" @submit.prevent="update" autocomplete="off" dusk="nova-settings-form">
       <template v-for="panel in panelsWithFields" :key="panel.name">
-        <template v-if="panel.component === 'detail-tabs' || panel.component === 'form-tabs'">
-          <h1 class="text-90 font-normal text-2xl mb-3 nova-heading" :key="i">{{ panel.name }}</h1>
-          <form-tabs
-            :key="i"
-            :resource-name="'nova-settings'"
-            :resource-id="pageId"
-            :errors="validationErrors"
-            :field="{ component: 'tabs', fields: panel.fields }"
-            :name="panel.name"
-            class="mb-3"
-          />
-        </template>
-
         <form-panel
           :panel="panel"
           :name="panel.name"
