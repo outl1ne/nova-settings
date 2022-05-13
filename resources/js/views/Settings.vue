@@ -93,9 +93,14 @@ export default {
       try {
         this.isUpdating = true;
         const response = await this.updateRequest();
-        if (response && response.data && response.data.reload === true) {
-          location.reload();
-          return;
+        if (response && response.data) {
+          if (response.data.reload === true) {
+            location.reload();
+            return;
+          } else if (response.data.redirect && response.data.redirect.length > 0) {
+            location.replace(response.data.redirect);
+            return;
+          }
         }
         Nova.success(this.__('novaSettings.settingsSuccessToast'));
 
