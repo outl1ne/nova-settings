@@ -129,9 +129,3 @@ export default {
   },
 };
 </script>
-
-<style scoped>
-.relationship-tabs-panel {
-  flex-direction: column;
-}
-</style>
