@@ -31,4 +31,4 @@ return new class extends Migration
     {
         // No down because previous migration was also modified
     }
-}
+};
