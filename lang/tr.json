@@ -1,0 +1,7 @@
+{
+  "novaSettings.navigationItemTitle": "Ayarlar",
+  "novaSettings.saveButtonText": "Ayarları Kaydet",
+  "novaSettings.noSettingsFieldsText": "Henüz bir ayar alanı tanımlamadınız.",
+  "novaSettings.settingsSuccessToast": "Ayarlar başarıyla güncellendi!",
+  "novaSettings.general": "Genel"
+}
