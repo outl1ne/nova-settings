@@ -5,11 +5,10 @@ namespace Outl1ne\NovaSettings;
 use Laravel\Nova\Nova;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
+use Laravel\Nova\Http\Middleware\Authenticate;
 use Outl1ne\NovaSettings\Http\Middleware\Authorize;
 use Outl1ne\NovaTranslationsLoader\LoadsNovaTranslations;
 use Outl1ne\NovaSettings\Http\Middleware\SettingsPathExists;
-
-use Laravel\Nova\Http\Middleware\Authenticate;
 
 class NovaSettingsServiceProvider extends ServiceProvider
 {
@@ -57,7 +56,10 @@ class NovaSettingsServiceProvider extends ServiceProvider
         // Register nova routes
         Nova::router()->group(function ($router) {
             $path = config('nova-settings.base_path', 'nova-settings');
-            $router->get("{$path}/{pageId?}", fn ($pageId = 'general') => inertia('NovaSettings', ['basePath' => $path, 'pageId' => $pageId]))->middleware(['nova', Authenticate::class]);
+
+            $router
+                ->get("{$path}/{pageId?}", fn ($pageId = 'general') => inertia('NovaSettings', ['basePath' => $path, 'pageId' => $pageId]))
+                ->middleware(['nova', Authenticate::class]);
         });
 
         if ($this->app->routesAreCached()) return;
