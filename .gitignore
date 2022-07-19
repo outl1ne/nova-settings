@@ -10,3 +10,4 @@ Thumbs.db
 .env.dusk
 tests/Browser/console
 tests/Browser/screenshots
+auth.json
