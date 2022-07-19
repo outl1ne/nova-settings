@@ -9,7 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
-- Fixed files not being deleted from disk upon save
+- Fixed File and Image fields not deleting files from disk
 
 ## [5.0.2] - 24-05-2022
 
