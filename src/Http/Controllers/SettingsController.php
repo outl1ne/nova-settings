@@ -8,6 +8,7 @@ use Laravel\Nova\ResolvesFields;
 use Illuminate\Routing\Controller;
 use Laravel\Nova\Contracts\Resolvable;
 use Outl1ne\NovaSettings\NovaSettings;
+use Illuminate\Support\Facades\Storage;
 use Laravel\Nova\Fields\FieldCollection;
 use Illuminate\Support\Facades\Validator;
 use Laravel\Nova\Http\Requests\NovaRequest;
@@ -114,9 +115,18 @@ class SettingsController extends Controller
 
         $existingRow = NovaSettings::getSettingsModel()::where('key', $fieldName)->first();
         if (isset($existingRow)) {
+            $field = collect(NovaSettings::getFields($pathName))->firstWhere('attribute', $fieldName);
+
+            // Delete file if exists
+            if (isset($field) && $field instanceof \Laravel\Nova\Fields\File) {
+                $disk = $field->getStorageDisk();
+                Storage::disk($disk)->delete($existingRow->value);
+            }
+
             $existingRow->value = null;
             $existingRow->save();
         }
+
         return response('', 204);
     }
 
