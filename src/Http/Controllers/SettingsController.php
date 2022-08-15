@@ -132,7 +132,7 @@ class SettingsController extends Controller
 
     protected function availableFields($path = 'general')
     {
-        return (new FieldCollection(($this->filter(NovaSettings::getFields($path)))))->authorized(request());
+        return (new FieldCollection($this->filter(NovaSettings::getFields($path))))->authorized(request());
     }
 
     protected function fields(Request $request, $path = 'general')
