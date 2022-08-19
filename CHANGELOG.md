@@ -5,6 +5,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [5.0.3] - 19-08-2022
+
+### Changed
+
+- Fixed nova-tabs support (thanks to [@Gertiozuni](https://github.com/Gertiozuni))
+- Updated packages
+
 ## [5.0.3] - 19-07-2022
 
 ### Changed
