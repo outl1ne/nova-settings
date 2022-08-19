@@ -4,7 +4,8 @@
 
     <form v-if="fields && fields.length" @submit.prevent="update" autocomplete="off" dusk="nova-settings-form">
       <template v-for="panel in panelsWithFields" :key="panel.name">
-        <form-panel
+        <component
+          :is="`form-` + panel.component"
           :panel="panel"
           :name="panel.name"
           :fields="panel.fields"
@@ -122,7 +123,8 @@ export default {
           name: panel.name,
           component: panel.component,
           helpText: panel.helpText,
-          fields: this.fields.filter(field => field.panel == panel.name),
+          fields: this.fields.filter(field => field.panel === panel.name),
+          showTitle: panel.showTitle,
         };
       });
     },
