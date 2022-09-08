@@ -14,6 +14,7 @@
           mode="form"
           class="mb-6"
           :validation-errors="validationErrors"
+          :show-help-text="true"
         />
       </template>
       <!-- Update Button -->
