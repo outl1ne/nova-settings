@@ -1,0 +1,8 @@
+{
+    "novaSettings.navigationItemTitle": "Paramètres",
+    "novaSettings.saveButtonText": "Enregistrer paramètres",
+    "novaSettings.noSettingsFieldsText": "Aucun champ paramètres n'a été défini.",
+    "novaSettings.settingsSuccessToast": "Paramètres mis à jour !",
+    "novaSettings.general": "Paramètres généraux"
+  }
+  
