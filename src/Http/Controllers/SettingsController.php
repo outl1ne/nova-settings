@@ -170,7 +170,7 @@ class SettingsController extends Controller
 
     protected function unauthorized()
     {
-        return response()->json(['error' => 'Unauthorized'], 403);
+        return response()->json(['error' => 'Unauthorized'], 401);
     }
 
     protected function assignToPanels($label, FieldCollection $fields)
