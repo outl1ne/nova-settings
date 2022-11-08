@@ -1,0 +1,7 @@
+{
+  "novaSettings.navigationItemTitle": "Nastavenia",
+  "novaSettings.saveButtonText": "Uložiť nastavenia",
+  "novaSettings.noSettingsFieldsText": "Neboli definované žiadne polia nastavení.",
+  "novaSettings.settingsSuccessToast": "Nastavenia boli úspešne aktualizované!",
+  "novaSettings.general": "Všeobecné"
+}
