@@ -71,7 +71,7 @@ class NovaSettingsStore
                 return [$settingKey => $this->cache[$settingKey]];
             })->toArray();
 
-            $settings = $settingsModel::whereIn('key', $settingKeys)->pluck('value', 'key');
+            $settings = $settingsModel::whereIn('key', $settingKeys)->get()->pluck('value', 'key');
 
             return collect($settingKeys)->flatMap(function ($settingKey) use ($settings, $defaults) {
                 $settingValue = $settings[$settingKey] ?? null;
