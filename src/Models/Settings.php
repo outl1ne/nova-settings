@@ -27,7 +27,9 @@ class Settings extends Model
 
     public function setValueAttribute($value)
     {
-        $this->attributes['value'] = is_array($value) ? json_encode($value) : $value;
+        $this->attributes['value'] = is_array($value) || is_object($value) && $value instanceof JsonSerializable
+            ? json_encode($value) 
+            : $value;
     }
 
     public function getValueAttribute($value)
