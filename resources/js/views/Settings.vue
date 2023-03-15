@@ -22,7 +22,7 @@
         <LoadingButton dusk="update-button" type="submit" class="ml-auto" :disabled="isUpdating" :processing="isUpdating">
           {{ __('novaSettings.saveButtonText') }}
         </LoadingButton>
-        
+
       </div>
     </form>
 
@@ -78,6 +78,11 @@ export default {
       this.panels = panels;
       this.authorizations = authorizations;
       this.loading = false;
+      if (this.isUpdating) {
+        Nova.$emit('nova-settings-fields-updated');
+      } else {
+        Nova.$emit('nova-settings-fields-loaded');
+      }
     },
     async update() {
       try {
