@@ -115,7 +115,8 @@ class SettingsController extends Controller
 
         $existingRow = NovaSettings::getSettingsModel()::where('key', $fieldName)->first();
         if (isset($existingRow)) {
-            $field = collect(NovaSettings::getFields($pathName))->firstWhere('attribute', $fieldName);
+            $fields = collect(NovaSettings::getFields($pathName));
+            $field = $this->findField($fields, $fieldName);
 
             // Delete file if exists
             if (isset($field) && $field instanceof \Laravel\Nova\Fields\File) {
@@ -128,6 +129,30 @@ class SettingsController extends Controller
         }
 
         return response('', 204);
+    }
+
+    protected function findField($fields, $fieldName)
+    {
+        if (empty($fields)) return null;
+
+        $field = $fields->firstWhere('attribute', $fieldName);
+
+        // Target field might be inside container field
+        if (empty($field)) {
+            foreach ($fields as  $value) {
+                if ($value instanceof \Laravel\Nova\Panel) {
+                    $field = $this->findField(collect($value->data), $fieldName);
+                    if (!empty($field)) return $field;
+                }
+
+                if ($value instanceof \Eminiarts\Tabs\Tabs) {
+                    $field = $this->findField(collect($value->data, $fieldName));
+                    if (!empty($field)) return $field;
+                }
+            }
+        }
+
+        return $field;
     }
 
     protected function availableFields($path = 'general')
