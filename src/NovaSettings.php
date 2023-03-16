@@ -26,15 +26,22 @@ class NovaSettings extends Tool
 
         if (!$isAuthorized || !$showInSidebar || empty($fields)) return null;
 
-        $menuItems = [];
-        foreach ($fields as $key => $fields) {
-            $menuItems[] = MenuItem::link(self::getPageName($key), "{$basePath}/{$key}");
+        if (count($fields) == 1) {
+            
+            return MenuSection::make(__('novaSettings.navigationItemTitle'))
+                ->path($basePath . '/' . array_key_first($fields))
+                ->icon('adjustments');
+        } 
+        else {
+            $menuItems = [];
+            foreach ($fields as $key => $fields) {
+                $menuItems[] = MenuItem::link(self::getPageName($key), "{$basePath}/{$key}");
+            }
+
+            return MenuSection::make(__('novaSettings.navigationItemTitle'), $menuItems)
+                ->icon('adjustments')
+                ->collapsable();
         }
-
-
-        return MenuSection::make(__('novaSettings.navigationItemTitle'), $menuItems)
-            ->icon('adjustments')
-            ->collapsable();
     }
 
     public static function getSettingsTableName(): string
