@@ -5,12 +5,19 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [5.1.0] - 20-03-2023
 
-## [5.0.9] - 16-03-2023
+### Added
 
-- Added image deletion support for \Nova\Panels and \Eminiarts\Tabs
-- Added slovak language
-- Settings submenu is now hidden if there is only 1 menu element
+- Added Slovak language (thanks to [@wamesro](https://github.com/wamesro))
+- Added resource-loaded and resource-updated Nova events
+
+### Changed
+
+- Allow encoding of JsonSerializable objects (thanks to [@miagg](https://github.com/miagg))
+- Settings submenu is now hidden if there is only 1 menu element (thanks to [@johnpuddephatt](https://github.com/johnpuddephatt))
+- Fixed image deletion when the image is inside a \Nova\Panel or \Eminiarts\Tabs (thanks to [@marttinnotta](https://github.com/marttinnotta))
+- Updated packages
 
 ## [5.0.8] - 04-01-2023
 
