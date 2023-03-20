@@ -19,10 +19,15 @@
       </template>
       <!-- Update Button -->
       <div class="flex items-center" v-if="authorizations.authorizedToUpdate">
-        <LoadingButton dusk="update-button" type="submit" class="ml-auto" :disabled="isUpdating" :processing="isUpdating">
+        <LoadingButton
+          dusk="update-button"
+          type="submit"
+          class="ml-auto"
+          :disabled="isUpdating"
+          :processing="isUpdating"
+        >
           {{ __('novaSettings.saveButtonText') }}
         </LoadingButton>
-        
       </div>
     </form>
 
@@ -78,6 +83,12 @@ export default {
       this.panels = panels;
       this.authorizations = authorizations;
       this.loading = false;
+
+      // Dispatch event
+      const eventName = this.isUpdating ? 'resource-updated' : 'resource-loaded';
+      Nova.$emit(eventName, {
+        resourceName: 'nova-settings',
+      });
     },
     async update() {
       try {
