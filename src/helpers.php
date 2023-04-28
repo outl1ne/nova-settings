@@ -1,6 +1,7 @@
 <?php
 
 use Outl1ne\NovaSettings\NovaSettings;
+use Illuminate\Support\Facades\Cache;
 
 if (!function_exists('nova_get_settings')) {
     function nova_get_settings(array $settingKeys = null,bool $cacheTime=0, $defaults = [])
