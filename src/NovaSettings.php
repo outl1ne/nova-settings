@@ -26,6 +26,8 @@ class NovaSettings extends Tool
 
         if (!$isAuthorized || !$showInSidebar || empty($fields)) return null;
 
+        $fields = array_filter($fields, fn ($field) => self::canSeePage($field), ARRAY_FILTER_USE_KEY);
+
         if (count($fields) == 1) {
             
             return MenuSection::make(__('novaSettings.navigationItemTitle'))
@@ -85,9 +87,9 @@ class NovaSettings extends Tool
      * @param array|callable $fields Array of fields/panels to be displayed or callable that returns an array.
      * @param array $casts Associative array same as Laravel's $casts on models.
      **/
-    public static function addSettingsFields($fields = [], $casts = [], $path = 'general')
+    public static function addSettingsFields($fields = [], $casts = [], $path = 'general', $authorization = null)
     {
-        return static::getStore()->addSettingsFields($fields, $casts, $path);
+        return static::getStore()->addSettingsFields($fields, $casts, $path, $authorization);
     }
 
     /**
@@ -104,6 +106,11 @@ class NovaSettings extends Tool
     {
         if (!$path) return static::getStore()->getRawFields();
         return static::getStore()->getFields($path);
+    }
+
+    public static function canSeePage($path)
+    {
+        return static::getStore()->getAuthorization($path);
     }
 
     public static function clearFields()

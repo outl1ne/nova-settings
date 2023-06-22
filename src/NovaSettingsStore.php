@@ -9,8 +9,9 @@ class NovaSettingsStore
     protected $cache = [];
     protected $fields = [];
     protected $casts = [];
+    protected $authorizations = [];
 
-    public function addSettingsFields($fields = [], $casts = [], $path = 'general')
+    public function addSettingsFields($fields = [], $casts = [], $path = 'general', $authorization = null)
     {
         $path = Str::lower(Str::slug($path));
 
@@ -18,6 +19,8 @@ class NovaSettingsStore
         $this->fields[$path] = array_merge($this->fields[$path] ?? [], $fields ?? []);
 
         $this->casts = array_merge($this->casts, $casts ?? []);
+
+        $this->authorizations[$path] = $authorization ?? config('nova-settings.default_page_authorization', Settings::class);
 
         return $this;
     }
@@ -46,6 +49,11 @@ class NovaSettingsStore
         }
 
         return $fields;
+    }
+
+    public function getAuthorization($path = 'general')
+    {
+        return $this->authorizations[$path];
     }
 
     public function getCasts()
