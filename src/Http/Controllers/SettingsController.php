@@ -86,10 +86,10 @@ class SettingsController extends Controller
 
             $existingRow = $settingsClass::where('key', $field->attribute)->first();
 
-            $tempResource =  new \stdClass;
+            $tempResource = new \Laravel\Nova\Support\Fluent;
             $field->fill($request, $tempResource);
 
-            if (!property_exists($tempResource, $field->attribute)) return;
+            if (!isset($tempResource->{$field->attribute})) return;
 
             if (isset($existingRow)) {
                 $existingRow->value = $tempResource->{$field->attribute};
@@ -166,7 +166,7 @@ class SettingsController extends Controller
 
     protected function makeFakeResource(string $fieldName, $fieldValue)
     {
-        $fakeResource = new \stdClass;
+        $fakeResource = new \Laravel\Nova\Support\Fluent;
         $fakeResource->{$fieldName} = $fieldValue;
         return $fakeResource;
     }
