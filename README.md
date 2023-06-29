@@ -8,7 +8,7 @@ This [Laravel Nova](https://nova.laravel.com) package allows you to create custo
 ## Requirements
 
 - `php: >=8.0`
-- `laravel/nova: ^4.0`
+- `laravel/nova: ^4.26`
 
 ## Features
 
