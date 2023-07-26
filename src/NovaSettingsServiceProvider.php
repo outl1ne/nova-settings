@@ -59,12 +59,14 @@ class NovaSettingsServiceProvider extends ServiceProvider
 
             $router
                 ->get("{$path}/{pageId?}", fn ($pageId = 'general') => inertia('NovaSettings', ['basePath' => $path, 'pageId' => $pageId]))
-                ->middleware(['nova', Authenticate::class]);
+                ->middleware(['nova', Authenticate::class])
+                ->domain(config('nova.domain', null));
         });
 
         if ($this->app->routesAreCached()) return;
 
         Route::middleware(['nova', Authorize::class, SettingsPathExists::class])
+            ->domain(config('nova.domain', null))
             ->group(__DIR__ . '/../routes/api.php');
     }
 }
