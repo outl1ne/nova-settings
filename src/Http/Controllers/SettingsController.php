@@ -89,7 +89,7 @@ class SettingsController extends Controller
             $tempResource = new \Laravel\Nova\Support\Fluent;
             $field->fill($request, $tempResource);
 
-            if (!isset($tempResource->{$field->attribute})) return;
+            if (!array_key_exists($field->attribute, $tempResource->getAttributes())) return;
 
             if (isset($existingRow)) {
                 $existingRow->value = $tempResource->{$field->attribute};
