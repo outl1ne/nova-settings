@@ -27,15 +27,28 @@ class Settings extends Model
 
     public function setValueAttribute($value)
     {
-        $this->attributes['value'] = is_array($value) || $value instanceof \JsonSerializable
-            ? json_encode($value) 
-            : $value;
+        $this->casts = NovaSettings::getCasts();
+
+        $castType = null;
+        if ($this->hasCast($this->key)) $castType = $this->getCastType($this->key);
+
+        switch ($castType) {
+            case 'datetime':
+            case 'date':
+                $this->attributes['value'] = $value;
+                return;
+
+            default:
+                $this->attributes['value'] = is_array($value) || $value instanceof \JsonSerializable
+                    ? json_encode($value)
+                    : $value;
+        }
     }
 
     public function getValueAttribute($value)
     {
         $originalCasts = $this->casts;
-        $this->casts =  NovaSettings::getCasts();
+        $this->casts = NovaSettings::getCasts();
 
         if ($this->hasCast($this->key)) {
             $value = $this->castAttribute($this->key, $value);
