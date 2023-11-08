@@ -5,6 +5,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [5.2.3] - 09-10-2023
+
+### Fixed
+
+- Fixed save button missing in Nova 4.28 (thanks to [@alancolant](https://github.com/alancolant))
+
 ## [5.2.2] - 09-10-2023
 
 ### Fixed
