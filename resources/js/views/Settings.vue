@@ -19,7 +19,7 @@
       </template>
       <!-- Update Button -->
       <div class="flex items-center" v-if="authorizations.authorizedToUpdate">
-        <LoadingButton
+        <SettingsLoadingButton
           dusk="update-button"
           type="submit"
           class="ml-auto"
@@ -27,7 +27,7 @@
           :processing="isUpdating"
         >
           {{ __('novaSettings.saveButtonText') }}
-        </LoadingButton>
+        </SettingsLoadingButton>
       </div>
     </form>
 
