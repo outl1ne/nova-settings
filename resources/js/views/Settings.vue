@@ -121,6 +121,18 @@ export default {
     updateRequest() {
       return Nova.request().post('/nova-vendor/nova-settings/settings', this.formData);
     },
+    async removeFile(fieldName) {
+      try {
+        this.isUpdating = true;
+        await Nova.request().delete(
+          `/nova-api/nova-settings/${this.pageId}/field/${fieldName}`
+        )
+      } catch (error) {
+        console.error(error);
+      } finally {
+        this.isUpdating = false;
+      }
+    },
   },
   computed: {
     formData() {
@@ -141,6 +153,11 @@ export default {
         };
       });
     },
+  },
+  provide() {
+    return {
+      removeFile: this.removeFile,
+    }
   },
 };
 </script>
