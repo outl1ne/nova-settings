@@ -13,10 +13,11 @@ use Laravel\Nova\Fields\FieldCollection;
 use Illuminate\Support\Facades\Validator;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Illuminate\Http\Resources\ConditionallyLoadsAttributes;
+use Outl1ne\NovaSettings\Traits\WithEvents;
 
 class SettingsController extends Controller
 {
-    use ResolvesFields, ConditionallyLoadsAttributes;
+    use ResolvesFields, ConditionallyLoadsAttributes, WithEvents;
 
     public function get(Request $request)
     {
@@ -58,7 +59,8 @@ class SettingsController extends Controller
     {
         if (!NovaSettings::getAuthorizations('authorizedToUpdate')) return $this->unauthorized();
 
-        $fields = $this->availableFields($request->get('path', 'general'));
+        $path = $request->get('path', 'general');
+        $fields = $this->availableFields($path);
 
         // NovaDependencyContainer support
         $fields = $fields->map(function ($field) {
@@ -76,30 +78,48 @@ class SettingsController extends Controller
 
         Validator::make($request->all(), $rules)->validate();
 
-        $fields->whereInstanceOf(Resolvable::class)->each(function ($field) use ($request) {
-            if (empty($field->attribute)) return;
-            if ($field->isReadonly(app(NovaRequest::class))) return;
-            $settingsClass = NovaSettings::getSettingsModel();
+        $this->processWithEvents($request, $fields, function (
+            NovaRequest     $request,
+            FieldCollection $fields,
+        ) use ($path) {
+            $changes = collect();
 
-            // For nova-translatable support
-            if (!empty($field->meta['translatable']['original_attribute'])) $field->attribute = $field->meta['translatable']['original_attribute'];
+            $fields->whereInstanceOf(Resolvable::class)
+                ->each(function ($field) use ($request, &$changes) {
+                    if (empty($field->attribute)) return;
+                    if ($field->isReadonly(app(NovaRequest::class))) return;
+                    $settingsClass = NovaSettings::getSettingsModel();
 
-            $existingRow = $settingsClass::where('key', $field->attribute)->first();
+                    // For nova-translatable support
+                    if (!empty($field->meta['translatable']['original_attribute'])) {
+                        $field->attribute = $field->meta['translatable']['original_attribute'];
+                    }
 
-            $tempResource = new \Laravel\Nova\Support\Fluent;
-            $field->fill($request, $tempResource);
+                    $tempResource = new \Laravel\Nova\Support\Fluent;
+                    $field->fill($request, $tempResource);
 
-            if (!array_key_exists($field->attribute, $tempResource->getAttributes())) return;
+                    if (!array_key_exists($field->attribute, $tempResource->getAttributes())) {
+                        return;
+                    }
 
-            if (isset($existingRow)) {
-                $existingRow->value = $tempResource->{$field->attribute};
-                $existingRow->save();
-            } else {
-                $newRow = new $settingsClass;
-                $newRow->key = $field->attribute;
-                $newRow->value = $tempResource->{$field->attribute};
-                $newRow->save();
-            }
+                    /** @var \Outl1ne\NovaSettings\Models\Settings $setting */
+                    $setting = $settingsClass::firstOrNew(['key' => $field->attribute]);
+                    $setting->value = $tempResource->{$field->attribute};
+
+                    if (
+                        $setting->isDirty('value')
+                        && $setting->save()
+                    ) {
+                        $changes->add([
+                            'is_create' => $setting->wasRecentlyCreated,
+                            'attribute' => $setting->key,
+                            'before' => $setting->getRawOriginal('value'),
+                            'after' => $setting->value,
+                        ]);
+                    }
+                });
+
+            return compact('path', 'changes');
         });
 
         if (config('nova-settings.reload_page_on_save', false) === true) {
@@ -174,8 +194,8 @@ class SettingsController extends Controller
     /**
      * Return the panels for this request with the default label.
      *
-     * @param  string  $label
-     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
+     * @param string $label
+     * @param \Laravel\Nova\Http\Requests\NovaRequest $request
      * @return array
      */
     protected function panelsWithDefaultLabel($label, NovaRequest $request)

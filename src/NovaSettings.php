@@ -2,6 +2,7 @@
 
 namespace Outl1ne\NovaSettings;
 
+use Closure;
 use Laravel\Nova\Nova;
 use Laravel\Nova\Tool;
 use Illuminate\Support\Str;
@@ -12,6 +13,10 @@ use Outl1ne\NovaSettings\Models\Settings;
 
 class NovaSettings extends Tool
 {
+    public static ?Closure $beforeUpdating = null;
+
+    public static ?Closure $afterUpdated = null;
+
     public function boot()
     {
         Nova::script('nova-settings', __DIR__ . '/../dist/js/entry.js');
@@ -27,12 +32,11 @@ class NovaSettings extends Tool
         if (!$isAuthorized || !$showInSidebar || empty($fields)) return null;
 
         if (count($fields) == 1) {
-            
+
             return MenuSection::make(__('novaSettings.navigationItemTitle'))
                 ->path($basePath . '/' . array_key_first($fields))
                 ->icon('adjustments');
-        } 
-        else {
+        } else {
             $menuItems = [];
             foreach ($fields as $key => $fields) {
                 $menuItems[] = MenuItem::link(self::getPageName($key), "{$basePath}/{$key}");
@@ -144,5 +148,15 @@ class NovaSettings extends Tool
     public static function getStore(): NovaSettingsStore
     {
         return app()->make(NovaSettingsStore::class);
+    }
+
+    public static function withUpdatingCallback(Closure $callback): void
+    {
+        NovaSettings::$beforeUpdating = $callback;
+    }
+
+    public static function withUpdatedCallback(Closure $callback): void
+    {
+        NovaSettings::$afterUpdated = $callback;
     }
 }
