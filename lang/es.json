@@ -1,0 +1,7 @@
+{
+  "novaSettings.navigationItemTitle": "Configuración",
+  "novaSettings.saveButtonText": "Guardar configuración",
+  "novaSettings.noSettingsFieldsText": "No se ha definido ningún campo de configuración.",
+  "novaSettings.settingsSuccessToast": "¡La configuración se ha actualizado correctamente!",
+  "novaSettings.general": "General"
+}
