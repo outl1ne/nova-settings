@@ -30,5 +30,22 @@ return [
     /**
      * Show the sidebar menu
      */
-    'show_in_sidebar' => true
+    'show_in_sidebar' => true,
+
+    /*
+    |--------------------------------------------------------------------------
+    | Cache settings
+    |--------------------------------------------------------------------------
+    |
+    | Here you may specify which of the cache connection should be used to
+    | cache the settings. `:memory:` is the default which is a simple
+    | in-memory cache through a singleton service class property.
+    | `null` will disable caching.
+    |
+    */
+    'cache' => [
+        'store' => env('NOVA_SETTINGS_CACHE_DRIVER', ':memory:'),
+
+        'prefix' => 'nova-settings:',
+    ],
 ];

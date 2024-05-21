@@ -161,11 +161,12 @@ The config file can be published using the following command:
 php artisan vendor:publish --provider="Outl1ne\NovaSettings\NovaSettingsServiceProvider" --tag="config"
 ```
 
-| Name                  | Type    | Default           | Description                                                                        |
-| --------------------- | ------- | ----------------- | ---------------------------------------------------------------------------------- |
-| `base_path`           | String  | `nova-settings`   | URL path of settings page.                                                         |
-| `reload_page_on_save` | Boolean | false             | Reload the entire page on save. Useful when updating any Nova UI related settings. |
-| `models.settings`     | Model   | `Settings::class` | Optionally override the Settings model.                                            |
+| Name                  | Type    | Default           | Description                                                                                      |
+|-----------------------|---------|-------------------|--------------------------------------------------------------------------------------------------|
+| `base_path`           | String  | `nova-settings`   | URL path of settings page.                                                                       |
+| `reload_page_on_save` | Boolean | false             | Reload the entire page on save. Useful when updating any Nova UI related settings.               |
+| `models.settings`     | Model   | `Settings::class` | Optionally override the Settings model.                                                          |
+| `cache`               | String  | `:memory:`        | Cache store name to use that cache, ":memory:" for singleton class, or null to turn off caching. |
 
 The migration can also be published and overwritten using:
 
