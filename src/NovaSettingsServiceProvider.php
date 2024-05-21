@@ -46,6 +46,11 @@ class NovaSettingsServiceProvider extends ServiceProvider
             'nova-settings'
         );
 
+        $this->registerSettingsStore();
+    }
+
+    protected function registerSettingsStore()
+    {
         $this->app->singleton(NovaSettingsStore::class, function () {
             return new NovaSettingsStore();
         });
