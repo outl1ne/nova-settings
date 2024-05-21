@@ -10,6 +10,14 @@ use Outl1ne\NovaSettings\Http\Middleware\Authorize;
 use Outl1ne\NovaTranslationsLoader\LoadsNovaTranslations;
 use Outl1ne\NovaSettings\Http\Middleware\SettingsPathExists;
 
+use function array_keys;
+use function config;
+use function config_path;
+use function database_path;
+use function in_array;
+use function inertia;
+use function is_array;
+
 class NovaSettingsServiceProvider extends ServiceProvider
 {
     use LoadsNovaTranslations;
@@ -46,9 +54,26 @@ class NovaSettingsServiceProvider extends ServiceProvider
             'nova-settings'
         );
 
-        $this->app->singleton(NovaSettingsStore::class, function () {
-            return new NovaSettingsStore();
-        });
+        $this->registerSettingsStore();
+    }
+
+    protected function registerSettingsStore()
+    {
+        $caching = config('nova-settings.cache.store');
+
+        if (is_array(config('cache.stores')) && in_array($caching, array_keys(config('cache.stores')))) {
+            $this->app->singleton(NovaSettingsStore::class, function () {
+                return new NovaSettingsCacheStore();
+            });
+        } else if ($caching === ':memory:') {
+            $this->app->singleton(NovaSettingsStore::class, function () {
+                return new NovaSettingsInMemoryStore();
+            });
+        } else {
+            $this->app->singleton(NovaSettingsStore::class, function () {
+                return new NovaSettingsNoCacheStore();
+            });
+        }
     }
 
     protected function registerRoutes()
