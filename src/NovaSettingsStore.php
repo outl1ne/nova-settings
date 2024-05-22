@@ -99,8 +99,10 @@ abstract class NovaSettingsStore
         }
 
         return $this->getSettingsModelClass()::all()
-            ->tap(function ($setting) {
-                $this->setCached($setting->key, $setting->value);
+            ->tap(function ($settings) {
+                $settings->each(function ($setting) {
+                    $this->setCached($setting->key, $setting->value);
+                });
             })
             ->pluck('value', 'key')
             ->toArray();
