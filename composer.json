@@ -1,5 +1,5 @@
 {
-  "name": "outl1ne/nova-settings",
+  "name": "hossam/nova-settings",
   "description": "A Laravel Nova tool for editing custom settings using native Nova fields.",
   "keywords": [
     "laravel",
@@ -8,14 +8,19 @@
   "license": "MIT",
   "require": {
     "php": ">=8.0",
-    "laravel/nova": "^4.26",
-    "outl1ne/nova-translations-loader": "^5.0"
+    "laravel/nova": "^5.0",
+    "outl1ne/nova-translations-loader": "^5.0",
+    "illuminate/support": "^10.0|^11.0",
+    "symfony/polyfill-php83": "^1.28"
   },
   "require-dev": {
-    "orchestra/testbench": "^7.0",
-    "orchestra/testbench-dusk": "^7.0",
-    "laravel/nova-dusk-suite": "^9.3-dev",
-    "phpunit/phpunit": "^9.0"
+    "larastan/larastan": "^2.4",
+    "laravel/nova-devtool": "^1.1",
+    "laravel/pint": "^1.17",
+    "orchestra/pest-plugin-testbench": "^2.0",
+    "orchestra/testbench": "^8.24|^9.2",
+    "phpstan/phpstan": "^1.11",
+    "spatie/laravel-ray": "^1.39"
   },
   "autoload": {
     "psr-4": {
@@ -38,7 +43,10 @@
     }
   },
   "config": {
-    "sort-packages": true
+    "sort-packages": true,
+    "allow-plugins": {
+      "pestphp/pest-plugin": true
+    }
   },
   "minimum-stability": "dev",
   "prefer-stable": true,
