@@ -20,7 +20,6 @@
       <!-- Update Button -->
       <div class="flex items-center" v-if="authorizations.authorizedToUpdate">
         <SettingsLoadingButton
-          dusk="update-button"
           type="submit"
           class="ml-auto"
           :disabled="isUpdating"
