@@ -27,12 +27,10 @@ class NovaSettings extends Tool
         if (!$isAuthorized || !$showInSidebar || empty($fields)) return null;
 
         if (count($fields) == 1) {
-            
             return MenuSection::make(__('novaSettings.navigationItemTitle'))
                 ->path($basePath . '/' . array_key_first($fields))
                 ->icon('adjustments');
-        } 
-        else {
+        } else {
             $menuItems = [];
             foreach ($fields as $key => $fields) {
                 $menuItems[] = MenuItem::link(self::getPageName($key), "{$basePath}/{$key}");
