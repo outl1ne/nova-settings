@@ -4,9 +4,17 @@ namespace Outl1ne\NovaSettings;
 
 use Illuminate\Support\Str;
 
-class NovaSettingsStore
+use function array_diff;
+use function array_keys;
+use function array_map;
+use function array_merge;
+use function call_user_func;
+use function collect;
+use function is_array;
+use function is_callable;
+
+abstract class NovaSettingsStore
 {
-    protected $cache = [];
     protected $fields = [];
     protected $casts = [];
 
@@ -55,29 +63,33 @@ class NovaSettingsStore
 
     public function getSetting($settingKey, $default = null)
     {
-        if (isset($this->cache[$settingKey])) return $this->cache[$settingKey];
-        $this->cache[$settingKey] = NovaSettings::getSettingsModel()::getValueForKey($settingKey) ?? $default;
-        return $this->cache[$settingKey];
+        if ($cached = $this->getCached($settingKey)) return $cached;
+
+        $settingValue = $this->getSettingsModelClass()::getValueForKey($settingKey) ?? $default;
+
+        $this->setCached($settingKey, $settingValue);
+
+        return $settingValue;
     }
 
     public function getSettings(array $settingKeys = null, array $defaults = [])
     {
-        $settingsModel = NovaSettings::getSettingsModel();
-
         if (!empty($settingKeys)) {
-            $hasMissingKeys = !empty(array_diff($settingKeys, array_keys($this->cache)));
+            $cached = $this->getCached($settingKeys);
 
-            if (!$hasMissingKeys) return collect($settingKeys)->mapWithKeys(function ($settingKey) {
-                return [$settingKey => $this->cache[$settingKey]];
-            })->toArray();
+            $hasMissingKeys = !empty(array_diff($settingKeys, array_keys($cached)));
 
-            $settings = $settingsModel::whereIn('key', $settingKeys)->get()->pluck('value', 'key');
+            if (!$hasMissingKeys) return $cached;
+
+            $settings = $this->getSettingsModelClass()::whereIn('key', $settingKeys)
+                ->get()
+                ->pluck('value', 'key');
 
             return collect($settingKeys)->flatMap(function ($settingKey) use ($settings, $defaults) {
                 $settingValue = $settings[$settingKey] ?? null;
 
                 if (isset($settingValue)) {
-                    $this->cache[$settingKey] = $settingValue;
+                    $this->setCached($settingKey, $settingValue);
                     return [$settingKey => $settingValue];
                 } else {
                     $defaultValue = $defaults[$settingKey] ?? null;
@@ -86,40 +98,46 @@ class NovaSettingsStore
             })->toArray();
         }
 
-        return $settingsModel::all()->map(function ($setting) {
-            $this->cache[$setting->key] = $setting->value;
-            return $setting;
-        })->pluck('value', 'key')->toArray();
+        return $this->getSettingsModelClass()::all()
+            ->tap(function ($settings) {
+                $settings->each(function ($setting) {
+                    $this->setCached($setting->key, $setting->value);
+                });
+            })
+            ->pluck('value', 'key')
+            ->toArray();
     }
 
     public function setSettingValue($settingKey, $value = null)
     {
-        $setting = NovaSettings::getSettingsModel()::firstOrCreate(['key' => $settingKey]);
+        $setting = $this->getSettingsModelClass()::firstOrCreate(['key' => $settingKey]);
         $setting->value = $value;
         $setting->save();
-        unset($this->cache[$settingKey]);
+
+        $this->setCached($settingKey, $setting->value);
+
         return $setting;
     }
 
-    public function clearCache($keyNames = null)
-    {
-        // Clear whole cache
-        if (empty($keyNames)) {
-            $this->cache = [];
-            return;
-        }
-
-        // Clear specific keys
-        if (is_string($keyNames)) $keyNames = [$keyNames];
-        foreach ($keyNames as $key) {
-            unset($this->cache[$key]);
-        }
-    }
+    public abstract function clearCache($keyNames = null);
 
     public function clearFields()
     {
         $this->fields = [];
         $this->casts = [];
-        $this->cache = [];
+
+        $this->clearCache();
+    }
+
+    protected abstract function getCached($keyNames = null);
+
+    protected abstract function setCached($keyName, $value);
+
+    /**
+     * @return class-string<\Outl1ne\NovaSettings\Models\Settings>
+     */
+    protected function getSettingsModelClass()
+    {
+        return NovaSettings::getSettingsModel();
     }
 }
