@@ -3,7 +3,20 @@
   "description": "A Laravel Nova tool for editing custom settings using native Nova fields.",
   "keywords": [
     "laravel",
-    "nova"
+    "nova",
+    "settings"
+  ],
+  "authors": [
+    {
+      "name": "Tarvo Reinpalu",
+      "email": "tarvo@outl1ne.com",
+      "role": "Developer"
+    },
+    {
+      "name": "Outl1ne",
+      "email": "info@outl1ne.com",
+      "role": "Maintainer"
+    }
   ],
   "license": "MIT",
   "require": {
