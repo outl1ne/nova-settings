@@ -9,9 +9,7 @@
   },
   "devDependencies": {
     "@vue/babel-plugin-jsx": "^1.1.1",
-    "axios": "^0.27.2",
     "cross-env": "^7.0.3",
-    "form-backend-validation": "^2.4.0",
     "laravel-nova-devtool": "file:vendor/laravel/nova-devtool",
     "prettier": "^2.7.1",
     "resolve-url-loader": "^5.0.0",
