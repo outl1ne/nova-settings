@@ -29,7 +29,7 @@ class NovaSettings extends Tool
         if (count($fields) == 1) {
             return MenuSection::make(__('novaSettings.navigationItemTitle'))
                 ->path($basePath . '/' . array_key_first($fields))
-                ->icon('adjustments');
+                ->icon('adjustments-vertical');
         } else {
             $menuItems = [];
             foreach ($fields as $key => $fields) {
@@ -37,7 +37,7 @@ class NovaSettings extends Tool
             }
 
             return MenuSection::make(__('novaSettings.navigationItemTitle'), $menuItems)
-                ->icon('adjustments')
+                ->icon('adjustments-vertical')
                 ->collapsable();
         }
     }
