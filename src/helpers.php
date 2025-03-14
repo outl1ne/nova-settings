@@ -3,7 +3,7 @@
 use Outl1ne\NovaSettings\NovaSettings;
 
 if (!function_exists('nova_get_settings')) {
-    function nova_get_settings($settingKeys = null, $defaults = [])
+    function nova_get_settings($settingKeys = [], $defaults = [])
     {
         return NovaSettings::getSettings($settingKeys, $defaults);
     }

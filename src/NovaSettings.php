@@ -119,7 +119,7 @@ class NovaSettings extends Tool
         return static::getStore()->getSetting($settingKey, $default);
     }
 
-    public static function getSettings(array $settingKeys = null, array $defaults = [])
+    public static function getSettings(array $settingKeys = [], array $defaults = [])
     {
         return static::getStore()->getSettings($settingKeys, $defaults);
     }
