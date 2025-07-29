@@ -72,7 +72,7 @@ abstract class NovaSettingsStore
         return $settingValue;
     }
 
-    public function getSettings(array $settingKeys = null, array $defaults = [])
+    public function getSettings(?array $settingKeys = null, array $defaults = [])
     {
         if (!empty($settingKeys)) {
             $cached = $this->getCached($settingKeys);
