@@ -20,4 +20,5 @@ Route::namespace('\Outl1ne\NovaSettings\Http\Controllers')->group(function () {
     });
 
     Route::delete('/nova-api/nova-settings/{path}/field/{fieldName}', 'SettingsController@deleteImage');
+    Route::post('/nova-api/nova-settings/{path}/field/{attribute}/preview', 'SettingsController@fieldPreview')->name('nova-settings.field-preview');
 });

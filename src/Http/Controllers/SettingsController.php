@@ -130,6 +130,33 @@ class SettingsController extends Controller
         return response('', 204);
     }
 
+    /**
+     * Handle field preview requests for markdown and other previewable fields.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  string  $path
+     * @param  string  $attribute
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function fieldPreview(Request $request, $path, $attribute)
+    {
+        if (!NovaSettings::canSeeSettings()) return $this->unauthorized();
+
+        // Find the field in the settings
+        $field = $this->findField(collect(NovaSettings::getFields($path)), $attribute);
+
+        if (!$field) {
+            return response()->json(['error' => 'Field not found'], 404);
+        }
+
+        // Get the content to preview from the request
+        $content = $request->input('value', '');
+
+        return response()->json([
+            'preview' => $field->previewFor($content)
+        ]);
+    }
+
     protected function findField($fields, $fieldName)
     {
         if (empty($fields)) return null;
@@ -145,7 +172,7 @@ class SettingsController extends Controller
                 }
 
                 if (class_exists('\Eminiarts\Tabs\Tabs') && $value instanceof \Eminiarts\Tabs\Tabs) {
-                    $field = $this->findField(collect($value->data, $fieldName));
+                    $field = $this->findField(collect($value->data), $fieldName);
                     if (!empty($field)) return $field;
                 }
             }
