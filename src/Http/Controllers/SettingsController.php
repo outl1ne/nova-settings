@@ -30,7 +30,15 @@ class SettingsController extends Controller
         $addResolveCallback = function (&$field) {
             if (!empty($field->attribute)) {
                 $setting = NovaSettings::getSettingsModel()::firstOrNew(['key' => $field->attribute]);
-                $fakeResource = $this->makeFakeResource($field->attribute, isset($setting) ? $setting->value : '');
+                $value = isset($setting) ? $setting->value : '';
+
+                // Special handling for Repeater fields
+                if ($field instanceof \Laravel\Nova\Fields\Repeater && is_string($value)) {
+                    $decoded = json_decode($value, true);
+                    $value = is_array($decoded) ? $decoded : [];
+                }
+
+                $fakeResource = $this->makeFakeResource($field->attribute, $value);
                 $field->resolve($fakeResource);
             }
 
@@ -69,7 +77,15 @@ class SettingsController extends Controller
 
         $rules = [];
         foreach ($fields as $field) {
-            $fakeResource = $this->makeFakeResource($field->attribute, nova_get_setting($field->attribute));
+            $settingValue = nova_get_setting($field->attribute);
+
+            // For Repeater fields with asJson() decode the JSON string
+            if ($field instanceof \Laravel\Nova\Fields\Repeater && is_string($settingValue)) {
+                $decoded = json_decode($settingValue, true);
+                $settingValue = is_array($decoded) ? $decoded : [];
+            }
+
+            $fakeResource = $this->makeFakeResource($field->attribute, $settingValue);
             $field->resolve($fakeResource, $field->attribute); // For nova-translatable support
             $rules = array_merge($rules, $field->getUpdateRules($request));
         }
@@ -89,15 +105,31 @@ class SettingsController extends Controller
             $tempResource = new \Laravel\Nova\Support\Fluent;
             $field->fill($request, $tempResource);
 
-            if (!array_key_exists($field->attribute, $tempResource->getAttributes())) return;
+            // Special handling for Repeater fields
+            $isRepeaterField = $field instanceof \Laravel\Nova\Fields\Repeater;
+            $value = null;
+
+            if ($isRepeaterField) {
+                // Get value directly from request
+                $requestValue = $request->input($field->attribute);
+                if (array_key_exists($field->attribute, $tempResource->getAttributes())) {
+                    $value = $tempResource->{$field->attribute};
+                } else {
+                    $value = is_array($requestValue) ? json_encode($requestValue) : $requestValue;
+                }
+            } else {
+                // Standard fields
+                if (!array_key_exists($field->attribute, $tempResource->getAttributes())) return;
+                $value = $tempResource->{$field->attribute};
+            }
 
             if (isset($existingRow)) {
-                $existingRow->value = $tempResource->{$field->attribute};
+                $existingRow->value = $value;
                 $existingRow->save();
             } else {
                 $newRow = new $settingsClass;
                 $newRow->key = $field->attribute;
-                $newRow->value = $tempResource->{$field->attribute};
+                $newRow->value = $value;
                 $newRow->save();
             }
         });
